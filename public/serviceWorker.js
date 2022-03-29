@@ -1,0 +1,46 @@
+/* eslint-disable no-restricted-globals */
+var CACHE_NAME = "sveeva";
+var urlsToCache = ["/", "/index.html", "/home"];
+
+// Install a service worker
+// eslint-disable-next-line no-restricted-globals
+self.addEventListener("install", (event) => {
+  // Perform install steps
+  event.waitUntil(
+    caches.open(CACHE_NAME).then(function (cache) {
+      return cache.addAll(urlsToCache);
+    })
+  );
+  //   skip waiting phase
+  // skipWaiting() method allows a service worker to activate as soon as it finishes installing.
+  //   self.skipWaiting();
+});
+
+// Cache and return requests
+self.addEventListener("fetch", (event) => {
+  event.respondWith(
+    caches.match(event.request).then(function (response) {
+      // Cache hit - return response
+      if (response) {
+        return response;
+      }
+      return fetch(event.request);
+    })
+  );
+});
+
+// Update a service worker
+self.addEventListener("activate", (event) => {
+  var cacheWhitelist = ["pwa-task-manager"];
+  event.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cacheName) => {
+          if (cacheWhitelist.indexOf(cacheName) === -1) {
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    })
+  );
+});

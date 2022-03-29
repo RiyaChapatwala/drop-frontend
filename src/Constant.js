@@ -1,0 +1,11 @@
+export const poppins = "Poppins";
+export const blue = "#5669FF";
+export const font22 = "22px";
+export const font20 = "20px";
+export const font16 = "16px";
+export const font12 = "12px";
+export const font13 = "13px";
+export const font10 = "10px";
+export const font600 = "600";
+export const font500 = "500";
+export const font400 = "400";
