@@ -1,5 +1,6 @@
 import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import React from "react";
+import LoginWithGoogle from "../Component/GoogleLogin";
 import Layout from "../Component/Layout";
 import {
   blue,
@@ -12,7 +13,6 @@ import {
   poppins,
 } from "../Constant";
 import fb from "../Images/fb.svg";
-import google from "../Images/google.svg";
 
 const LogIn = () => {
   return (
@@ -79,7 +79,8 @@ const LogIn = () => {
           borderRadius="8px"
           boxShadow="0px 16px 60px rgba(37, 37, 28, 0.15)"
         >
-          <Image src={google} />
+          <LoginWithGoogle />
+
           <Text fontSize={font13} ml="10px" fontWeight={font600} color="black">
             SIGN IN WITH GOOGLE
           </Text>

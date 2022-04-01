@@ -9,3 +9,5 @@ export const font10 = "10px";
 export const font600 = "600";
 export const font500 = "500";
 export const font400 = "400";
+export const API = "http://localhost:4000";
+// export const API = "https://drop89.herokuapp.com";
