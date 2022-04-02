@@ -1,4 +1,5 @@
 import { Image, Spinner } from "@chakra-ui/react";
+import axios from "axios";
 import React, { useState } from "react";
 import {
   GoogleLogin,
@@ -6,6 +7,7 @@ import {
   // GoogleLoginProps,
   GoogleLogout,
 } from "react-google-login";
+import { useHistory } from "react-router-dom";
 import google from "../Images/google.svg";
 import AuthService from "../services/Authservice";
 
@@ -18,17 +20,21 @@ const LoginWithGoogle = ({ isSignInOpen }) => {
   const [showlogoutButton, setShowlogoutButton] = useState(false);
 
   //   const dispatch = useDispatch();
-  //   const history = useHistory();
+  const history = useHistory();
 
   const onLoginSuccess = (res) => {
     AuthService.signInWithGoogle(res.getAuthResponse().id_token)
       .then((response) => {
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${response.data.access_token}`;
+
         // if (path.trim().length > 0) {
         //   dispatch(login(response));
 
         //   history.push(path);
         // } else if (!response.user.firstName || !response.user.lastName) {
-        //   history.push("/create-profile");
+        history.push("/selectLanguage");
         // } else {
         //   dispatch(login(response));
         //   history.push("/home");

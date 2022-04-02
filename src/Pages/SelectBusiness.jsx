@@ -1,11 +1,10 @@
 import { Box, Flex, Image, Text } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../Component/Layout";
 import {
   blue,
   font12,
   font13,
-  font20,
   font22,
   font400,
   font600,
@@ -16,20 +15,25 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import ButtonComponent from "../Component/ButtonComponent";
 import "../App.css";
-import water from "../Images/water.svg";
-import milk from "../Images/mil.svg";
-import saree from "../Images/saree.svg";
+// import water from "../Images/water.svg";
+// import milk from "../Images/mil.svg";
+// import saree from "../Images/saree.svg";
 import { useHistory } from "react-router-dom";
+import Userservice from "../services/Userservice";
 
 const SelectBusiness = () => {
-  const [checked, setChecked] = useState();
+  const [checked, setChecked] = useState([1]);
+  const [type, setType] = useState([]);
   const history = useHistory();
 
-  const data = [
-    { id: 1, img: water, name: "WATER" },
-    { id: 2, img: milk, name: "MILK" },
-    { id: 3, img: saree, name: "SAREE" },
-  ];
+  useEffect(() => {
+    Userservice.getBusinessType()
+      .then((response) => {
+        setType(response?.data);
+        console.log(response, "type");
+      })
+      .catch((err) => console.log(err, "error"));
+  }, []);
 
   const responsive = {
     desktop: {
@@ -91,7 +95,7 @@ const SelectBusiness = () => {
         deviceType={responsive.deviceType}
         itemClass="carousel-item-padding-40-px"
       >
-        {data.map((item) => (
+        {type.map((item) => (
           <Flex
             mb="7"
             position="relative"
@@ -139,26 +143,10 @@ const SelectBusiness = () => {
               type="checkbox"
               name="event"
               onChange={(e) => {
-                let temp;
-                if (checked) {
-                  temp = [...checked];
-                  const i = temp.findIndex((t) => t.id === item.id);
-                  if (i === -1) {
-                    temp = [
-                      ...checked,
-                      { id: item.id, isChecked: e.target.checked },
-                    ];
-                  } else {
-                    temp[i] = { ...checked[i], isChecked: e.target.checked };
-                  }
-                } else {
-                  temp = [{ id: item.id, isChecked: e.target.checked }];
-                }
-
-                setChecked(temp);
+                setChecked([{ id: item.id, isChecked: true }]);
               }}
             />
-            <Image boxSize={"26px"} src={item.img} />
+            <Image boxSize={"26px"} src={item.logoUrl} />
 
             <Text
               fontSize={font13}
@@ -176,7 +164,7 @@ const SelectBusiness = () => {
       <Flex
         w="90%"
         mx="auto"
-        onClick={() => history.pushState("/businessDetails")}
+        onClick={() => history.push("/businessDetails", { checked })}
       >
         <ButtonComponent name="CONTINUE" />
       </Flex>

@@ -1,5 +1,5 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../Component/Layout";
 import {
   blue,
@@ -16,16 +16,48 @@ import "react-multi-carousel/lib/styles.css";
 import ButtonComponent from "../Component/ButtonComponent";
 import "../App.css";
 import { useHistory } from "react-router-dom";
+import Userservice from "../services/Userservice";
+import AuthService from "../services/Authservice";
+import { useDispatch, useSelector } from "react-redux";
+import { updateUser } from "../redux/reducers/userSlice";
 
 const SelectLanguage = () => {
-  const [checked, setChecked] = useState();
+  const [checked, setChecked] = useState([1]);
+  const [lang, setLang] = useState([]);
   const history = useHistory();
-  const data = [
-    { id: 1, name: "English" },
-    { id: 2, name: "हिंदी" },
-    { id: 3, name: "ગુજરાતી" },
-    { id: 4, name: "मराठी" },
-  ];
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.data.user);
+  console.log(user, "user");
+
+  useEffect(() => {
+    if (user.language) {
+      setChecked([{ id: user.language.id, isChecked: true }]);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    Userservice.getLanguage()
+      .then((response) => {
+        setLang(response.data);
+      })
+      .catch((err) => console.log(err, "error"));
+  }, []);
+
+  const handleSubmit = () => {
+    const language = checked
+      ?.filter((e) => e.isChecked === true)
+      .map((i) => i.id)[0];
+    if (language) {
+      AuthService.updateUser(language)
+        .then((response) => {
+          dispatch(updateUser(response));
+          history.push("/selectBusiness", { from: "language" });
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  };
 
   const responsive = {
     desktop: {
@@ -87,8 +119,9 @@ const SelectLanguage = () => {
         deviceType={responsive.deviceType}
         itemClass="carousel-item-padding-40-px"
       >
-        {data.map((item) => (
+        {lang?.map((item) => (
           <Flex
+            key={item.id}
             mb="7"
             position="relative"
             height="117px"
@@ -135,26 +168,9 @@ const SelectLanguage = () => {
               type="checkbox"
               name="event"
               onChange={(e) => {
-                let temp;
-                if (checked) {
-                  temp = [...checked];
-                  const i = temp.findIndex((t) => t.id === item.id);
-                  if (i === -1) {
-                    temp = [
-                      ...checked,
-                      { id: item.id, isChecked: e.target.checked },
-                    ];
-                  } else {
-                    temp[i] = { ...checked[i], isChecked: e.target.checked };
-                  }
-                } else {
-                  temp = [{ id: item.id, isChecked: e.target.checked }];
-                }
-
-                setChecked(temp);
+                setChecked([{ id: item.id, isChecked: true }]);
               }}
             />
-
             <Text
               fontSize={font20}
               fontWeight={font400}
@@ -168,7 +184,14 @@ const SelectLanguage = () => {
           </Flex>
         ))}
       </Carousel>
-      <Flex w="90%" mx="auto" onClick={() => history.push("/selectBusiness")}>
+      <Flex
+        w="90%"
+        mx="auto"
+        onClick={() => {
+          handleSubmit();
+          history.push("/selectBusiness");
+        }}
+      >
         <ButtonComponent name="CONTINUE" />
       </Flex>
     </Box>
