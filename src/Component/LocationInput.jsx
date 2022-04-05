@@ -16,6 +16,16 @@ const LocationInput = ({ address, setAddress, placeholder }) => {
           color: grey,
           opacity: "0.5",
         }}
+        _focus={{
+          border: "none",
+        }}
+        _active={{
+          bg: "transparent",
+        }}
+        _hover={{
+          bg: "transperant",
+          border: "none",
+        }}
         border="none"
         placeholder={placeholder}
         // focusBorderColor="blue.500"
@@ -25,7 +35,6 @@ const LocationInput = ({ address, setAddress, placeholder }) => {
           setAddress(event.target.value);
         }}
         fontSize="md"
-        p="22px"
       />
 
       <Box

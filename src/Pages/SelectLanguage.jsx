@@ -48,7 +48,10 @@ const SelectLanguage = () => {
       ?.filter((e) => e.isChecked === true)
       .map((i) => i.id)[0];
     if (language) {
-      AuthService.updateUser(language)
+      const data = {
+        language: language,
+      };
+      AuthService.updateUser(data)
         .then((response) => {
           dispatch(updateUser(response));
           history.push("/selectBusiness", { from: "language" });
@@ -109,7 +112,7 @@ const SelectLanguage = () => {
         autoPlay={false}
         responsive={responsive}
         // ssr={true}
-        infinite={true}
+        infinite={false}
         beforeChange={() => this.setState({ isMoving: true })}
         afterChange={() => this.setState({ isMoving: false })}
         keyBoardControl={true}

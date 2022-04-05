@@ -1,6 +1,8 @@
 export const poppins = "Poppins";
 export const roboto = "Roboto";
 export const blue = "#5669FF";
+export const lightblue = "#7584FF";
+export const bg = "#F9F9F9;";
 export const grey = "#322D4A";
 export const white = "#FFFFFF";
 export const font22 = "22px";

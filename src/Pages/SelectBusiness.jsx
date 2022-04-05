@@ -20,11 +20,14 @@ import "../App.css";
 // import saree from "../Images/saree.svg";
 import { useHistory } from "react-router-dom";
 import Userservice from "../services/Userservice";
+import { useSelector } from "react-redux";
 
 const SelectBusiness = () => {
   const [checked, setChecked] = useState([1]);
   const [type, setType] = useState([]);
   const history = useHistory();
+
+  const user = useSelector((state) => state.user.data.user);
 
   useEffect(() => {
     Userservice.getBusinessType()
@@ -34,6 +37,12 @@ const SelectBusiness = () => {
       })
       .catch((err) => console.log(err, "error"));
   }, []);
+
+  useEffect(() => {
+    if (user.type) {
+      setChecked([{ id: user.type, isChecked: true }]);
+    }
+  }, [user]);
 
   const responsive = {
     desktop: {
@@ -85,7 +94,7 @@ const SelectBusiness = () => {
         autoPlay={false}
         responsive={responsive}
         // ssr={true}
-        infinite={true}
+        infinite={false}
         beforeChange={() => this.setState({ isMoving: true })}
         afterChange={() => this.setState({ isMoving: false })}
         keyBoardControl={true}

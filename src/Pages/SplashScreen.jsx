@@ -19,7 +19,7 @@ const SplashScreen = () => {
         src={logo}
         boxSize="97px"
         position="absolute"
-        top="37%"
+        top={["45%", "37%"]}
         left="36%"
       />
     </Box>

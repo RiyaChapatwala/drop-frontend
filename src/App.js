@@ -3,6 +3,7 @@ import { Flex } from "@chakra-ui/react";
 import { BrowserRouter } from "react-router-dom";
 import "react-spring-bottom-sheet/dist/style.css";
 import Routers from "./Routers/index";
+import { bg } from "./Constant";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
         // shadow="lg"
         height={["80vh", "100vh"]}
         // height="100vh"
+        bg={bg}
       >
         <BrowserRouter>
           <Routers />

@@ -3,6 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 export const userInitialState = {
   isActive: false,
   isLoading: true,
+  isLoggedIn: false,
+
   data: {
     access_token: "",
     refresh_token: "",
@@ -11,7 +13,14 @@ export const userInitialState = {
       email: "",
       imageUrl: "",
       language: "",
-      type: "",
+      name: "",
+      mobileNo: "",
+    },
+    business: {
+      name: "",
+      address: "",
+      imageID: "",
+      type: null,
     },
   },
 };
@@ -34,10 +43,13 @@ const userSlice = createSlice({
     updateUser: (state, action) => {
       state.data.user = action.payload;
     },
+    createbusiness: (state, action) => {
+      state.data.user = action.payload;
+    },
   },
 });
 
-export const { startLoading, login, endLoading, updateUser } =
+export const { startLoading, login, endLoading, updateUser, createbusiness } =
   userSlice.actions;
 
 export default userSlice.reducer;

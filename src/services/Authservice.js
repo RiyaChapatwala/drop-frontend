@@ -26,7 +26,11 @@ class AuthService {
       axios
         .post(`${API}/user/auth/google`, { googleToken })
         .then((response) => {
-          resolve(response.data);
+          console.log(response, "google");
+          this.setAccessToken(response.data?.data?.access_token);
+          this.setRefreshToken(response.data?.data?.refresh_token);
+          this.setUserData(response.data?.data?.user);
+          resolve(response.data.data);
         })
         .catch((error) => {
           reject(error);
@@ -34,10 +38,35 @@ class AuthService {
     );
   };
 
+  setAccessToken = (accessToken) => {
+    localStorage.setItem("AccessToken", accessToken);
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+  };
+
+  getAccessToken = () => {
+    return localStorage.getItem("AccessToken") || "";
+  };
+
+  setRefreshToken = (refreshToken) => {
+    localStorage.setItem("RefreshToken", refreshToken);
+  };
+
+  getRefreshToken = () => {
+    return localStorage.getItem("RefreshToken") || "";
+  };
+
+  setUserData = (user) => {
+    localStorage.setItem("User", JSON.stringify(user));
+  };
+
+  getUserData = () => {
+    return JSON.parse(localStorage.getItem("User") || "");
+  };
+
   updateUser = async (data) => {
     return new Promise((resolve, reject) =>
       axios
-        .patch(`${API}/user`, { language: data })
+        .patch(`${API}/user`, data)
         .then((response) => {
           resolve(response.data.data);
         })

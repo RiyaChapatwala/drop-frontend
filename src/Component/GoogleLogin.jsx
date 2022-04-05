@@ -1,5 +1,4 @@
 import { Image, Spinner } from "@chakra-ui/react";
-import axios from "axios";
 import React, { useState } from "react";
 import {
   GoogleLogin,
@@ -7,8 +6,10 @@ import {
   // GoogleLoginProps,
   GoogleLogout,
 } from "react-google-login";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import google from "../Images/google.svg";
+import { login } from "../redux/reducers/userSlice";
 import AuthService from "../services/Authservice";
 
 const LoginWithGoogle = ({ isSignInOpen }) => {
@@ -19,26 +20,18 @@ const LoginWithGoogle = ({ isSignInOpen }) => {
   const [showloginButton, setShowloginButton] = useState(true);
   const [showlogoutButton, setShowlogoutButton] = useState(false);
 
-  //   const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const history = useHistory();
 
   const onLoginSuccess = (res) => {
     AuthService.signInWithGoogle(res.getAuthResponse().id_token)
       .then((response) => {
-        axios.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${response.data.access_token}`;
-
-        // if (path.trim().length > 0) {
-        //   dispatch(login(response));
-
-        //   history.push(path);
-        // } else if (!response.user.firstName || !response.user.lastName) {
+        dispatch(login(response));
         history.push("/selectLanguage");
-        // } else {
-        //   dispatch(login(response));
-        //   history.push("/home");
-        // }
+        // axios.defaults.headers.common[
+        //   "Authorization"
+        // ] = `Bearer ${response.data.access_token}`;
+
         console.log(response, "loginwithoogle");
       })
       .catch((error) => console.log(error, "login"));
