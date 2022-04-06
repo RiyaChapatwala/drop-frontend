@@ -12,7 +12,7 @@ const Layout = () => {
         src={logo}
         boxSize="65px"
         position="absolute"
-        top="8%"
+        top="5%"
         left={["40%", "47%"]}
       />
       <Text
@@ -21,7 +21,7 @@ const Layout = () => {
         fontFamily={poppins}
         fontSize={font22}
         position="absolute"
-        top="19%"
+        top="13%"
         left={["40%", "47%"]}
       >
         DROP

@@ -13,13 +13,14 @@ const App = () => {
       height={["100%", "100vh"]}
       justify="center"
       align="center"
+      bg={bg}
     >
       <Flex
         w={["100%", "100%", "50%", "40%", "30%"]}
         // shadow="lg"
-        height={["80vh", "100vh"]}
+        height={["100vh", "100vh"]}
         // height="100vh"
-        bg={bg}
+        // bg={bg}
       >
         <BrowserRouter>
           <Routers />

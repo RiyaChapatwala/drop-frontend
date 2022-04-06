@@ -17,7 +17,7 @@ import fb from "../Images/fb.svg";
 const LogIn = () => {
   return (
     <>
-      <Box w="100%" fontFamily={poppins}>
+      <Box w="100%" h="100%" fontFamily={poppins}>
         <Layout />
         {/* <Box left="28%" position="absolute" bottom={["40%", "40%"]}> */}
         <Box mt={["12", "16"]}>
