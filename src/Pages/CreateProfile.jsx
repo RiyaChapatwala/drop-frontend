@@ -1,5 +1,5 @@
 import { Box, Flex, Image, Input, Text, useToast } from "@chakra-ui/react";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { BiArrowBack } from "react-icons/bi";
 import { BsPlusLg } from "react-icons/bs";
 import { useDispatch } from "react-redux";
@@ -33,16 +33,22 @@ const CreateProfile = () => {
   const toast = useToast();
   const inputFile = useRef(null);
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   const form = new FormData();
+  //   form.append("file", selectedFile);
+  //   form.append("folder", "user");
+  //   Mediaservice.uploadMedia(form)
+  //     .then((response) => setUrl({ id: response.id, imgUrl: response.url }))
+  //     .catch((err) => console.log(err));
+  // }, [selectedFile]);
+
+  const handleClick = () => {
     const form = new FormData();
     form.append("file", selectedFile);
     form.append("folder", "user");
     Mediaservice.uploadMedia(form)
       .then((response) => setUrl({ id: response.id, imgUrl: response.url }))
       .catch((err) => console.log(err));
-  }, [selectedFile]);
-
-  const handleClick = () => {
     const data = {
       name: fname,
       mobileNo: phnNumber,
@@ -119,7 +125,7 @@ const CreateProfile = () => {
             onChange={(event) => {
               if (event.target.files && event.target.files[0]) {
                 setSelectedFile(event.target.files[0]);
-                setUrl(URL.createObjectURL(event.target.files[0]));
+                setUrl({ imgUrl: URL.createObjectURL(event.target.files[0]) });
               }
             }}
           />

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { API } from "../Constant";
+import jwtDecode from "jwt-decode";
 
 class AuthService {
   checkAuth = async () =>
@@ -36,6 +37,20 @@ class AuthService {
           reject(error);
         })
     );
+  };
+
+  isAuthTokenValid = (access_token) => {
+    if (!access_token) {
+      return false;
+    }
+    const decoded = jwtDecode(access_token);
+    const currentTime = Date.now() / 1000;
+    if (decoded.exp < currentTime) {
+      console.warn("access token expired");
+      return false;
+    }
+
+    return true;
   };
 
   setAccessToken = (accessToken) => {

@@ -17,10 +17,12 @@ const Routers = () => {
 
   const dispatch = useDispatch();
 
+  console.log(isLoggedIn, "here");
+
   useEffect(() => {
     Authservice.checkAuth()
       .then((response) => {
-        dispatch(() => login(response));
+        dispatch(login(response));
       })
       .catch((err) => {
         console.log(err);
@@ -44,6 +46,7 @@ const Routers = () => {
         <Route exact path="/" component={SplashScreen} />
         <Route exact path="/login" component={LogIn} />
         <Route exact path="/success" component={Success} />
+        <Redirect to="/login" />
       </Switch>
     );
   }
@@ -53,7 +56,7 @@ const Routers = () => {
       <Route exact path="/selectBusiness" component={SelectBusiness} />
       <Route exact path="/businessDetails" component={BusinessDetails} />
       <Route exact path="/create-profile" component={CreateProfile} />
-      <Redirect to="/" />
+      <Redirect to="/selectLanguage" />
     </Switch>
   );
 };
