@@ -20,7 +20,7 @@ const App = () => {
         // shadow="lg"
         height={["100vh", "100vh"]}
         // height="100vh"
-        // bg={bg}
+        bg={bg}
       >
         <BrowserRouter>
           <Routers />

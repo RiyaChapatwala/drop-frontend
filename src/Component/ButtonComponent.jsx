@@ -1,6 +1,6 @@
 import { Button } from "@chakra-ui/react";
 import React from "react";
-import { blue, font13, font600 } from "../Constant";
+import { blue, font13, font600, poppins } from "../Constant";
 
 const ButtonComponent = ({ name }) => {
   return (
@@ -9,6 +9,7 @@ const ButtonComponent = ({ name }) => {
       background={blue}
       borderRadius="8px"
       h="55px"
+      fontFamily={poppins}
       fontSize={font13}
       fontWeight={font600}
     >

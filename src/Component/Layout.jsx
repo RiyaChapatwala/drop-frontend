@@ -21,7 +21,7 @@ const Layout = () => {
         fontFamily={poppins}
         fontSize={font22}
         position="absolute"
-        top="13%"
+        top={["13%", "16%"]}
         left={["40%", "47%"]}
       >
         DROP

@@ -1,11 +1,12 @@
 import { Box, Flex, Image, Input, Text, useToast } from "@chakra-ui/react";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { BiArrowBack } from "react-icons/bi";
 import { BsPlusLg } from "react-icons/bs";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import ButtonComponent from "../Component/ButtonComponent";
 import {
+  blue,
   font14,
   font16,
   font22,
@@ -13,6 +14,7 @@ import {
   font600,
   grey,
   lightblue,
+  poppins,
   roboto,
   white,
 } from "../Constant";
@@ -33,14 +35,20 @@ const CreateProfile = () => {
   const toast = useToast();
   const inputFile = useRef(null);
 
-  // useEffect(() => {
-  //   const form = new FormData();
-  //   form.append("file", selectedFile);
-  //   form.append("folder", "user");
-  //   Mediaservice.uploadMedia(form)
-  //     .then((response) => setUrl({ id: response.id, imgUrl: response.url }))
-  //     .catch((err) => console.log(err));
-  // }, [selectedFile]);
+  const user = useSelector((state) => state.user.data.user);
+  console.log(user, "user");
+
+  useEffect(() => {
+    if (user.name) {
+      setFname(user.name);
+    }
+    if (user.mobileNo) {
+      setPhnNumber(user.mobileNo);
+    }
+    if (user.imageUrl && user.imageID) {
+      setUrl({ id: user.imageID, imgUrl: user.imageUrl });
+    }
+  }, [user]);
 
   const handleClick = () => {
     const form = new FormData();
@@ -57,9 +65,9 @@ const CreateProfile = () => {
     };
     Authservice.updateUser(data)
       .then((response) => {
-        if (response.success === true) {
+        if (response.name.toLowerCase() === fname.toLowerCase()) {
           dispatch(updateUser(response));
-
+          history.push("/addSocietyAcc");
           toast({
             title: "Success",
             description: "Success",
@@ -95,12 +103,12 @@ const CreateProfile = () => {
         position="relative"
         width="100%"
       >
-        <Box boxSize="85px" borderRadius="lg" border="1px solid black">
+        <Box boxSize="85px" borderRadius="lg" border={`1.5px dashed ${blue}`}>
           <Image
             borderRadius="lg"
             border="none"
-            boxSize="85px"
-            object-fit="cover"
+            boxSize={"83px"}
+            objectFit="cover"
             bg="#E2E2E2"
             fallbackSrc="https://via.placeholder.com/150"
             src={url.imgUrl ? url.imgUrl : ""}
@@ -151,6 +159,7 @@ const CreateProfile = () => {
       >
         <Image src={name} />
         <Input
+          textTransform={"capitalize"}
           _focus={{
             border: "none",
           }}
@@ -165,6 +174,7 @@ const CreateProfile = () => {
             color: grey,
             opacity: "0.5",
           }}
+          value={fname}
           placeholder="Full Name"
           border="none"
           onChange={(e) => setFname(e.target.value)}
@@ -198,14 +208,16 @@ const CreateProfile = () => {
           _placeholder={{
             color: grey,
             opacity: "0.5",
+            fontFamily: roboto,
           }}
           placeholder="Mobile Number"
           border="none"
+          value={phnNumber}
           onChange={(e) => setPhnNumber(e.target.value)}
         />
       </Flex>
-      <Flex w="85%" mx="auto" mt="9" onClick={() => handleClick()}>
-        <ButtonComponent name="DONE" />
+      <Flex w="85%" mt="40%" mx="auto" onClick={() => handleClick()}>
+        <ButtonComponent name="CREATE" />
       </Flex>
     </Box>
   );

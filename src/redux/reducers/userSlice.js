@@ -15,6 +15,9 @@ export const userInitialState = {
       language: "",
       name: "",
       mobileNo: "",
+      societyName: "",
+      societyImageUrl: "",
+      societyImageID: "",
     },
     business: {
       name: "",

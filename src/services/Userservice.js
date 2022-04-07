@@ -15,32 +15,5 @@ class Userservice {
         })
     );
   }
-  async getBusinessType() {
-    return new Promise((resolve, reject) =>
-      axios
-        .get(`${API}/lookup/business-type`)
-        .then((response) => {
-          resolve(response.data);
-        })
-        .catch((error) => {
-          reject(error);
-          console.log("error");
-        })
-    );
-  }
-
-  async createBusiness(data) {
-    return new Promise((resolve, reject) =>
-      axios
-        .post(`${API}/business`, data)
-        .then((response) => {
-          resolve(response.data);
-        })
-        .catch((error) => {
-          reject(error);
-          console.log("error");
-        })
-    );
-  }
 }
 export default new Userservice();

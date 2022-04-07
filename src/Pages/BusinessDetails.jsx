@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import ButtonComponent from "../Component/ButtonComponent";
-import { createbusiness } from "../redux/reducers/userSlice";
 import Layout from "../Component/Layout";
 import {
   blue,
@@ -22,7 +21,8 @@ import {
 import business from "../Images/business.svg";
 import icon from "../Images/location.svg";
 import Mediaservice from "../services/Mediaservice";
-import Userservice from "../services/Userservice";
+import Businessservice from "../services/Businessservice";
+import { createbusiness } from "../redux/reducers/userSlice";
 
 const BusinessDetails = () => {
   const location = useLocation();
@@ -61,7 +61,7 @@ const BusinessDetails = () => {
       type: type,
     };
 
-    Userservice.createBusiness(data)
+    Businessservice.createBusiness(data)
       .then((response) => {
         if (response.success === true) {
           dispatch(createbusiness(response));
@@ -117,12 +117,12 @@ const BusinessDetails = () => {
           position="relative"
           width="100%"
         >
-          <Box boxSize="96px" borderRadius="lg" border="1px solid black">
+          <Box boxSize="96px" borderRadius="lg" border={`1.5px dashed ${blue}`}>
             <Image
               borderRadius="lg"
               border="1px solid black"
-              boxSize="94px"
-              object-fit="cover"
+              boxSize={"93px"}
+              objectFit="cover"
               bg="#E2E2E2"
               fallbackSrc="https://via.placeholder.com/150"
               src={url.imgUrl ? url.imgUrl : user.imageUrl ? user.imageUrl : ""}

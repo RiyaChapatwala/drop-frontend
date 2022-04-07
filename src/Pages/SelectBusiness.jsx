@@ -1,4 +1,4 @@
-import { Box, Flex, Image, Text } from "@chakra-ui/react";
+import { Box, Flex, Image, Text, useToast } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import Layout from "../Component/Layout";
 import {
@@ -15,22 +15,21 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import ButtonComponent from "../Component/ButtonComponent";
 import "../App.css";
-// import water from "../Images/water.svg";
-// import milk from "../Images/mil.svg";
-// import saree from "../Images/saree.svg";
 import { useHistory } from "react-router-dom";
 import Userservice from "../services/Userservice";
 import { useSelector } from "react-redux";
+import Businessservice from "../services/Businessservice";
 
 const SelectBusiness = () => {
-  const [checked, setChecked] = useState([1]);
+  const [checked, setChecked] = useState([]);
   const [type, setType] = useState([]);
   const history = useHistory();
+  const toast = useToast();
 
   const user = useSelector((state) => state.user.data.user);
 
   useEffect(() => {
-    Userservice.getBusinessType()
+    Businessservice.getBusinessType()
       .then((response) => {
         setType(response?.data);
         console.log(response, "type");
@@ -173,7 +172,18 @@ const SelectBusiness = () => {
       <Flex
         w="90%"
         mx="auto"
-        onClick={() => history.push("/businessDetails", { checked })}
+        onClick={() => {
+          if (checked.length > 0) {
+            history.push("/businessDetails", { checked });
+          } else {
+            toast({
+              title: "Error",
+              description: "Please Select Business Type",
+              status: "error",
+              duration: 3000,
+            });
+          }
+        }}
       >
         <ButtonComponent name="CONTINUE" />
       </Flex>

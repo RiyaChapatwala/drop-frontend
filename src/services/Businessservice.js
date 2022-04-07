@@ -1,0 +1,43 @@
+import axios from "axios";
+import { API } from "../Constant";
+
+class BusinessService {
+  async getBusinessType() {
+    return new Promise((resolve, reject) =>
+      axios
+        .get(`${API}/lookup/business-type`)
+        .then((response) => {
+          resolve(response.data);
+        })
+        .catch((error) => {
+          reject(error);
+        })
+    );
+  }
+
+  async createBusiness(data) {
+    return new Promise((resolve, reject) =>
+      axios
+        .post(`${API}/business`, data)
+        .then((response) => {
+          resolve(response.data);
+        })
+        .catch((error) => {
+          reject(error);
+        })
+    );
+  }
+  async getBusiness() {
+    return new Promise((resolve, reject) =>
+      axios
+        .get(`${API}/business`)
+        .then((response) => {
+          resolve(response.data);
+        })
+        .catch((error) => {
+          reject(error);
+        })
+    );
+  }
+}
+export default new BusinessService();

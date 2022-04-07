@@ -1,4 +1,4 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Box, Flex, Text, useToast } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import Layout from "../Component/Layout";
 import {
@@ -24,10 +24,12 @@ import { updateUser } from "../redux/reducers/userSlice";
 const SelectLanguage = () => {
   const [checked, setChecked] = useState([1]);
   const [lang, setLang] = useState([]);
+
   const history = useHistory();
   const dispatch = useDispatch();
+  const toast = useToast();
+
   const user = useSelector((state) => state.user.data.user);
-  console.log(user, "user");
 
   useEffect(() => {
     if (user.language) {
@@ -53,12 +55,25 @@ const SelectLanguage = () => {
       };
       AuthService.updateUser(data)
         .then((response) => {
+          console.log("first");
           dispatch(updateUser(response));
           history.push("/selectBusiness", { from: "language" });
         })
         .catch((error) => {
-          console.error(error);
+          toast({
+            title: "Error",
+            description: error,
+            status: "error",
+            duration: 3000,
+          });
         });
+    } else {
+      toast({
+        title: "Error",
+        description: "Please Select Any Language",
+        status: "error",
+        duration: 3000,
+      });
     }
   };
 
@@ -187,14 +202,7 @@ const SelectLanguage = () => {
           </Flex>
         ))}
       </Carousel>
-      <Flex
-        w="90%"
-        mx="auto"
-        onClick={() => {
-          handleSubmit();
-          history.push("/selectBusiness");
-        }}
-      >
+      <Flex w="90%" mx="auto" onClick={() => handleSubmit()}>
         <ButtonComponent name="CONTINUE" />
       </Flex>
     </Box>
