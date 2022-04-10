@@ -14,7 +14,6 @@ import {
   font600,
   grey,
   lightblue,
-  poppins,
   roboto,
   white,
 } from "../Constant";
@@ -55,43 +54,49 @@ const CreateProfile = () => {
     form.append("file", selectedFile);
     form.append("folder", "user");
     Mediaservice.uploadMedia(form)
-      .then((response) => setUrl({ id: response.id, imgUrl: response.url }))
-      .catch((err) => console.log(err));
-    const data = {
-      name: fname,
-      mobileNo: phnNumber,
-      imageUrl: url.imgUrl,
-      imageID: url.id,
-    };
-    Authservice.updateUser(data)
       .then((response) => {
-        if (response.name.toLowerCase() === fname.toLowerCase()) {
-          dispatch(updateUser(response));
-          history.push("/addSocietyAcc");
-          toast({
-            title: "Success",
-            description: "Success",
-            status: "success",
-            duration: 3000,
-          });
-        }
+        setUrl({ id: response.id, imgUrl: response.url });
+        const data = {
+          name: fname,
+          mobileNo: phnNumber,
+          imageUrl: response.imgUrl,
+          imageID: response.id,
+        };
+        Authservice.updateUser(data)
+          .then((res) => {
+            if (res.name.toLowerCase() === fname.toLowerCase()) {
+              dispatch(updateUser(res));
+              history.push("/addSocietyAcc");
+              toast({
+                title: "Success",
+                description: "Success",
+                status: "success",
+                duration: 3000,
+              });
+            }
+          })
+          .catch((error) =>
+            toast({
+              title: "error",
+              description: error.isAxiosError
+                ? error.response?.data?.message
+                : error.message,
+              status: "error",
+              duration: 3000,
+            })
+          );
       })
-      .catch((error) =>
-        toast({
-          title: "error",
-          description: error.isAxiosError
-            ? error.response?.data?.message
-            : error.message,
-          status: "error",
-          duration: 3000,
-        })
-      );
+      .catch((err) => console.log(err));
   };
 
   return (
     <Box w="100%">
       <Flex pt="12" px="7" h="91px" background={lightblue} color={white}>
-        <BiArrowBack onClick={() => history.goBack()} size={22} />
+        <BiArrowBack
+          cursor="pointer"
+          onClick={() => history.goBack()}
+          size={22}
+        />
         <Text ml="4" fontFamily={roboto} fontWeight={font600} fontSize={font16}>
           Create Profile
         </Text>

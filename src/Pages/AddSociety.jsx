@@ -2,6 +2,7 @@ import { Box, Flex, Image, Input, Text, useToast } from "@chakra-ui/react";
 import React, { useEffect, useRef, useState } from "react";
 import { BiArrowBack } from "react-icons/bi";
 import { BsPlusLg } from "react-icons/bs";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import ButtonComponent from "../Component/ButtonComponent";
 import {
@@ -16,11 +17,10 @@ import {
   roboto,
   white,
 } from "../Constant";
-import society from "../Images/societyFill.svg";
-import Authservice from "../services/Authservice";
+import { setSociety } from "../redux/reducers/userSlice";
 import Mediaservice from "../services/Mediaservice";
-import { useDispatch, useSelector } from "react-redux";
-import { updateUser } from "../redux/reducers/userSlice";
+import Societyservice from "../services/Societyervice";
+import soc from "../Images/societyFill.svg";
 
 const AddSociety = () => {
   const history = useHistory();
@@ -32,64 +32,72 @@ const AddSociety = () => {
   const [url, setUrl] = useState({ id: "", imgUrl: "" });
   const [selectedFile, setSelectedFile] = useState(null);
 
-  const user = useSelector((state) => state.user.data.user);
-  console.log(user, "slice");
+  const society = useSelector((state) => state.user.society);
 
   useEffect(() => {
-    if (user.society?.name) {
-      setSocName(user.society.name);
-    }
-    if (user.society?.societyImageID || user.society?.imageUrl) {
+    if (society && society.length > 0) {
+      setSocName(society[society.length - 1].societyName);
       setUrl({
-        id: user.society.societyImageID,
-        imgUrl: user.society.societyImageUrl,
+        id: society[society.length - 1].societyImageID,
+        imgUrl: society[society.length - 1].societyImageUrl,
       });
     }
-  }, [user]);
+  }, [society]);
 
   const handleClick = () => {
     const form = new FormData();
     form.append("file", selectedFile);
     form.append("folder", "society");
     Mediaservice.uploadMedia(form)
-      .then((response) => setUrl({ id: response.id, imgUrl: response.url }))
-      .catch((err) => console.log(err));
-    const data = {
-      societyName: socName,
-      societyImageUrl: url.imgUrl,
-      societyImageID: url.id,
-    };
-    Authservice.updateUser(data)
       .then((response) => {
-        console.log(response, "soc");
-        if (response.society.name.toLowerCase() === socName.toLowerCase()) {
-          dispatch(updateUser(response));
-          toast({
-            title: "Success",
-            description: "Success",
-            status: "success",
-            duration: 3000,
+        setUrl({ id: response.id, imgUrl: response.url });
+        const data = {
+          societyName: socName,
+          societyImageUrl: response.url,
+          societyImageID: response.id,
+        };
+        Societyservice.createSociety(data)
+          .then((res) => {
+            if (res.data) {
+              dispatch(
+                setSociety({
+                  societyName: res.data.name,
+                  societyImageID: res.data.imageID,
+                  societyImageUrl: res.data.imageUrl,
+                })
+              );
+              toast({
+                title: "Success",
+                description: "Success",
+                status: "success",
+                duration: 3000,
+              });
+              history.push("/addSocietyAcc", { Soc: false });
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+            toast({
+              title: "error",
+              description: error.isAxiosError
+                ? error.response?.data?.message
+                : error.message,
+              status: "error",
+              duration: 3000,
+            });
           });
-          history.push("/addSocietyAcc", false);
-        }
       })
-      .catch((error) => {
-        console.log(error);
-        toast({
-          title: "error",
-          description: error.isAxiosError
-            ? error.response?.data?.message
-            : error.message,
-          status: "error",
-          duration: 3000,
-        });
-      });
+      .catch((err) => console.log(err));
   };
 
   return (
     <Box w="100%">
       <Flex pt="12" px="7" h="91px" background={lightblue} color={white}>
-        <BiArrowBack onClick={() => history.goBack()} size={22} />
+        <BiArrowBack
+          cursor="pointer"
+          onClick={() => history.goBack()}
+          size={22}
+        />
         <Text ml="4" fontFamily={roboto} fontWeight={font600} fontSize={font16}>
           Add Society
         </Text>
@@ -162,7 +170,7 @@ const AddSociety = () => {
           fontWeight={font400}
           background={white}
         >
-          <Image src={society} />
+          <Image src={soc} />
           <Input
             textTransform={"capitalize"}
             _focus={{

@@ -2,6 +2,8 @@ import { Box } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, Route, Switch } from "react-router-dom";
+import AddAcc from "../Pages/AddAcc";
+import AddCustomer from "../Pages/AddCustomer";
 import AddSociety from "../Pages/AddSociety";
 import BusinessDetails from "../Pages/BusinessDetails";
 import CreateProfile from "../Pages/CreateProfile";
@@ -18,8 +20,6 @@ const Routers = () => {
   const { isLoading, isLoggedIn } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
-
-  console.log(isLoggedIn, "here");
 
   useEffect(() => {
     Authservice.checkAuth()
@@ -60,6 +60,8 @@ const Routers = () => {
       <Route exact path="/create-profile" component={CreateProfile} />
       <Route exact path="/addSocietyAcc" component={HomeBefore1} />
       <Route exact path="/addSociety" component={AddSociety} />
+      <Route exact path="/addAcc" component={AddAcc} />
+      <Route exact path="/addCustomer" component={AddCustomer} />
       <Redirect to="/selectLanguage" />
     </Switch>
   );

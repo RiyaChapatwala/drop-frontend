@@ -11,8 +11,50 @@ body {
   -moz-osx-font-smoothing: grayscale;
   box-sizing: border-box;
 }
+:root {
+  --rsbs-max-w: 100%;
+  --rsbs-ml: auto;
+  --rsbs-mr: auto;
+  --rsbs-backdrop-bg: rgba(0, 0, 0, 0.6);
+  --rsbs-backdrop-opacity: 1;
+  --rsbs-bg: #fff;
+  --rsbs-content-opacity: 1;
+  --rsbs-handle-bg: hsla(0, 0%, 0%, 0.14);
+}
 
+* {
+  -ms-overflow-style: none;
+}
+::-webkit-scrollbar {
+  display: none;
+}
+.hideScrollBar::-webkit-scrollbar {
+  display: none !important;
+}
+
+.hideScrollBar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  scroll-behavior: smooth;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+@media screen and (min-width: 48em) {
+  :root {
+    --rsbs-max-w: 50%;
+  }
+}
+
+@media screen and (min-width: 62em) {
+  :root {
+    --rsbs-max-w: 40%;
+  }
+}
+
+@media screen and (min-width: 80em) {
+  :root {
+    --rsbs-max-w: 30%;
+  }
 }
