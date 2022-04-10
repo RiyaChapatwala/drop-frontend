@@ -25,6 +25,7 @@ import {
 import account from "../Images/account.svg";
 import no from "../Images/no.svg";
 import soc from "../Images/societyEmpty.svg";
+import societyimg from "../Images/societyFill.svg";
 import addCustomer from "../Images/addCustomer.svg";
 import customer from "../Images/customer.svg";
 import { getBusiness } from "../redux/reducers/userSlice";
@@ -139,7 +140,7 @@ const HomeBefore1 = () => {
               setShowSoc(false);
             }}
           >
-            <Image boxSize={"46px"} src={society} />
+            <Image boxSize={"46px"} src={societyimg} />
             <Text
               mt="2"
               color={grey}
