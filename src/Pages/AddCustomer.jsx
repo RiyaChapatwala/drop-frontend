@@ -47,12 +47,7 @@ const AddCustomer = () => {
   const [allSociety, setAllSociety] = useState([]);
   const [selected, setSelected] = useState("");
 
-  useEffect(() => {
-    if (allSociety.length <= 0) {
-      fetchAllSociety();
-    }
-  }, [allSociety]);
-
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const fetchAllSociety = () => {
     Societyservice.getAllSociety()
       .then((response) => {
@@ -61,6 +56,11 @@ const AddCustomer = () => {
       })
       .catch((err) => console.log(err));
   };
+  useEffect(() => {
+    if (allSociety.length <= 0) {
+      fetchAllSociety();
+    }
+  }, [allSociety, fetchAllSociety]);
 
   return (
     <Box w="100%" position="relative">
