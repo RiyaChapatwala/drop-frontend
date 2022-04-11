@@ -20,6 +20,7 @@ import Userservice from "../services/Userservice";
 import AuthService from "../services/Authservice";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "../redux/reducers/userSlice";
+import axios from "axios";
 
 const SelectLanguage = () => {
   const [checked, setChecked] = useState([1]);
@@ -44,6 +45,60 @@ const SelectLanguage = () => {
       })
       .catch((err) => console.log(err, "error"));
   }, []);
+
+  const razorpayInit = () => {
+    return new Promise((resolve) => {
+
+      const script  = document.createElement('script') ;
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      script.onload = () =>  {
+        resolve(true);
+      };
+      script.onerror = () => { 
+        resolve(false);
+      }
+      document.body.appendChild(script);
+    })
+  }
+
+
+  const displayRazorpay = async () => {
+    const res = await razorpayInit();
+    if (!res) {
+      alert("Payment gateway error");
+    }
+    const getOrder = await axios.post('http://localhost:4000/razorpay/order');
+    console.log(getOrder.data);
+    const order_id = getOrder.data.id
+    var options = {
+      "key": document.domain === 'localhost' ? "rzp_test_Od4oS0NwvGm74R": 'Live_key', // Enter the Key ID generated from the Dashboard
+      "amount": "50000", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+      "currency": "INR",
+      "name": "High Things",
+      "description": "Thankyou for gettig high with us.",
+      "image": "https://ichef.bbci.co.uk/news/976/cpsprodpb/7727/production/_103330503_musk3.jpg",
+      order_id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+      "handler": function (response){
+          alert('razorpay_payment_id '+response.razorpay_payment_id);
+          alert('razorpay_order_id '+response.razorpay_order_id);
+          alert('razorpay_signature '+response.razorpay_signature)
+      },
+      "prefill": {
+          "name": "High guy",
+          "email": "high@canibas.com",
+          "contact": "9999999999"
+      },
+      "notes": {
+          "address": "High Corporate Office"
+      },
+      "theme": {
+          "color": "#00FF00"
+      }
+  };
+  var rzp1 = new window.Razorpay(options);
+  rzp1.open(); 
+  }
+
 
   const handleSubmit = () => {
     const language = checked
@@ -204,6 +259,9 @@ const SelectLanguage = () => {
       </Carousel>
       <Flex w="90%" mx="auto" onClick={() => handleSubmit()}>
         <ButtonComponent name="CONTINUE" />
+      </Flex>
+      <Flex mt="1" w="90%" mx="auto" onClick={() => displayRazorpay()}>
+        <ButtonComponent name="Sample Payment" />
       </Flex>
     </Box>
   );
