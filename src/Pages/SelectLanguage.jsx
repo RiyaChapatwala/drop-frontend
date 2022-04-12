@@ -68,7 +68,7 @@ const SelectLanguage = () => {
     if (!res) {
       alert("Payment gateway error");
     }
-    const getOrder = await axios.post(API||'http://localhost:4000/razorpay/order');
+    const getOrder = await axios.post(API||'http://localhost:4000' + '/razorpay/order');
     console.log(getOrder.data);
     const order_id = getOrder.data.id
     var options = {
