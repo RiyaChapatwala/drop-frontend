@@ -72,7 +72,7 @@ const SelectLanguage = () => {
     console.log(getOrder.data);
     const order_id = getOrder.data.id
     var options = {
-      "key": document.domain === 'localhost' ? "rzp_test_Od4oS0NwvGm74R": 'Live_key', // Enter the Key ID generated from the Dashboard
+      "key": document.domain === 'localhost' ? "rzp_test_Od4oS0NwvGm74R": 'rzp_test_Od4oS0NwvGm74R', // Enter the Key ID generated from the Dashboard
       "amount": "50000", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
       "currency": "INR",
       "name": "High Things",
