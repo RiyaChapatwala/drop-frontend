@@ -72,10 +72,12 @@ const SelectLanguage = () => {
     const getOrder = await axios.post(API+`/razorpay/order/${mode}`);
     console.log(getOrder.data);
     const order_id = getOrder.data.id
+    const currency = getOrder.data.currency;
+    const amount = getOrder.data.amount;
     var options = {
       "key": mode === 'LIVE' ? 'rzp_live_qInskNrf3A8yN4':"rzp_test_Od4oS0NwvGm74R", // Enter the Key ID generated from the Dashboard
-      "amount": "5000", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-      "currency": "INR",
+      amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+      currency,
       "name": "Water Payment",
       "description": "Thankyou for payment.",
       "image": "https://drop-pwa.netlify.app/static/media/logo.5c453c98743f253212174de36c14d90f.svg",
