@@ -1,4 +1,4 @@
-import { Box, Flex, Text, useToast } from "@chakra-ui/react";
+import { Box, Button, Flex, Text, useToast } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import Layout from "../Component/Layout";
 import {
@@ -10,6 +10,7 @@ import {
   font400,
   font600,
   poppins,
+  white,
 } from "../Constant";
 import { FaCheckCircle } from "react-icons/fa";
 import Carousel from "react-multi-carousel";
@@ -63,21 +64,21 @@ const SelectLanguage = () => {
   }
 
 
-  const displayRazorpay = async () => {
+  const displayRazorpay = async (mode="TEST") => {
     const res = await razorpayInit();
     if (!res) {
       alert("Payment gateway error");
     }
-    const getOrder = await axios.post(API+'/razorpay/order');
+    const getOrder = await axios.post(API+`/razorpay/${mode}/order`);
     console.log(getOrder.data);
     const order_id = getOrder.data.id
     var options = {
-      "key": document.domain === 'localhost' ? "rzp_test_Od4oS0NwvGm74R": 'rzp_test_Od4oS0NwvGm74R', // Enter the Key ID generated from the Dashboard
-      "amount": "50000", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+      "key": mode === 'LIVE' ? 'rzp_live_qInskNrf3A8yN4':"rzp_test_Od4oS0NwvGm74R", // Enter the Key ID generated from the Dashboard
+      "amount": "5000", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
       "currency": "INR",
-      "name": "High Things",
-      "description": "Thankyou for gettig high with us.",
-      "image": "https://ichef.bbci.co.uk/news/976/cpsprodpb/7727/production/_103330503_musk3.jpg",
+      "name": "Water Payment",
+      "description": "Thankyou for payment.",
+      "image": "https://drop-pwa.netlify.app/static/media/logo.5c453c98743f253212174de36c14d90f.svg",
       order_id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
       "handler": function (response){
           alert('razorpay_payment_id '+response.razorpay_payment_id);
@@ -261,8 +262,11 @@ const SelectLanguage = () => {
       <Flex w="90%" mx="auto" onClick={() => handleSubmit()}>
         <ButtonComponent name="CONTINUE" />
       </Flex>
-      <Flex mt="1" w="90%" mx="auto" onClick={() => displayRazorpay()}>
-        <ButtonComponent name="Sample Payment" />
+      <Flex mt="1" w="90%" mx="auto" onClick={() => displayRazorpay("TEST")}>
+        <Button w="100%" h="50px" backgroundColor={'grey'} color={white}>Sample TEST Payment</Button>
+      </Flex>
+      <Flex mt="1" w="90%" mx="auto" onClick={() => displayRazorpay("LIVE")}>
+        <Button w="100%" h="50px" backgroundColor={'red'} color={white}>Sample LIVE Payment</Button>
       </Flex>
     </Box>
   );
