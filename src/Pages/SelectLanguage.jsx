@@ -87,11 +87,11 @@ const SelectLanguage = () => {
       },
       "prefill": {
           "name": "High guy",
-          "email": "high@canibas.com",
+          "email": "water@service.com",
           "contact": "9999999999"
       },
       "notes": {
-          "address": "High Corporate Office"
+          "address": "High Water Office"
       },
       "theme": {
           "color": "#00FF00"
