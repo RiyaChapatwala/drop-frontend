@@ -7,11 +7,12 @@ import {
   Image,
   Input,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { AiOutlineRightCircle } from "react-icons/ai";
 import { BiArrowBack } from "react-icons/bi";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import ButtonComponent from "../Component/ButtonComponent";
@@ -31,12 +32,13 @@ import {
 } from "../Constant";
 import name from "../Images/name.svg";
 import number from "../Images/number.svg";
-import { getSociety } from "../redux/reducers/userSlice";
+import Businessservice from "../services/Businessservice";
 import Societyservice from "../services/Societyervice";
 
 const AddCustomer = () => {
   const history = useHistory();
-  const dispatch = useDispatch();
+  const toast = useToast();
+
   const user = useSelector((state) => state.user.data.user);
 
   const [roomNo, setRoomNo] = useState("");
@@ -45,22 +47,53 @@ const AddCustomer = () => {
   const [mobileNo, setMobileNo] = useState("");
   const [select, setSelect] = useState(false);
   const [allSociety, setAllSociety] = useState([]);
-  const [selected, setSelected] = useState("");
+  const [selected, setSelected] = useState({ id: null, name: "" });
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const fetchAllSociety = () => {
-    Societyservice.getAllSociety()
+    Societyservice.getSocietyByUser()
       .then((response) => {
-        dispatch(getSociety(response.data));
-        setAllSociety(response.data);
+        setAllSociety(response.body);
       })
       .catch((err) => console.log(err));
   };
   useEffect(() => {
-    if (allSociety.length <= 0) {
+    if (allSociety && allSociety.length <= 0) {
       fetchAllSociety();
     }
   }, [allSociety, fetchAllSociety]);
+
+  const handleClick = () => {
+    const data = {
+      customerName: custName,
+      mobileNo: mobileNo,
+      societyID: selected.id,
+      houseNo: roomNo,
+      wing: wingName,
+    };
+    Businessservice.createCustomer(data)
+      .then((response) => {
+        if (response.success) {
+          toast({
+            title: "Success",
+            description: "Success",
+            status: "success",
+            duration: 3000,
+          });
+          history.push("/");
+        }
+      })
+      .catch((error) =>
+        toast({
+          title: "error",
+          description: error.isAxiosError
+            ? error.response?.data?.message
+            : error.message,
+          status: "error",
+          duration: 3000,
+        })
+      );
+  };
 
   return (
     <Box w="100%" position="relative">
@@ -210,7 +243,7 @@ const AddCustomer = () => {
               color={`${selected === "" ? grey : "inherit"}`}
               opacity="0.5"
               ml="3.5"
-            >{`${selected === "" ? "Select Society" : selected}`}</Text>
+            >{`${selected === "" ? "Select Society" : selected.name}`}</Text>
           </Flex>
           <AiOutlineRightCircle
             size="22px"
@@ -295,13 +328,7 @@ const AddCustomer = () => {
           </Flex>
         </Flex>
       </Flex>
-      <Flex
-        w="85%"
-        mx="auto"
-        onClick={() => {
-          history.push("/addSocietyAcc", { Soc: false, Acc: false });
-        }}
-      >
+      <Flex w="85%" onClick={() => handleClick()} mx="auto">
         <ButtonComponent name="CREATE" />
       </Flex>
       <BottomSheet
@@ -319,43 +346,47 @@ const AddCustomer = () => {
           w="92%"
           mx="auto"
         >
-          {Object.keys(allSociety)?.map((element) => (
-            // console.log(element, "element")
-            <GridItem
-              p="2"
-              key={allSociety[element].id}
-              bg={white}
-              height="116px"
-              alignItems="center"
-              justifyContent="center"
-              border={`1.5px solid ${ec}`}
-              borderRadius="8px"
-              mr="10px"
-              cursor="pointer"
-              boxShadow="0px 15.8433px 35.6473px #F0EDF7"
-              onClick={() => {
-                setSelected(allSociety[element].name);
-                setSelect(false);
-              }}
-            >
-              <Image
+          {allSociety &&
+            Object.keys(allSociety)?.map((element) => (
+              // console.log(element, "element")
+              <GridItem
+                p="2"
+                key={allSociety[element].id}
+                bg={white}
+                height="116px"
+                alignItems="center"
+                justifyContent="center"
+                border={`1.5px solid ${ec}`}
                 borderRadius="8px"
-                boxSize={"46px"}
-                objectFit="cover"
-                src={allSociety[element].imageUrl}
-                fallbackSrc="https://via.placeholder.com/50"
-              />
-              <Text
-                mt="2"
-                color={grey}
-                fontWeight={font600}
-                fontSize={font12}
-                fontFamily={roboto}
+                mr="10px"
+                cursor="pointer"
+                boxShadow="0px 15.8433px 35.6473px #F0EDF7"
+                onClick={() => {
+                  setSelected({
+                    id: allSociety[element].id,
+                    name: allSociety[element].name,
+                  });
+                  setSelect(false);
+                }}
               >
-                {allSociety[element].name}
-              </Text>
-            </GridItem>
-          ))}
+                <Image
+                  borderRadius="8px"
+                  boxSize={"46px"}
+                  objectFit="cover"
+                  src={allSociety[element].imageUrl}
+                  fallbackSrc="https://via.placeholder.com/50"
+                />
+                <Text
+                  mt="2"
+                  color={grey}
+                  fontWeight={font600}
+                  fontSize={font12}
+                  fontFamily={roboto}
+                >
+                  {allSociety[element].name}
+                </Text>
+              </GridItem>
+            ))}
         </Grid>
       </BottomSheet>
     </Box>

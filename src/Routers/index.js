@@ -7,8 +7,10 @@ import AddCustomer from "../Pages/AddCustomer";
 import AddSociety from "../Pages/AddSociety";
 import BusinessDetails from "../Pages/BusinessDetails";
 import CreateProfile from "../Pages/CreateProfile";
+import Home from "../Pages/Home";
 import HomeBefore1 from "../Pages/HomeBefore1";
 import LogIn from "../Pages/LogIn";
+import Profile from "../Pages/Profile";
 import SelectBusiness from "../Pages/SelectBusiness";
 import SelectLanguage from "../Pages/SelectLanguage";
 import SplashScreen from "../Pages/SplashScreen";
@@ -54,6 +56,7 @@ const Routers = () => {
   }
   return (
     <Switch>
+      <Route exact path="/" component={Home} />
       <Route exact path="/selectLanguage" component={SelectLanguage} />
       <Route exact path="/selectBusiness" component={SelectBusiness} />
       <Route exact path="/businessDetails" component={BusinessDetails} />
@@ -62,7 +65,9 @@ const Routers = () => {
       <Route exact path="/addSociety" component={AddSociety} />
       <Route exact path="/addAcc" component={AddAcc} />
       <Route exact path="/addCustomer" component={AddCustomer} />
-      <Redirect to="/selectLanguage" />
+      <Route exact path="/profile" component={Profile} />
+
+      <Redirect to="/" />
     </Switch>
   );
 };

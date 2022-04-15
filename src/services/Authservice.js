@@ -88,6 +88,20 @@ class AuthService {
         .catch((error) => reject(error))
     );
   };
+
+  async createAccount(data) {
+    return new Promise((resolve, reject) =>
+      axios
+        .post(`${API}/user/account`, data)
+        .then((response) => {
+          resolve(response.data);
+        })
+        .catch((error) => {
+          reject(error);
+          console.log("error");
+        })
+    );
+  }
 }
 
 export default new AuthService();

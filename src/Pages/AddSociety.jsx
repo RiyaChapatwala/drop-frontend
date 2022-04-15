@@ -76,7 +76,6 @@ const AddSociety = () => {
             }
           })
           .catch((error) => {
-            console.log(error);
             toast({
               title: "error",
               description: error.isAxiosError

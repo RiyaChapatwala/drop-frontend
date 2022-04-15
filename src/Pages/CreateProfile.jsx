@@ -35,7 +35,6 @@ const CreateProfile = () => {
   const inputFile = useRef(null);
 
   const user = useSelector((state) => state.user.data.user);
-  console.log(user, "user");
 
   useEffect(() => {
     if (user.name) {
@@ -59,13 +58,15 @@ const CreateProfile = () => {
         const data = {
           name: fname,
           mobileNo: phnNumber,
-          imageUrl: response.imgUrl,
+          imageUrl: response.url,
           imageID: response.id,
         };
         Authservice.updateUser(data)
           .then((res) => {
             if (res.name.toLowerCase() === fname.toLowerCase()) {
+              // console.log(res, "hii");
               dispatch(updateUser(res));
+              Authservice.setUserData(res);
               history.push("/addSocietyAcc");
               toast({
                 title: "Success",

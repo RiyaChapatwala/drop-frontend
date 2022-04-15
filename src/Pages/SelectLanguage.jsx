@@ -50,59 +50,58 @@ const SelectLanguage = () => {
 
   const razorpayInit = () => {
     return new Promise((resolve) => {
-
-      const script  = document.createElement('script') ;
-      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
-      script.onload = () =>  {
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.onload = () => {
         resolve(true);
       };
-      script.onerror = () => { 
+      script.onerror = () => {
         resolve(false);
-      }
+      };
       document.body.appendChild(script);
-    })
-  }
+    });
+  };
 
-
-  const displayRazorpay = async (mode="TEST") => {
+  const displayRazorpay = async (mode = "TEST") => {
     const res = await razorpayInit();
     if (!res) {
       alert("Payment gateway error");
     }
-    const getOrder = await axios.post(API+`/razorpay/order/${mode}`);
+    const getOrder = await axios.post(API + `/razorpay/order/${mode}`);
     console.log(getOrder.data);
-    const order_id = getOrder.data.id
+    const order_id = getOrder.data.id;
     const currency = getOrder.data.currency;
     const amount = getOrder.data.amount;
     var options = {
-      "key": mode === 'LIVE' ? 'rzp_live_qInskNrf3A8yN4':"rzp_test_Od4oS0NwvGm74R", // Enter the Key ID generated from the Dashboard
+      key:
+        mode === "LIVE" ? "rzp_live_qInskNrf3A8yN4" : "rzp_test_Od4oS0NwvGm74R", // Enter the Key ID generated from the Dashboard
       amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
       currency,
-      "name": "Water Payment",
-      "description": "Thankyou for payment.",
-      "image": "https://drop-pwa.netlify.app/static/media/logo.5c453c98743f253212174de36c14d90f.svg",
+      name: "Water Payment",
+      description: "Thankyou for payment.",
+      image:
+        "https://drop-pwa.netlify.app/static/media/logo.5c453c98743f253212174de36c14d90f.svg",
       order_id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-      "handler": function (response){
-          alert('razorpay_payment_id '+response.razorpay_payment_id);
-          alert('razorpay_order_id '+response.razorpay_order_id);
-          alert('razorpay_signature '+response.razorpay_signature)
+      handler: function (response) {
+        alert("razorpay_payment_id " + response.razorpay_payment_id);
+        alert("razorpay_order_id " + response.razorpay_order_id);
+        alert("razorpay_signature " + response.razorpay_signature);
       },
-      "prefill": {
-          "name": "High guy",
-          "email": "water@service.com",
-          "contact": "9999999999"
+      prefill: {
+        name: "High guy",
+        email: "water@service.com",
+        contact: "9999999999",
       },
-      "notes": {
-          "address": "High Water Office"
+      notes: {
+        address: "High Water Office",
       },
-      "theme": {
-          "color": "#00FF00"
-      }
+      theme: {
+        color: "#00FF00",
+      },
+    };
+    var rzp1 = new window.Razorpay(options);
+    rzp1.open();
   };
-  var rzp1 = new window.Razorpay(options);
-  rzp1.open(); 
-  }
-
 
   const handleSubmit = () => {
     const language = checked
@@ -265,10 +264,14 @@ const SelectLanguage = () => {
         <ButtonComponent name="CONTINUE" />
       </Flex>
       <Flex mt="1" w="90%" mx="auto" onClick={() => displayRazorpay("TEST")}>
-        <Button w="100%" h="50px" backgroundColor={'grey'} color={white}>Sample TEST Payment</Button>
+        <Button w="100%" h="50px" backgroundColor={"grey"} color={white}>
+          Sample TEST Payment
+        </Button>
       </Flex>
       <Flex mt="1" w="90%" mx="auto" onClick={() => displayRazorpay("LIVE")}>
-        <Button w="100%" h="50px" backgroundColor={'red'} color={white}>Sample LIVE Payment</Button>
+        <Button w="100%" h="50px" backgroundColor={"red"} color={white}>
+          Sample LIVE Payment
+        </Button>
       </Flex>
     </Box>
   );

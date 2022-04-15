@@ -15,6 +15,32 @@ class BusinessService {
     );
   }
 
+  async getBusiness() {
+    return new Promise((resolve, reject) =>
+      axios
+        .get(`${API}/business`)
+        .then((response) => {
+          resolve(response.data);
+        })
+        .catch((error) => {
+          reject(error);
+        })
+    );
+  }
+
+  async getCustomerBySociety(id) {
+    return new Promise((resolve, reject) =>
+      axios
+        .get(`${API}/business/customer/${id}`)
+        .then((response) => {
+          resolve(response.data);
+        })
+        .catch((error) => {
+          reject(error);
+        })
+    );
+  }
+
   async createBusiness(data) {
     return new Promise((resolve, reject) =>
       axios
@@ -27,10 +53,11 @@ class BusinessService {
         })
     );
   }
-  async getBusiness() {
+
+  async createCustomer(data) {
     return new Promise((resolve, reject) =>
       axios
-        .get(`${API}/business`)
+        .post(`${API}/business/customer`, data)
         .then((response) => {
           resolve(response.data);
         })

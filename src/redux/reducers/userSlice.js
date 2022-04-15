@@ -25,6 +25,7 @@ export const userInitialState = {
     },
   },
   society: [],
+  customers: [],
 };
 
 const userSlice = createSlice({

@@ -1,10 +1,10 @@
 import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import {
   useHistory,
   useLocation,
 } from "react-router-dom/cjs/react-router-dom.min";
+import Nav from "../Component/Nav";
 import {
   bg,
   blue,
@@ -12,39 +12,29 @@ import {
   font14,
   font16,
   font400,
-  font500,
   font600,
   grey,
   lightblack,
-  lightblue,
-  lightWhite,
   poppins,
   roboto,
   white,
 } from "../Constant";
 import account from "../Images/account.svg";
+import addCustomer from "../Images/addCustomer.svg";
+import customer from "../Images/customer.svg";
 import no from "../Images/no.svg";
 import soc from "../Images/societyEmpty.svg";
 import societyimg from "../Images/societyFill.svg";
-import addCustomer from "../Images/addCustomer.svg";
-import customer from "../Images/customer.svg";
-import { getBusiness } from "../redux/reducers/userSlice";
-import Businessservice from "../services/Businessservice";
 import Societyservice from "../services/Societyervice";
 
 const HomeBefore1 = () => {
   const history = useHistory();
-  const dispatch = useDispatch();
 
   const [showSoc, setShowSoc] = useState(true);
   const [showAcc, setShowAcc] = useState(true);
   const [back, setBack] = useState(true);
   const [cust, setCust] = useState(false);
-  const [business, setBusiness] = useState({
-    name: "",
-    imageUrl: "",
-    address: "",
-  });
+
   const [society, setSociety] = useState("");
   const location = useLocation();
 
@@ -58,19 +48,11 @@ const HomeBefore1 = () => {
       if (location.state.Acc === false) {
         setShowAcc(false);
       }
+      if (location.state.Cust === false) {
+        setCust(false);
+      }
     }
   }, [location]);
-
-  useEffect(() => {
-    Businessservice.getBusiness().then((response) => {
-      dispatch(getBusiness(response.data));
-      setBusiness({
-        name: response.data.name,
-        imageUrl: response.data.imageUrl,
-        address: response.data.address,
-      });
-    });
-  }, [dispatch]);
 
   useEffect(() => {
     Societyservice.getSocietyByUser().then((response) => {
@@ -80,41 +62,7 @@ const HomeBefore1 = () => {
 
   return (
     <Box w="100%" bg={bg}>
-      <Flex
-        alignItems={"center"}
-        pt="4"
-        px="7"
-        h="91px"
-        background={lightblue}
-        color={white}
-      >
-        <Image
-          src={business.imageUrl}
-          boxSize="42px"
-          objectFit={"cover"}
-          border={`1.03px solid ${white}`}
-          borderRadius="6px"
-        />
-        <Flex ml="4" flexDir="column">
-          <Text
-            textTransform={"capitalize"}
-            fontFamily={roboto}
-            fontWeight={font600}
-            fontSize={font16}
-            color={white}
-          >
-            {business.name}
-          </Text>
-          <Text
-            fontFamily={roboto}
-            color={lightWhite}
-            fontWeight={font500}
-            fontSize={font12}
-          >
-            {business.address}
-          </Text>
-        </Flex>
-      </Flex>
+      <Nav />
       <Flex
         px="3"
         justify="flex-start"
