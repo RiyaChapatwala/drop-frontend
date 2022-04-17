@@ -11,6 +11,7 @@ import CreateProfile from "../Pages/CreateProfile";
 import Home from "../Pages/Home";
 import HomeBefore1 from "../Pages/HomeBefore1";
 import LogIn from "../Pages/LogIn";
+import Pricing from "../Pages/Pricing";
 import Profile from "../Pages/Profile";
 import SelectBusiness from "../Pages/SelectBusiness";
 import SelectLanguage from "../Pages/SelectLanguage";
@@ -68,6 +69,7 @@ const Routers = () => {
       <Route exact path="/aboutus" component={AboutUs} />
       <Route exact path="/addCustomer" component={AddCustomer} />
       <Route exact path="/profile" component={Profile} />
+      <Route exact path="/pricing" component={Pricing} />
 
       <Redirect to="/" />
     </Switch>

@@ -47,7 +47,7 @@ const AboutUs = () => {
 
   return (
     <Box fontFamily={roboto} w="100%">
-      <Layout />
+      <Layout card={false} />
       <Flex direction="column" px="18px" py="2">
         <Text fontWeight={font700} fontSize={font14}>
           About Us

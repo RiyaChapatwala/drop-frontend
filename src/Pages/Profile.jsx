@@ -45,7 +45,7 @@ const Profile = () => {
           <Image mr="12px" src={subscription} />
           Subscription
         </Flex>
-        <Flex mt="20px">
+        <Flex mt="20px" onClick={() => history.push("/pricing")}>
           <Image mr="12px" src={pricing} />
           Our Pricing
         </Flex>
