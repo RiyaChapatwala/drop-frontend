@@ -21,7 +21,7 @@ const Layout = ({ card }) => {
   return (
     <Box width="100%">
       <Image src={top} w="100%" h={["280px", "250px"]} />
-      {!card ? (
+      {!card && (
         <>
           <Image
             src={logo}
@@ -42,7 +42,8 @@ const Layout = ({ card }) => {
             DROP
           </Text>
         </>
-      ) : (
+      )}
+      {card && (
         <Flex direction="column">
           <Image
             objectFit="cover"

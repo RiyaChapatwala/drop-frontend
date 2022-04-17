@@ -3,7 +3,10 @@ import React, { useEffect, useRef, useState } from "react";
 import { BiArrowBack } from "react-icons/bi";
 import { BsPlusLg } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import {
+  useHistory,
+  useLocation,
+} from "react-router-dom/cjs/react-router-dom.min";
 import ButtonComponent from "../Component/ButtonComponent";
 import {
   blue,
@@ -28,6 +31,8 @@ const CreateProfile = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [fname, setFname] = useState("");
   const [phnNumber, setPhnNumber] = useState("");
+
+  const location = useLocation();
 
   const history = useHistory();
   const dispatch = useDispatch();
@@ -67,7 +72,11 @@ const CreateProfile = () => {
               // console.log(res, "hii");
               dispatch(updateUser(res));
               Authservice.setUserData(res);
-              history.push("/addSocietyAcc");
+              if (location.state && location.state.edit) {
+                history.push("/profile");
+              } else {
+                history.push("/addSocietyAcc");
+              }
               toast({
                 title: "Success",
                 description: "Success",
@@ -223,7 +232,9 @@ const CreateProfile = () => {
         />
       </Flex>
       <Flex w="85%" mt="40%" mx="auto" onClick={() => handleClick()}>
-        <ButtonComponent name="CREATE" />
+        <ButtonComponent
+          name={location.state && location.state.edit ? "EDIT" : "CREATE"}
+        />
       </Flex>
     </Box>
   );

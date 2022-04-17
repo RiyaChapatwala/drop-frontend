@@ -2,6 +2,7 @@ import { Box } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, Route, Switch } from "react-router-dom";
+import AboutUs from "../Pages/AboutUs";
 import AddAcc from "../Pages/AddAcc";
 import AddCustomer from "../Pages/AddCustomer";
 import AddSociety from "../Pages/AddSociety";
@@ -10,6 +11,7 @@ import CreateProfile from "../Pages/CreateProfile";
 import Home from "../Pages/Home";
 import HomeBefore1 from "../Pages/HomeBefore1";
 import LogIn from "../Pages/LogIn";
+import Pricing from "../Pages/Pricing";
 import Profile from "../Pages/Profile";
 import SelectBusiness from "../Pages/SelectBusiness";
 import SelectLanguage from "../Pages/SelectLanguage";
@@ -64,8 +66,10 @@ const Routers = () => {
       <Route exact path="/addSocietyAcc" component={HomeBefore1} />
       <Route exact path="/addSociety" component={AddSociety} />
       <Route exact path="/addAcc" component={AddAcc} />
+      <Route exact path="/aboutus" component={AboutUs} />
       <Route exact path="/addCustomer" component={AddCustomer} />
       <Route exact path="/profile" component={Profile} />
+      <Route exact path="/pricing" component={Pricing} />
 
       <Redirect to="/" />
     </Switch>
