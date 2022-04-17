@@ -49,9 +49,13 @@ const Routers = () => {
   if (!isLoggedIn) {
     return (
       <Switch>
-        <Route exact path="/" component={SplashScreen} />
+        {/* <Route exact path="/" component={SplashScreen} /> */}
         <Route exact path="/login" component={LogIn} />
         <Route exact path="/success" component={Success} />
+        <Route exact path="/aboutus" component={AboutUs} />
+
+        <Route exact path="/pricing" component={Pricing} />
+
         <Redirect to="/login" />
       </Switch>
     );

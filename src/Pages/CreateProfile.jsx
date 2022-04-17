@@ -75,7 +75,7 @@ const CreateProfile = () => {
               if (location.state && location.state.edit) {
                 history.push("/profile");
               } else {
-                history.push("/addSocietyAcc");
+                history.push("/");
               }
               toast({
                 title: "Success",
