@@ -13,7 +13,7 @@ import {
   roboto,
   white,
 } from "../Constant";
-import logo from "../Images/logo.svg";
+import logo from "../Images/drop.svg";
 import top from "../Images/top.svg";
 
 const Layout = ({ card }) => {
