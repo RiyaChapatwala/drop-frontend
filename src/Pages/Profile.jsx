@@ -11,7 +11,7 @@ import signout from "../Images/signout.svg";
 import share from "../Images/share.svg";
 import subscription from "../Images/subscription.svg";
 import pricing from "../Images/pricing.svg";
-import { font14, font500, lightblue, roboto } from "../Constant";
+import { API, API_AWS, font14, font500, lightblue, roboto } from "../Constant";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 const Profile = () => {
@@ -33,18 +33,18 @@ const Profile = () => {
           <Image mr="12px" src={name} />
           Edit Profile
         </Flex>
-        <Flex mt="20px">
+        {/* <Flex mt="20px">
           <Image mr="12px" src={business} />
           Edit Business
-        </Flex>
-        <Flex mt="20px">
+        </Flex> */}
+        {/* <Flex mt="20px">
           <Image mr="12px" src={money} />
           Total Earning
-        </Flex>
-        <Flex mt="20px">
+        </Flex> */}
+        {/* <Flex mt="20px">
           <Image mr="12px" src={subscription} />
           Subscription
-        </Flex>
+        </Flex> */}
         <Flex mt="20px" onClick={() => history.push("/pricing")}>
           <Image mr="12px" src={pricing} />
           Our Pricing
@@ -58,8 +58,25 @@ const Profile = () => {
           About Us
         </Flex>
         <Flex mt="20px">
+
           <Image mr="12px" src={service} />
-          Terms Of Services
+          <a href={API+"/files/termsAndConditions"} target="_blank">
+          Terms and Conditions
+          </a>
+        </Flex>
+        <Flex mt="20px">
+
+          
+          <a style={{marginLeft: 25}} href={API+"/files/refundPolicy"} target="_blank">
+          Refund Policy
+          </a>
+        </Flex>
+        <Flex mt="20px">
+
+          
+          <a style={{marginLeft: 25}} href={API+"/files/privacyPolicy"} target="_blank">
+          Privacy Policy
+          </a>
         </Flex>
         <Link
           textDecoration="none"
