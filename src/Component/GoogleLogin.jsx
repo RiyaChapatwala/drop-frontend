@@ -14,7 +14,7 @@ import AuthService from "../services/Authservice";
 
 const LoginWithGoogle = ({ isSignInOpen }) => {
   const clientId =
-    "661632003808-79f001npmpkot4mgo1v2jvi15ugj0m8q.apps.googleusercontent.com";
+    "61587048400-3r92vd57fdvh3sbo09svfj9ehefsapbp.apps.googleusercontent.com";
   // "1010656984318-0cv60c25k8ud2qk9ggp59msssfobomte.apps.googleusercontent.com";
 
   const [showloginButton, setShowloginButton] = useState(true);
