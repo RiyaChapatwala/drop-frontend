@@ -22,7 +22,7 @@ const LoginBypass = ({ isSignInOpen }) => {
     AuthService.defaultLoginBypass()
       .then((response) => {
         dispatch(login(response));
-        history.push("/selectLanguage");
+        history.push("/");
         // axios.defaults.headers.common[
         //   "Authorization"
         // ] = `Bearer ${response.data.access_token}`;
