@@ -60,23 +60,23 @@ const Profile = () => {
         <Flex mt="20px">
 
           <Image mr="12px" src={service} />
-          <a href={API+"/files/termsAndConditions"} target="_blank">
+          <div onClick={() => history.push('/termsAndConditions')}>
           Terms and Conditions
-          </a>
+          </div>
         </Flex>
         <Flex mt="20px">
 
           
-          <a style={{marginLeft: 25}} href={API+"/files/refundPolicy"} target="_blank">
+          <div style={{marginLeft: 25}} onClick={() => history.push('/refundPolicy')}>
           Refund Policy
-          </a>
+          </div>
         </Flex>
         <Flex mt="20px">
 
           
-          <a style={{marginLeft: 25}} href={API+"/files/privacyPolicy"} target="_blank">
+          <div style={{marginLeft: 25}} onClick={() => history.push('/privacyPolicy')}>
           Privacy Policy
-          </a>
+          </div>
         </Flex>
         <Link
           textDecoration="none"
@@ -97,7 +97,7 @@ const Profile = () => {
         </Flex>
         <Text color="#001833" textAlign="center" mt="5">
           drop by{" "}
-          <Link to="https://drop-pwa.netlify.app" color={lightblue}>
+          <Link to="https://zognest.com" color={lightblue}>
             ZOGNEST.
           </Link>
         </Text>

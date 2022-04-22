@@ -11,6 +11,7 @@ import CreateProfile from "../Pages/CreateProfile";
 import Home from "../Pages/Home";
 import HomeBefore1 from "../Pages/HomeBefore1";
 import LogIn from "../Pages/LogIn";
+import TermsAndConditions from "../Pages/TermsAndConditions";
 import Pricing from "../Pages/Pricing";
 import Profile from "../Pages/Profile";
 import SelectBusiness from "../Pages/SelectBusiness";
@@ -19,6 +20,8 @@ import SplashScreen from "../Pages/SplashScreen";
 import Success from "../Pages/Success";
 import { endLoading, login } from "../redux/reducers/userSlice";
 import Authservice from "../services/Authservice";
+import RefundPolicy from "../Pages/RefundPolicy";
+import PrivacyPolicy from "../Pages/PrivacyPolicy";
 
 const Routers = () => {
   const { isLoading, isLoggedIn } = useSelector((state) => state.user);
@@ -55,6 +58,13 @@ const Routers = () => {
         <Route exact path="/aboutus" component={AboutUs} />
 
         <Route exact path="/pricing" component={Pricing} />
+        <Route
+          exact
+          path="/termsAndConditions"
+          component={TermsAndConditions}
+        />
+        <Route exact path="/refundPolicy" component={RefundPolicy} />
+        <Route exact path="/privacyPolicy" component={PrivacyPolicy} />
 
         <Redirect to="/login" />
       </Switch>
@@ -74,6 +84,9 @@ const Routers = () => {
       <Route exact path="/addCustomer" component={AddCustomer} />
       <Route exact path="/profile" component={Profile} />
       <Route exact path="/pricing" component={Pricing} />
+      <Route exact path="/termsAndConditions" component={TermsAndConditions} />
+      <Route exact path="/refundPolicy" component={RefundPolicy} />
+      <Route exact path="/privacyPolicy" component={PrivacyPolicy} />
 
       <Redirect to="/" />
     </Switch>

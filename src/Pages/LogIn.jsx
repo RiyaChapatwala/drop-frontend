@@ -1,7 +1,9 @@
 import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import React from "react";
+import { useHistory } from "react-router-dom";
 import LoginWithGoogle from "../Component/GoogleLogin";
 import Layout from "../Component/Layout";
+import LoginBypass from "../Component/LoginByPass";
 import {
   blue,
   font12,
@@ -15,6 +17,8 @@ import {
 import fb from "../Images/fb.svg";
 
 const LogIn = () => {
+  const history = useHistory();
+
   return (
     <>
       <Box w="100%" h="100%" fontFamily={poppins}>
@@ -51,7 +55,7 @@ const LogIn = () => {
           borderRadius="8px"
           boxShadow="0px 16px 60px rgba(37, 37, 28, 0.15)"
         > */}
-        <Flex
+        {/* <Flex
           mt="8"
           // px="16"
           w="92%"
@@ -67,7 +71,7 @@ const LogIn = () => {
           <Text fontSize={font13} fontWeight={font600} color="white">
             SIGN IN WITH FACEBOOK
           </Text>
-        </Flex>
+        </Flex> */}
         <Flex
           justify="center"
           mt="4"
@@ -85,6 +89,8 @@ const LogIn = () => {
             SIGN IN WITH GOOGLE
           </Text>
         </Flex>
+        <LoginBypass />
+       
         <Flex alignItems="center" w="85%" justify="center" mx="auto" mt="7">
           <Text
             // alignSelf="center"
@@ -92,6 +98,7 @@ const LogIn = () => {
             fontSize={font12}
             fontWeight={font500}
             color="red"
+            onClick={() => {history.push('/termsAndConditions')}}
           >
             <span style={{ color: blue }}>
               By logging in you agree to DROP{" "}

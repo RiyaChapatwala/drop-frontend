@@ -38,6 +38,22 @@ class AuthService {
         })
     );
   };
+  defaultLoginBypass = async () => {
+    return new Promise((resolve, reject) =>
+      axios
+        .post(`${API}/user/auth/defaultLoginBypass`)
+        .then((response) => {
+          console.log(response, "google");
+          this.setAccessToken(response.data?.data?.access_token);
+          this.setRefreshToken(response.data?.data?.refresh_token);
+          this.setUserData(response.data?.data?.user);
+          resolve(response.data.data);
+        })
+        .catch((error) => {
+          reject(error);
+        })
+    );
+  };
 
   isAuthTokenValid = (access_token) => {
     if (!access_token) {
