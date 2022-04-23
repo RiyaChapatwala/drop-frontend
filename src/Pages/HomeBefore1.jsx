@@ -24,7 +24,7 @@ import addCustomer from "../Images/addCustomer.svg";
 import customer from "../Images/customer.svg";
 import no from "../Images/no.svg";
 import soc from "../Images/societyEmpty.svg";
-import societyimg from "../Images/societyFill.svg";
+import societyimg from "../Images/society.svg";
 import Societyservice from "../services/Societyervice";
 
 const HomeBefore1 = () => {
@@ -61,7 +61,7 @@ const HomeBefore1 = () => {
   }, []);
 
   return (
-    <Box w="100%" bg={bg}>
+    <Box w="100%" bg={bg} h="100vh">
       <Nav />
       <Flex
         px="3"
@@ -84,7 +84,7 @@ const HomeBefore1 = () => {
             mr="10px"
             cursor="pointer"
             onClick={() => {
-              history.push("/addSociety");
+              history.push("/addSociety", { home: false });
               setShowSoc(false);
             }}
           >

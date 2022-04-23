@@ -40,9 +40,9 @@ const AboutUs = () => {
 
   const data = [
     { id: 1, image: spparow },
-    { id: 2, image: dodo },
-    { id: 3, image: goldfinch },
-    { id: 4, image: owl },
+    { id: 2, image: goldfinch },
+    { id: 3, image: owl },
+    { id: 4, image: dodo },
   ];
 
   return (
@@ -53,26 +53,23 @@ const AboutUs = () => {
           About Us
         </Text>
         <Text fontWeight={font400} fontSize={font12} color="#747688" mt="1.5">
-          Get to know our motto for this company
+          Get to know our motto for this company. <br />
+          Drop was born for a cause, to ease the supply of water. Making it
+          hassle-free for the supplier to track all the record while also making
+          it more cost effective. Making it digital for digital India.
         </Text>
-        <Text
-          fontWeight={font400}
-          fontSize={font12}
-          lineHeight="18px"
-          mt="14px"
-        >
-          A word "Team" is not enough to define us, we are family of different
-          species of birds, each one of us have unique capabilities. Our
-          professionals work with love, and passion for every detail, and for
-          creating the community of satisfied customers. The combination of a
-          proactive approach and the above technical skills allow us to
-          cooperate/work with leading companies in multiple regions.
-        </Text>
+        <Text fontWeight={font400} fontSize={font12} lineHeight="18px"></Text>
         <Text mt="50px" fontWeight={font700} fontSize={font14}>
           Meet Our Birds
         </Text>
         <Text fontWeight={font400} fontSize={font12} color="#747688" mt="1.5">
           Get to know the team, They solve real problems in reality.
+          <br /> A word "Team" is not enough to define us, we are family of
+          different species of birds, each one of us have unique capabilities.
+          Our professionals work with love, and passion for every detail, and
+          for creating the community of satisfied customers. The combination of
+          a proactive approach and the above technical skills allow us to
+          cooperate/work with leading companies in multiple regions.
         </Text>
         <Carousel
           swipeable={true}

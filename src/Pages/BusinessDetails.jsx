@@ -43,7 +43,6 @@ const BusinessDetails = () => {
     Businessservice.getBusinessByUser()
       .then((res) => {
         if (res) {
-          console.log(res, "bu");
           setBusinessName(res.data.name);
           setAddressLine(res.data.address);
           setUrl({ id: res.data.imageID, imgUrl: res.data.imageUrl });
@@ -137,7 +136,7 @@ const BusinessDetails = () => {
   };
 
   return (
-    <Box w="100%" fontFamily={poppins}>
+    <Box w="100%" fontFamily={poppins} h="100vh">
       <Layout />
       <Flex direction="column" justify="center" alignItems="center" mt="8">
         <Text

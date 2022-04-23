@@ -8,7 +8,6 @@ class AuthService {
       const token = this.getAccessToken();
       const refresh_token = this.getRefreshToken();
       const data = this.getUserData();
-      console.log("check", data);
 
       if (this.isAuthTokenValid(token) && data) {
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;

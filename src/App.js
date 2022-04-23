@@ -10,15 +10,14 @@ const App = () => {
     <Flex
       w="100%"
       boxSizing="border-box"
-      height={["100%", "120vh"]}
+      height={["100%", "max-content"]}
       justify="center"
       align="center"
-      bg={bg}
     >
       <Flex
         w={["100%", "100%", "50%", "40%", "30%"]}
         // shadow="lg"
-        height={["100vh", "120vh"]}
+        // height={["100vh", "100vh"]}
         // height="100vh"
         bg={bg}
       >

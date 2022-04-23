@@ -26,35 +26,51 @@ import {
 } from "../Constant";
 import customer from "../Images/customer.svg";
 import soc from "../Images/societyEmpty.svg";
+import societyimg from "../Images/society.svg";
 import Businessservice from "../services/Businessservice";
 import Societyservice from "../services/Societyervice";
+import CustomerCard from "../Component/CustomerCard";
+import { useDispatch, useSelector } from "react-redux";
+import { setSelectedSociety } from "../redux/reducers/userSlice";
 
 const Home = () => {
   const history = useHistory();
   const toast = useToast();
+  const dispatch = useDispatch();
 
   const [society, setSociety] = useState([]);
   const [select, setSelect] = useState(false);
+  const [customerView, setCustomerView] = useState(false);
+  // const [today, setToday] = useState(true);
   const [selected, setSelected] = useState({ id: null, name: "" });
   const [customers, setCustomers] = useState([]);
 
+  const selectedSoc = useSelector((state) => state.user.selectedSociety);
+
   const fetchSociety = () => {
     Societyservice.getSocietyByUser().then((response) => {
-      setSociety(response.body);
+      if (Object.keys(response.body).length > 0) {
+        setSociety(response.body);
+      }
     });
   };
-
   useEffect(() => {
     if (society && society.length <= 0) {
       fetchSociety();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [society]);
+
+  useEffect(() => {
+    if (selectedSoc.id !== null && selectedSoc.name !== "") {
+      setSelected({ id: selectedSoc.id, name: selectedSoc.name });
+    }
+  }, [selectedSoc.id, selectedSoc.name]);
 
   useEffect(() => {
     if (selected.id !== null) {
       Businessservice.getCustomerBySociety(selected.id)
         .then((res) => {
-          console.log(res.data.customer);
           if (res.data) setCustomers(res.data.customer);
         })
         .catch((error) => {
@@ -72,7 +88,7 @@ const Home = () => {
   }, [selected]);
 
   return (
-    <Box w="100%" mt="5px">
+    <Box w="100%" h="100vh">
       <Nav card={true} />
       <Flex mt="15px" w="100%" justifyContent={"space-between"}>
         <Flex
@@ -120,9 +136,13 @@ const Home = () => {
       </Flex>
       {customers.map((customer) => (
         <CardComponent
+          onClick={() => setCustomerView(true)}
           key={customer.id}
           name={customer.name}
           id={customer.id}
+          deliveredCount={customer.deliveredCount}
+          wing={customer.wing}
+          houseNo={customer.houseNo}
         />
       ))}
       <BottomSheet
@@ -140,6 +160,32 @@ const Home = () => {
           w="92%"
           mx="auto"
         >
+          <Flex
+            bg={white}
+            height="116px"
+            w="105px"
+            flexDir="column"
+            alignItems="center"
+            justifyContent="center"
+            border={`1.5px dashed ${blue}`}
+            borderRadius="8px"
+            mr="10px"
+            cursor="pointer"
+            onClick={() => {
+              history.push("/addSociety", { home: true });
+            }}
+          >
+            <Image boxSize={"46px"} src={societyimg} />
+            <Text
+              mt="2"
+              color={grey}
+              fontWeight={font600}
+              fontSize={font12}
+              fontFamily={roboto}
+            >
+              Add Society
+            </Text>
+          </Flex>
           {society &&
             Object.keys(society)?.map((element) => (
               // console.log(element, "element")
@@ -160,6 +206,13 @@ const Home = () => {
                     id: society[element].id,
                     name: society[element].name,
                   });
+                  dispatch(
+                    setSelectedSociety({
+                      id: society[element].id,
+                      name: society[element].name,
+                    })
+                  );
+
                   setSelect(false);
                 }}
               >
@@ -183,6 +236,28 @@ const Home = () => {
             ))}
         </Grid>
       </BottomSheet>
+      <BottomSheet
+        open={customerView}
+        onDismiss={() => {
+          setCustomerView(false);
+        }}
+        className="hideScrollBar"
+        snapPoints={({ maxHeight }) => [maxHeight * 0.63]}
+      >
+        <CustomerCard supplier={true} />
+      </BottomSheet>
+      {/* <BottomSheet
+        open={today}
+        // onClick={()=>}
+        className="hideScrollBar"
+        snapPoints={
+          today
+            ? ({ maxHeight }) => [maxHeight * 0.3]
+            : ({ maxHeight }) => [maxHeight * 0.63]
+        }
+      >
+        <CustomerCard supplier={true} />
+      </BottomSheet> */}
     </Box>
   );
 };

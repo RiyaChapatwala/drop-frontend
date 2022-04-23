@@ -31,7 +31,6 @@ const SelectBusiness = () => {
     Businessservice.getBusinessType()
       .then((response) => {
         setType(response?.data);
-        console.log(response, "type");
       })
       .catch((err) => console.log(err, "error"));
   }, []);
