@@ -40,10 +40,10 @@ class BusinessService {
     );
   }
 
-  async getCustomerBySociety(id) {
+  async getCustomerBySociety(id, wing) {
     return new Promise((resolve, reject) =>
       axios
-        .get(`${API}/business/customer/${id}`)
+        .get(`${API}/business/customer/${id}?wing=${wing}`)
         .then((response) => {
           resolve(response.data);
         })
