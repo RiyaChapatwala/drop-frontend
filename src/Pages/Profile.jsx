@@ -78,6 +78,13 @@ const Profile = () => {
           Privacy Policy
           </div>
         </Flex>
+        <Flex mt="20px">
+
+          
+          <div style={{marginLeft: 25}} onClick={() => history.push('/sla')}>
+          SLA
+          </div>
+        </Flex>
         <Link
           textDecoration="none"
           href="https://chat.whatsapp.com/L7v4LPgQQ1sAZ0tsQ3XqpU"

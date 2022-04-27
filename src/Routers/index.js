@@ -22,6 +22,7 @@ import { endLoading, login } from "../redux/reducers/userSlice";
 import Authservice from "../services/Authservice";
 import RefundPolicy from "../Pages/RefundPolicy";
 import PrivacyPolicy from "../Pages/PrivacyPolicy";
+import SLA from "../Pages/SLA";
 
 const Routers = () => {
   const { isLoading, isLoggedIn } = useSelector((state) => state.user);
@@ -65,6 +66,7 @@ const Routers = () => {
         />
         <Route exact path="/refundPolicy" component={RefundPolicy} />
         <Route exact path="/privacyPolicy" component={PrivacyPolicy} />
+        <Route exact path="/sla" component={SLA} />
 
         <Redirect to="/login" />
       </Switch>
@@ -87,6 +89,7 @@ const Routers = () => {
       <Route exact path="/termsAndConditions" component={TermsAndConditions} />
       <Route exact path="/refundPolicy" component={RefundPolicy} />
       <Route exact path="/privacyPolicy" component={PrivacyPolicy} />
+      <Route exact path="/sla" component={SLA} />
 
       <Redirect to="/" />
     </Switch>
