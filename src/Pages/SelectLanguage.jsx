@@ -113,7 +113,6 @@ const SelectLanguage = () => {
       };
       AuthService.updateUser(data)
         .then((response) => {
-          console.log("first");
           dispatch(updateUser(response));
           history.push("/selectBusiness", { from: "language" });
         })

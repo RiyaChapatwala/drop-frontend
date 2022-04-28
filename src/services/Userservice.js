@@ -11,7 +11,18 @@ class Userservice {
         })
         .catch((error) => {
           reject(error);
-          console.log("error");
+        })
+    );
+  }
+  async getCustomerByPhone(mobileNo) {
+    return new Promise((resolve, reject) =>
+      axios
+        .get(`${API}/user/customer?mobileNo=${mobileNo}`)
+        .then((response) => {
+          resolve(response.data);
+        })
+        .catch((error) => {
+          reject(error);
         })
     );
   }

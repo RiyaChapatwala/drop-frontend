@@ -30,8 +30,7 @@ const SelectBusiness = () => {
   useEffect(() => {
     Businessservice.getBusinessType()
       .then((response) => {
-        setType([response?.data[0]]);
-        console.log(response, "type");
+        setType(response?.data);
       })
       .catch((err) => console.log(err, "error"));
   }, []);

@@ -3,7 +3,10 @@ import React, { useEffect, useRef, useState } from "react";
 import { BiArrowBack } from "react-icons/bi";
 import { BsPlusLg } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import {
+  useHistory,
+  useLocation,
+} from "react-router-dom/cjs/react-router-dom.min";
 import ButtonComponent from "../Component/ButtonComponent";
 import {
   blue,
@@ -24,6 +27,7 @@ import soc from "../Images/societyFill.svg";
 
 const AddSociety = () => {
   const history = useHistory();
+  const location = useLocation();
   const dispatch = useDispatch();
   const toast = useToast();
   const inputFile = useRef(null);
@@ -72,7 +76,11 @@ const AddSociety = () => {
                 status: "success",
                 duration: 3000,
               });
-              history.push("/addSocietyAcc", { Soc: false });
+              if (location.state.home) {
+                history.push("/");
+              } else {
+                history.push("/addSocietyAcc", { Soc: false });
+              }
             }
           })
           .catch((error) => {
@@ -90,7 +98,7 @@ const AddSociety = () => {
   };
 
   return (
-    <Box w="100%">
+    <Box w="100%" height={["100vh", "100vh"]}>
       <Flex pt="12" px="7" h="91px" background={lightblue} color={white}>
         <BiArrowBack
           cursor="pointer"

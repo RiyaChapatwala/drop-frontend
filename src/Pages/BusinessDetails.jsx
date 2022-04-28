@@ -40,39 +40,12 @@ const BusinessDetails = () => {
   const inputFile = useRef(null);
 
   useEffect(() => {
-    const form = new FormData();
-    form.append("file", selectedFile);
-    form.append("folder", "business");
-    Mediaservice.uploadMedia(form)
-      .then((response) => setUrl({ id: response.id, imgUrl: response.url }))
-      .catch((err) => console.log(err));
-
-    location.state.checked.forEach((element) => {
-      setType(element.id);
-    });
-  }, [selectedFile, location, type]);
-
-  const handleClick = () => {
-    const data = {
-      name: businessName,
-      address: addressLine,
-      imageUrl: url.imgUrl,
-      imageID: url.id,
-      type: type,
-    };
-
-    Businessservice.createBusiness(data)
-      .then((response) => {
-        if (response.success === true) {
-          dispatch(createbusiness(response));
-
-          history.push("/create-profile");
-          toast({
-            title: "Success",
-            description: "Business Successfully Created",
-            status: "success",
-            duration: 3000,
-          });
+    Businessservice.getBusinessByUser()
+      .then((res) => {
+        if (res) {
+          setBusinessName(res.data.name);
+          setAddressLine(res.data.address);
+          setUrl({ id: res.data.imageID, imgUrl: res.data.imageUrl });
         }
       })
       .catch((error) =>
@@ -85,10 +58,85 @@ const BusinessDetails = () => {
           duration: 3000,
         })
       );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    const form = new FormData();
+    form.append("file", selectedFile);
+    form.append("folder", "business");
+    Mediaservice.uploadMedia(form)
+      .then((response) => setUrl({ id: response.id, imgUrl: response.url }))
+      .catch((err) => console.log(err));
+
+    location.state.checked &&
+      location.state.checked.forEach((element) => {
+        setType(element.id);
+      });
+  }, [selectedFile, location, type]);
+
+  const handleClick = () => {
+    const data = {
+      name: businessName,
+      address: addressLine,
+      imageUrl: url.imgUrl,
+      imageID: url.id,
+      type: type,
+    };
+
+    if (location.state && location.state?.edit) {
+      Businessservice.editBusiness(data)
+        .then((response) => {
+          if (response.success === true) {
+            history.push("/profile");
+            toast({
+              title: "Success",
+              description: "Business Successfully Updated",
+              status: "success",
+              duration: 3000,
+            });
+          }
+        })
+        .catch((error) =>
+          toast({
+            title: "error",
+            description: error.isAxiosError
+              ? error.response?.data?.message
+              : error.message,
+            status: "error",
+            duration: 3000,
+          })
+        );
+    } else {
+      Businessservice.createBusiness(data)
+        .then((response) => {
+          if (response.success === true) {
+            dispatch(createbusiness(response));
+
+            history.push("/create-profile");
+            toast({
+              title: "Success",
+              description: "Business Successfully Created",
+              status: "success",
+              duration: 3000,
+            });
+          }
+        })
+        .catch((error) =>
+          toast({
+            title: "error",
+            description: error.isAxiosError
+              ? error.response?.data?.message
+              : error.message,
+            status: "error",
+            duration: 3000,
+          })
+        );
+    }
   };
 
   return (
-    <Box w="100%" fontFamily={poppins}>
+    <Box w="100%" fontFamily={poppins} h="100vh">
       <Layout />
       <Flex direction="column" justify="center" alignItems="center" mt="8">
         <Text
@@ -168,6 +216,7 @@ const BusinessDetails = () => {
         >
           <Image src={business} />
           <Input
+            value={businessName}
             _focus={{
               border: "none",
             }}
@@ -217,6 +266,7 @@ const BusinessDetails = () => {
             }}
             placeholder="Add Address"
             border="none"
+            value={addressLine}
             onChange={(e) => setAddressLine(e.target.value)}
           />
           {/* <LocationInput
@@ -228,7 +278,9 @@ const BusinessDetails = () => {
       </Flex>
 
       <Flex w="85%" mx="auto" mt="9" onClick={() => handleClick()}>
-        <ButtonComponent name="DONE" />
+        <ButtonComponent
+          name={location.state && location.state.edit ? "EDIT" : "DONE"}
+        />
       </Flex>
     </Box>
   );

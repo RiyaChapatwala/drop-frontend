@@ -1,5 +1,5 @@
 import { Box, Flex, Image, Link, Text } from "@chakra-ui/react";
-import React from "react";
+import React, { useState } from "react";
 import Layout from "../Component/Layout";
 import name from "../Images/name.svg";
 import business from "../Images/business.svg";
@@ -8,14 +8,18 @@ import aboutus from "../Images/aboutus.svg";
 import chat from "../Images/chat.svg";
 import service from "../Images/service.svg";
 import signout from "../Images/signout.svg";
-import share from "../Images/share.svg";
+import shareIcon from "../Images/share.svg";
 import subscription from "../Images/subscription.svg";
 import pricing from "../Images/pricing.svg";
-import { API, API_AWS, font14, font500, lightblue, roboto } from "../Constant";
+import { font14, font500, lightblue, roboto } from "../Constant";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { BottomSheet } from "react-spring-bottom-sheet";
+import Share from "../Component/Share";
+import drop from "../Images/drop.svg";
 
 const Profile = () => {
   const history = useHistory();
+  const [share, setShare] = useState(false);
   return (
     <Box w="100%">
       <Layout card={true} />
@@ -33,10 +37,14 @@ const Profile = () => {
           <Image mr="12px" src={name} />
           Edit Profile
         </Flex>
-        {/* <Flex mt="20px">
+        <Flex
+          mt="20px"
+          cursor="pointer"
+          onClick={() => history.push("/businessDetails", { edit: true })}
+        >
           <Image mr="12px" src={business} />
           Edit Business
-        </Flex> */}
+        </Flex> 
         {/* <Flex mt="20px">
           <Image mr="12px" src={money} />
           Total Earning
@@ -94,8 +102,8 @@ const Profile = () => {
             Support Chat
           </Flex>
         </Link>
-        <Flex mt="20px">
-          <Image mr="12px" src={share} />
+        <Flex mt="20px" cursor="pointer" onClick={() => setShare(true)}>
+          <Image mr="12px" src={shareIcon} />
           Invite Your Friends To Drop
         </Flex>
         <Flex mt="20px">
@@ -104,11 +112,25 @@ const Profile = () => {
         </Flex>
         <Text color="#001833" textAlign="center" mt="5">
           drop by{" "}
-          <Link to="https://zognest.com" color={lightblue}>
+          <Link href="https://zognest.com" target={'_blank'} color={lightblue}>
             ZOGNEST.
           </Link>
         </Text>
       </Box>
+      <BottomSheet
+        open={share}
+        onDismiss={() => {
+          setShare(false);
+        }}
+        snapPoints={({ maxHeight }) => [maxHeight * 0.63]}
+      >
+        <Share
+          imageUrl={drop}
+          eventName="drop"
+          setShare={setShare}
+          shareUrl="https://drop-pwa.netlify.app"
+        />
+      </BottomSheet>
     </Box>
   );
 };

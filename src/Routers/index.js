@@ -8,6 +8,8 @@ import AddCustomer from "../Pages/AddCustomer";
 import AddSociety from "../Pages/AddSociety";
 import BusinessDetails from "../Pages/BusinessDetails";
 import CreateProfile from "../Pages/CreateProfile";
+import CustomerDetails from "../Pages/CustomerDetails";
+import Customer_home from "../Pages/Customer_home";
 import Home from "../Pages/Home";
 import HomeBefore1 from "../Pages/HomeBefore1";
 import LogIn from "../Pages/LogIn";
@@ -25,7 +27,11 @@ import PrivacyPolicy from "../Pages/PrivacyPolicy";
 import SLA from "../Pages/SLA";
 
 const Routers = () => {
-  const { isLoading, isLoggedIn } = useSelector((state) => state.user);
+  const {
+    isLoading,
+    isLoggedIn,
+    // data
+  } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
 
@@ -72,6 +78,7 @@ const Routers = () => {
       </Switch>
     );
   }
+  // else if (data.user.role.name === "supplier") {
   return (
     <Switch>
       <Route exact path="/" component={Home} />
@@ -90,10 +97,17 @@ const Routers = () => {
       <Route exact path="/refundPolicy" component={RefundPolicy} />
       <Route exact path="/privacyPolicy" component={PrivacyPolicy} />
       <Route exact path="/sla" component={SLA} />
+      {/* add this for only customer */}
+      <Route exact path="/customer-home" component={Customer_home} />
+      <Route exact path="/customer-deatils" component={CustomerDetails} />
 
       <Redirect to="/" />
     </Switch>
   );
+  // }
+  // else {
+  //   return <Switch></Switch>;
+  // }
 };
 
 export default Routers;

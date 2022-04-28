@@ -2,6 +2,7 @@ import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import React from "react";
 import { IoMdCall } from "react-icons/io";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import {
   colore2,
   font12,
@@ -13,11 +14,12 @@ import {
   roboto,
   white,
 } from "../Constant";
-import logo from "../Images/logo.svg";
+import logo from "../Images/drop.svg";
 import top from "../Images/top.svg";
 
 const Layout = ({ card }) => {
   const user = useSelector((state) => state.user.data.user);
+  const history = useHistory();
   return (
     <Box width="100%">
       <Image src={top} w="100%" h={["280px", "250px"]} />
@@ -29,6 +31,8 @@ const Layout = ({ card }) => {
             position="absolute"
             top="5%"
             left={["40%", "47%"]}
+            onClick={() => history.push("/")}
+            cursor="pointer"
           />
           <Text
             color={white}
