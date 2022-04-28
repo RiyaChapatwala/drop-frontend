@@ -4,14 +4,17 @@ import {
   Grid,
   GridItem,
   Image,
+  Select,
   Text,
   useToast,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import CardComponent from "../Component/CardComponent";
+import CustomerCard from "../Component/CustomerCard";
 import Nav from "../Component/Nav";
 import {
   blue,
@@ -25,36 +28,64 @@ import {
   white,
 } from "../Constant";
 import customer from "../Images/customer.svg";
+import societyimg from "../Images/society.svg";
 import soc from "../Images/societyEmpty.svg";
+import { setSelectedSociety } from "../redux/reducers/userSlice";
 import Businessservice from "../services/Businessservice";
 import Societyservice from "../services/Societyervice";
 
 const Home = () => {
   const history = useHistory();
   const toast = useToast();
+  const dispatch = useDispatch();
 
   const [society, setSociety] = useState([]);
+  const [wing, setWing] = useState([]);
   const [select, setSelect] = useState(false);
+  const [customerView, setCustomerView] = useState(false);
+  // const [today, setToday] = useState(true);
   const [selected, setSelected] = useState({ id: null, name: "" });
+  const [selectedWing, setSelectedWing] = useState("");
   const [customers, setCustomers] = useState([]);
+
+  const selectedSoc = useSelector((state) => state.user.selectedSociety);
 
   const fetchSociety = () => {
     Societyservice.getSocietyByUser().then((response) => {
-      setSociety(response.body);
+      if (Object.keys(response.body).length > 0) {
+        setSociety(response.body);
+      }
     });
   };
 
+  const fetchWing = () => {
+    Societyservice.getAllWing(selected.id).then((response) => {
+      console.log(response, "in home");
+      if (response.body.length > 0) {
+        setWing(response.body);
+      }
+    });
+  };
   useEffect(() => {
     if (society && society.length <= 0) {
       fetchSociety();
     }
-  }, [society]);
+    if (wing.length <= 0 && selected.id) {
+      fetchWing();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [society, selected, wing]);
+
+  useEffect(() => {
+    if (selectedSoc.id !== null && selectedSoc.name !== "") {
+      setSelected({ id: selectedSoc.id, name: selectedSoc.name });
+    }
+  }, [selectedSoc.id, selectedSoc.name]);
 
   useEffect(() => {
     if (selected.id !== null) {
-      Businessservice.getCustomerBySociety(selected.id)
+      Businessservice.getCustomerBySociety(selected.id, selectedWing)
         .then((res) => {
-          console.log(res.data.customer);
           if (res.data) setCustomers(res.data.customer);
         })
         .catch((error) => {
@@ -68,17 +99,19 @@ const Home = () => {
           });
         });
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selected]);
+  }, [selected, selectedWing]);
 
   return (
-    <Box w="100%" mt="5px">
+    <Box w="100%" h="100vh">
       <Nav card={true} />
       <Flex mt="15px" w="100%" justifyContent={"space-between"}>
         <Flex
-          w="80%"
+          onClick={() => setSelect(true)}
+          w="75%"
           bg={white}
-          py="2"
+          h="48px"
           px="2"
           border={`0.8px solid ${blue}`}
           borderRadius="0 10px 10px 0"
@@ -99,13 +132,34 @@ const Home = () => {
               selected.name === "" ? "Select Society" : selected.name
             }`}</Text>
           </Flex>
-          <IoIosArrowDown
-            size="22px"
-            color={blue}
-            cursor="pointer"
-            onClick={() => setSelect(true)}
-          />
+          <IoIosArrowDown size="22px" color={blue} cursor="pointer" />
         </Flex>
+        <Select
+          w="23%"
+          bg={white}
+          h="48px"
+          px="2"
+          justify="space-between"
+          border={`0.8px solid ${blue}`}
+          borderRadius="10px 10px 10px 10px"
+          alignItems={"center"}
+          boxShadow="rgba(0, 0, 0, 0.1) 0px 10px 45px"
+          onChange={(newValue) => setSelectedWing(newValue)}
+        >
+          {wing.map((item) => (
+            <option
+              fontFamily={roboto}
+              fontSize={font16}
+              fontWeight={font400}
+              opacity="0.5"
+              ml="3.5"
+              value={item.wing}
+            >
+              {item.wing}
+            </option>
+          ))}
+        </Select>
+
         <Flex
           alignItems={"center"}
           justify="center"
@@ -118,13 +172,21 @@ const Home = () => {
           <Image color={white} src={customer} />
         </Flex>
       </Flex>
-      {customers.map((customer) => (
-        <CardComponent
-          key={customer.id}
-          name={customer.name}
-          id={customer.id}
-        />
-      ))}
+      {customers ? (
+        customers.map((customer) => (
+          <CardComponent
+            onClick={() => setCustomerView(true)}
+            key={customer.id}
+            name={customer.name}
+            id={customer.id}
+            deliveredCount={customer.deliveredCount}
+            wing={customer.wing}
+            houseNo={customer.houseNo}
+          />
+        ))
+      ) : (
+        <Box>No Customer Found</Box>
+      )}
       <BottomSheet
         open={select}
         onDismiss={() => {
@@ -140,6 +202,32 @@ const Home = () => {
           w="92%"
           mx="auto"
         >
+          <Flex
+            bg={white}
+            height="116px"
+            w="105px"
+            flexDir="column"
+            alignItems="center"
+            justifyContent="center"
+            border={`1.5px dashed ${blue}`}
+            borderRadius="8px"
+            mr="10px"
+            cursor="pointer"
+            onClick={() => {
+              history.push("/addSociety", { home: true });
+            }}
+          >
+            <Image boxSize={"46px"} src={societyimg} />
+            <Text
+              mt="2"
+              color={grey}
+              fontWeight={font600}
+              fontSize={font12}
+              fontFamily={roboto}
+            >
+              Add Society
+            </Text>
+          </Flex>
           {society &&
             Object.keys(society)?.map((element) => (
               // console.log(element, "element")
@@ -160,6 +248,13 @@ const Home = () => {
                     id: society[element].id,
                     name: society[element].name,
                   });
+                  dispatch(
+                    setSelectedSociety({
+                      id: society[element].id,
+                      name: society[element].name,
+                    })
+                  );
+
                   setSelect(false);
                 }}
               >
@@ -183,6 +278,29 @@ const Home = () => {
             ))}
         </Grid>
       </BottomSheet>
+
+      <BottomSheet
+        open={customerView}
+        onDismiss={() => {
+          setCustomerView(false);
+        }}
+        className="hideScrollBar"
+        snapPoints={({ maxHeight }) => [maxHeight * 0.63]}
+      >
+        <CustomerCard supplier={true} />
+      </BottomSheet>
+      {/* <BottomSheet
+        open={today}
+        // onClick={()=>}
+        className="hideScrollBar"
+        snapPoints={
+          today
+            ? ({ maxHeight }) => [maxHeight * 0.3]
+            : ({ maxHeight }) => [maxHeight * 0.63]
+        }
+      >
+        <CustomerCard supplier={true} />
+      </BottomSheet> */}
     </Box>
   );
 };

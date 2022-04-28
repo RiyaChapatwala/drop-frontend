@@ -96,7 +96,7 @@ const AddCustomer = () => {
   };
 
   return (
-    <Box w="100%" position="relative">
+    <Box w="100%" position="relative" h="100vh">
       <Flex
         pt="8"
         px="7"

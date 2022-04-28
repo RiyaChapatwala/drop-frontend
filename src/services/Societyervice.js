@@ -38,5 +38,17 @@ class Societyservice {
         })
     );
   }
+  async getAllWing(societyID) {
+    return new Promise((resolve, reject) =>
+      axios
+        .get(`${API}/society/wing/${societyID}`)
+        .then((response) => {
+          resolve(response.data);
+        })
+        .catch((error) => {
+          reject(error);
+        })
+    );
+  }
 }
 export default new Societyservice();

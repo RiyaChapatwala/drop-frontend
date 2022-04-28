@@ -8,6 +8,8 @@ import AddCustomer from "../Pages/AddCustomer";
 import AddSociety from "../Pages/AddSociety";
 import BusinessDetails from "../Pages/BusinessDetails";
 import CreateProfile from "../Pages/CreateProfile";
+import CustomerDetails from "../Pages/CustomerDetails";
+import Customer_home from "../Pages/Customer_home";
 import Home from "../Pages/Home";
 import HomeBefore1 from "../Pages/HomeBefore1";
 import LogIn from "../Pages/LogIn";
@@ -21,7 +23,11 @@ import { endLoading, login } from "../redux/reducers/userSlice";
 import Authservice from "../services/Authservice";
 
 const Routers = () => {
-  const { isLoading, isLoggedIn } = useSelector((state) => state.user);
+  const {
+    isLoading,
+    isLoggedIn,
+    // data
+  } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
 
@@ -52,10 +58,12 @@ const Routers = () => {
         <Route exact path="/" component={SplashScreen} />
         <Route exact path="/login" component={LogIn} />
         <Route exact path="/success" component={Success} />
+
         <Redirect to="/login" />
       </Switch>
     );
   }
+  // else if (data.user.role.name === "supplier") {
   return (
     <Switch>
       <Route exact path="/" component={Home} />
@@ -70,10 +78,17 @@ const Routers = () => {
       <Route exact path="/addCustomer" component={AddCustomer} />
       <Route exact path="/profile" component={Profile} />
       <Route exact path="/pricing" component={Pricing} />
+      {/* add this for only customer */}
+      <Route exact path="/customer-home" component={Customer_home} />
+      <Route exact path="/customer-deatils" component={CustomerDetails} />
 
       <Redirect to="/" />
     </Switch>
   );
+  // }
+  // else {
+  //   return <Switch></Switch>;
+  // }
 };
 
 export default Routers;

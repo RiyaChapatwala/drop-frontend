@@ -84,7 +84,7 @@ const AddAcc = () => {
   };
 
   return (
-    <Box w="100%">
+    <Box w="100%" h="100vh">
       <Flex
         pt="12"
         px="4"

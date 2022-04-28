@@ -8,14 +8,18 @@ import example from "../Images/example.svg";
 
 const Pricing = () => {
   return (
-    <Box w="100%">
+    <Box w="100%" h="120vh">
       <Layout card={false} />
       <Flex
+        w="max-content"
         direction="column"
         position="absolute"
         justify="center"
         top="30%"
-        left="36.5%"
+        left={0}
+        right={0}
+        mx="auto"
+        // left={["5%", "36.5%"]}
         bg={white}
         borderRadius="10px"
         boxShadow="0px 16px 60px rgba(37, 37, 28, 0.15)"
@@ -66,10 +70,18 @@ const Pricing = () => {
             Total Client <span style={{ color: blue }}>+</span> 2 Rs Service
             Charge <span style={{ color: blue }}>= Subscription Price</span>
           </Text>
+          <Flex
+            position="absolute"
+            left={0}
+            right={0}
+            mx="auto"
+            w="max-content"
+            top={12}
+          >
+            <Image src={example} />
+          </Flex>
         </Flex>
-      </Flex>
-      <Flex position="absolute" left="45%" top="75%">
-        <Image src={example} />
+        <Flex h="50%" />
       </Flex>
     </Box>
   );

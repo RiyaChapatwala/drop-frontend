@@ -24,8 +24,10 @@ export const userInitialState = {
       type: null,
     },
   },
+  role: "",
   society: [],
   customers: [],
+  selectedSociety: { id: null, name: "" },
 };
 
 const userSlice = createSlice({
@@ -48,9 +50,6 @@ const userSlice = createSlice({
     },
     setSociety: (state, action) => {
       state.society.push(action.payload);
-      // state.data.society.societyImageUrl = action.payload.societyImageUrl;
-      // state.data.society.societyName = action.payload.societyName;
-      // state.data.society.societyImageID = action.payload.societyImageID;
     },
     createbusiness: (state, action) => {
       state.data.user = action.payload;
@@ -60,6 +59,9 @@ const userSlice = createSlice({
     },
     getSociety: (state, action) => {
       state.society.push(action.payload);
+    },
+    setSelectedSociety: (state, action) => {
+      state.selectedSociety = action.payload;
     },
   },
 });
@@ -73,6 +75,7 @@ export const {
   getBusiness,
   getSociety,
   setSociety,
+  setSelectedSociety,
 } = userSlice.actions;
 
 export default userSlice.reducer;
