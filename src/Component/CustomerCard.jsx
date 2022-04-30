@@ -37,59 +37,91 @@ import {
   yellow,
 } from "../Constant";
 import packet from "../Images/packet.svg";
+import water from "../Images/water.svg";
 
-const CustomerCard = ({ supplier }) => {
+const CustomerCard = ({ supplier, details }) => {
   const [currentDate, setCurrentDate] = useState();
 
   const handleDates = (rangeInfo) => {
     setCurrentDate(rangeInfo);
   };
 
-  const events = [
-    { title: "All Day Event", start: getDate("YEAR-MONTH-01") },
-    {
-      title: "Long Event",
-      start: getDate("YEAR-MONTH-07"),
-      end: getDate("YEAR-MONTH-10"),
-    },
-    {
-      groupId: "999",
-      title: "Repeating Event",
-      start: getDate("YEAR-MONTH-09T16:00:00+00:00"),
-    },
-    {
-      groupId: "999",
-      title: "Repeating Event",
-      start: getDate("YEAR-MONTH-16T16:00:00+00:00"),
-    },
-    {
-      title: "Conference",
-      start: "YEAR-MONTH-17",
-      end: getDate("YEAR-MONTH-19"),
-    },
-    {
-      title: "Meeting",
-      start: getDate("YEAR-MONTH-18T10:30:00+00:00"),
-      end: getDate("YEAR-MONTH-18T12:30:00+00:00"),
-    },
-    { title: "Lunch", start: getDate("YEAR-MONTH-18T12:00:00+00:00") },
-    { title: "Birthday Party", start: getDate("YEAR-MONTH-19T07:00:00+00:00") },
-    { title: "Meeting", start: getDate("YEAR-MONTH-18T14:30:00+00:00") },
-    { title: "Happy Hour", start: getDate("YEAR-MONTH-18T17:30:00+00:00") },
-    { title: "Dinner", start: getDate("YEAR-MONTH-18T20:00:00+00:00") },
-  ];
+  const qty = [];
+  details?.delivered.forEach((ele) => qty.push(ele.quantity));
+  let events = [];
 
-  function getDate(dayString) {
-    const today = new Date();
-    const year = today.getFullYear().toString();
-    let month = (today.getMonth() + 1).toString();
+  const renderEventContent = (eventInfo) => {
+    let data = [];
+    qty.forEach((element) => {
+      data.push(
+        Array(element)
+          .fill(element)
+          .map((item, id) => {
+            console.log(element, "element");
+            return (
+              <Flex key={id}>
+                <Image boxSize={"10px"} src={water} />
+              </Flex>
+            );
+          })
+      );
+      console.log(data, "data 1");
+    });
+    return data;
+  };
 
-    if (month.length === 1) {
-      month = "0" + month;
-    }
+  details?.delivered.forEach((element) => {
+    events.push({
+      title: element.quantity,
+      start: element.createdAt.split("T")[0],
+    });
+  });
 
-    return dayString.replace("YEAR", year).replace("MONTH", month);
-  }
+  // const events = [
+  //   { title: "All Day Event", start: getDate("YEAR-MONTH-01") },
+  //   {
+  //     title: "Long Event",
+  //     start: getDate("YEAR-MONTH-07"),
+  //     end: getDate("YEAR-MONTH-10"),
+  //   },
+  //   {
+  //     groupId: "999",
+  //     title: "Repeating Event",
+  //     start: getDate("YEAR-MONTH-09T16:00:00+00:00"),
+  //   },
+  //   {
+  //     groupId: "999",
+  //     title: "Repeating Event",
+  //     start: getDate("YEAR-MONTH-16T16:00:00+00:00"),
+  //   },
+  //   {
+  //     title: "Conference",
+  //     start: "YEAR-MONTH-17",
+  //     end: getDate("YEAR-MONTH-19"),
+  //   },
+  //   {
+  //     title: "Meeting",
+  //     start: getDate("YEAR-MONTH-18T10:30:00+00:00"),
+  //     end: getDate("YEAR-MONTH-18T12:30:00+00:00"),
+  //   },
+  //   { title: "Lunch", start: getDate("YEAR-MONTH-18T12:00:00+00:00") },
+  //   { title: "Birthday Party", start: getDate("YEAR-MONTH-19T07:00:00+00:00") },
+  //   { title: "Meeting", start: getDate("YEAR-MONTH-18T14:30:00+00:00") },
+  //   { title: "Happy Hour", start: getDate("YEAR-MONTH-18T17:30:00+00:00") },
+  //   { title: "Dinner", start: getDate("YEAR-MONTH-18T20:00:00+00:00") },
+  // ];
+
+  // function getDate(dayString) {
+  //   const today = new Date();
+  //   const year = today.getFullYear().toString();
+  //   let month = (today.getMonth() + 1).toString();
+
+  //   if (month.length === 1) {
+  //     month = "0" + month;
+  //   }
+
+  //   return dayString.replace("YEAR", year).replace("MONTH", month);
+  // }
 
   return (
     <Box fontFamily={roboto}>
@@ -128,14 +160,13 @@ const CustomerCard = ({ supplier }) => {
                 fontSize={supplier ? font24 : font56}
                 textTransform="capitalize"
               >
-                {/* {wing} {houseNo} */}
-                12
+                {details?.wing} {details?.houseNo}
               </Text>
             </Flex>
             {supplier && (
               <Flex ml="16px" direction="column">
                 <Text fontWeight={font500} fontSize={font14}>
-                  {/* {name} */} Riyanka Jariwala
+                  {details.name}
                 </Text>
                 <Flex>
                   <IoMdCall color={color74} />
@@ -147,8 +178,7 @@ const CustomerCard = ({ supplier }) => {
                     fontFamily={roboto}
                     fontSize={font12}
                   >
-                    {/* +91 {user.mobileNo} */}
-                    +91 9876789876
+                    +91 {details.mobileNo}
                   </Text>
                 </Flex>
               </Flex>
@@ -164,7 +194,7 @@ const CustomerCard = ({ supplier }) => {
           <Flex py="15px" px="18px" direction="column">
             <Flex mt="5px">
               <Text fontSize={font16} fontWeight={font700}>
-                {/* {deliveredCount} */} 23
+                {details?.monthCount}
               </Text>
               <Image ml="8px" boxSize="17px" src={packet} />
             </Flex>
@@ -181,7 +211,7 @@ const CustomerCard = ({ supplier }) => {
           <Flex py="15px" px="18px" direction="column">
             <Flex mt="5px">
               <Text fontSize={font16} fontWeight={font700}>
-                {/* {deliveredCount} */} 350
+                {details.total}
               </Text>
               <Image ml="8px" boxSize="17px" src={packet} />
             </Flex>
@@ -205,11 +235,18 @@ const CustomerCard = ({ supplier }) => {
             center: "title",
             right: "next",
           }}
+          eventContent={renderEventContent}
           plugins={[dayGridPlugin, timeGridPlugin]}
           events={events}
         />
       </Box>
-      <Flex px="12px" mt="24px" boxShadow="rgba(0, 0, 0, 0.35) 0px 5px 15px">
+      <Flex
+        justify={supplier ? "" : "space-between"}
+        px="12px"
+        mt="24px"
+        pb="24px"
+        boxShadow="rgba(0, 0, 0, 0.35) 0px 5px 15px"
+      >
         <Box pt="30px" px="20px">
           <Text fontWeight={font400} fontSize={font12}>
             {currentDate?.view.title} Total
@@ -230,23 +267,24 @@ const CustomerCard = ({ supplier }) => {
           w="104px"
           mr="10px"
         >
-          {" "}
-          PAID
+          {supplier ? "PAID" : "PAY"}
         </Button>
-        <Button
-          mt="30px"
-          borderRadius="8px"
-          h="55px"
-          background={yellow}
-          fontWeight={font600}
-          fontSize={font16}
-          fontFamily={poppins}
-          color={white}
-          w="104px"
-        >
-          {" "}
-          REMIND
-        </Button>
+        {supplier && (
+          <Button
+            mt="30px"
+            borderRadius="8px"
+            h="55px"
+            background={yellow}
+            fontWeight={font600}
+            fontSize={font16}
+            fontFamily={poppins}
+            color={white}
+            w="104px"
+          >
+            {" "}
+            REMIND
+          </Button>
+        )}
       </Flex>
     </Box>
   );
