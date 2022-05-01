@@ -1,5 +1,5 @@
-import { Box, Flex, Text, useToast } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import { Box, Flex, Text } from "@chakra-ui/react";
+import React from "react";
 import { IoMdCall } from "react-icons/io";
 import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
 import CustomerCard from "../Component/CustomerCard";
@@ -16,34 +16,20 @@ import {
   roboto,
   white,
 } from "../Constant";
-import Userservice from "../services/Userservice";
 
 const CustomerDetails = () => {
   const location = useLocation();
-  const toast = useToast();
 
-  useEffect(() => {
-    Userservice.getCustomerByPhone(location.state?.mobileNo)
-      .then((res) => console.log(res))
-      .catch((error) =>
-        toast({
-          title: "error",
-          description: error.isAxiosError
-            ? error.response?.data?.message
-            : error.message,
-          status: "error",
-          duration: 3000,
-        })
-      );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.state?.mobileNo]);
+  console.log(location.state);
+
+  const details = location.state && location.state.data;
 
   return (
     <Box w="100%">
       <Flex justify="space-between" align="flex-end" bg={lightblue}>
         <Flex direction="column" pt="44px" pl="16px" pb="15px">
           <Text fontWeight={font500} fontSize={font16} color={white}>
-            {/* {name} */} Riyanka Jariwala
+            {details?.name}
           </Text>
           <Flex color={lightWhite}>
             <IoMdCall />
@@ -54,8 +40,7 @@ const CustomerDetails = () => {
               fontFamily={roboto}
               fontSize={font12}
             >
-              {/* +91 {user.mobileNo} */}
-              +91 9876789876
+              +91 {details?.mobileNo}
             </Text>
           </Flex>
         </Flex>
@@ -77,7 +62,7 @@ const CustomerDetails = () => {
           <Flex>icons</Flex>
         </Flex>
       </Flex>
-      <CustomerCard />
+      <CustomerCard details={details} supplier={false} />
     </Box>
   );
 };

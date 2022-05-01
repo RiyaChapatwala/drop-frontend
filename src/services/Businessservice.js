@@ -40,10 +40,36 @@ class BusinessService {
     );
   }
 
+  async getDelivery(societyId) {
+    return new Promise((resolve, reject) =>
+      axios
+        .get(`${API}/business/customer/today/${societyId}`)
+        .then((response) => {
+          resolve(response.data);
+        })
+        .catch((error) => {
+          reject(error);
+        })
+    );
+  }
+
   async getCustomerBySociety(id, wing) {
     return new Promise((resolve, reject) =>
       axios
         .get(`${API}/business/customer/${id}?wing=${wing}`)
+        .then((response) => {
+          resolve(response.data);
+        })
+        .catch((error) => {
+          reject(error);
+        })
+    );
+  }
+
+  async getCustomerDetails(id) {
+    return new Promise((resolve, reject) =>
+      axios
+        .get(`${API}/business/customer/${id}`)
         .then((response) => {
           resolve(response.data);
         })
@@ -78,6 +104,21 @@ class BusinessService {
         })
     );
   }
+
+  async createDelievery(data) {
+    return new Promise((resolve, reject) =>
+      axios
+        .post(`${API}/business/delivery`, data)
+        .then((response) => {
+          console.log(response, "delievery");
+          resolve(response.data);
+        })
+        .catch((error) => {
+          reject(error);
+        })
+    );
+  }
+
   async editBusiness(data) {
     return new Promise((resolve, reject) =>
       axios

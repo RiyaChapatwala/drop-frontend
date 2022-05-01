@@ -27,9 +27,10 @@ import drop from "../Images/drop.svg";
 import number from "../Images/number.svg";
 import { AiOutlineCopyright } from "react-icons/ai";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import Userservice from "../services/Userservice";
 
 const Customer_home = () => {
-  const [phnNumber, setPhnNumber] = useState("");
+  const [phnNumber, setPhnNumber] = useState();
 
   const history = useHistory();
   const toast = useToast();
@@ -80,11 +81,26 @@ const Customer_home = () => {
         mx="auto"
         mt="175px"
         onClick={() => {
-          if (phnNumber !== "") {
-            history.push("/customer-deatils", {
-              supplier: false,
-              mobileNo: phnNumber,
-            });
+          if (phnNumber !== null) {
+            Userservice.getCustomerByPhone(phnNumber)
+              .then((res) => {
+                console.log(res, "det");
+                history.push("/customer-deatils", {
+                  supplier: false,
+                  data: res.data,
+                });
+              })
+              .catch((error) =>
+                toast({
+                  title: "error",
+                  description: error.isAxiosError
+                    ? error.response?.data?.message
+                    : error.message,
+                  status: "error",
+                  duration: 3000,
+                })
+              );
+            // eslint-disable-next-line react-hooks/exhaustive-deps
           } else {
             toast({
               title: "error",

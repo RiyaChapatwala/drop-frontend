@@ -26,5 +26,17 @@ class Userservice {
         })
     );
   }
+  async getCustomerById(id) {
+    return new Promise((resolve, reject) =>
+      axios
+        .get(`${API}/user/customer/${id}`)
+        .then((response) => {
+          resolve(response.data);
+        })
+        .catch((error) => {
+          reject(error);
+        })
+    );
+  }
 }
 export default new Userservice();
