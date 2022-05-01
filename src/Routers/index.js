@@ -14,8 +14,8 @@ import Home from "../Pages/Home";
 import HomeBefore1 from "../Pages/HomeBefore1";
 import LogIn from "../Pages/LogIn";
 import TermsAndConditions from "../Pages/TermsAndConditions";
-import Pricing from "../Pages/Pricing";
 import Profile from "../Pages/Profile";
+import Pricings from "../Pages/Pricing";
 import SelectBusiness from "../Pages/SelectBusiness";
 import SelectLanguage from "../Pages/SelectLanguage";
 import SplashScreen from "../Pages/SplashScreen";
@@ -64,7 +64,7 @@ const Routers = () => {
         <Route exact path="/success" component={Success} />
         <Route exact path="/aboutus" component={AboutUs} />
 
-        <Route exact path="/pricing" component={Pricing} />
+        <Route exact path="/pricing" component={Pricings} />
         <Route
           exact
           path="/termsAndConditions"
@@ -92,7 +92,7 @@ const Routers = () => {
       <Route exact path="/aboutus" component={AboutUs} />
       <Route exact path="/addCustomer" component={AddCustomer} />
       <Route exact path="/profile" component={Profile} />
-      <Route exact path="/pricing" component={Pricing} />
+      <Route exact path="/pricing" component={Pricings} />
       <Route exact path="/termsAndConditions" component={TermsAndConditions} />
       <Route exact path="/refundPolicy" component={RefundPolicy} />
       <Route exact path="/privacyPolicy" component={PrivacyPolicy} />
