@@ -90,7 +90,6 @@ const Home = () => {
     if (selected.id !== null) {
       Businessservice.getCustomerBySociety(selected.id, selectedWing)
         .then((res) => {
-          console.log(res, "yoooo");
           if (res.data) {
             setCustomers([]);
             setTodayDelievery([]);
@@ -128,7 +127,10 @@ const Home = () => {
 
   const handleCustomerView = (id) => {
     setCustomerView(true);
-    Userservice.getCustomerById(id).then((res) => setCustomerDetails(res.data));
+    Userservice.getCustomerById(id).then((res) => {
+      console.log(res.data, "home");
+      setCustomerDetails(res.data);
+    });
   };
 
   return (
@@ -137,7 +139,7 @@ const Home = () => {
       <Flex mt="15px" w="100%" justifyContent={"space-between"}>
         <Flex
           onClick={() => setSelect(true)}
-          w="65%"
+          w={wing.length > 0 ? "65%" : "80%"}
           bg={white}
           h="48px"
           px="2"
@@ -146,7 +148,7 @@ const Home = () => {
           alignItems={"center"}
           boxShadow="rgba(0, 0, 0, 0.1) 0px 10px 45px"
         >
-          <Flex flex="2">
+          <Flex flex={wing.length > 0 ? "2" : ""}>
             <Image src={soc} />
 
             <Text
@@ -157,39 +159,43 @@ const Home = () => {
               opacity="0.5"
               ml="3.5"
             >{`${
-              selected?.name === "" ? "Select Society" : selected.name
+              selected?.name === ""
+                ? "Select Society/Apartment/Building"
+                : selected.name
             }`}</Text>
           </Flex>
           <IoIosArrowDown size="22px" color={blue} cursor="pointer" />
         </Flex>
-        <Select
-          w="max-content"
-          bg={white}
-          h="48px"
-          px="2"
-          placeholder={selected.name === "" ? "wing" : ""}
-          justify="space-between"
-          border={`0.8px solid ${blue}`}
-          borderRadius="10px 10px 10px 10px"
-          alignItems={"center"}
-          boxShadow="rgba(0, 0, 0, 0.1) 0px 10px 45px"
-          value={selectedWing}
-          onChange={(e) => setSelectedWing(e.target.value)}
-        >
-          {wing.map((item, index) => (
-            <option
-              fontFamily={roboto}
-              fontSize={font16}
-              fontWeight={font400}
-              opacity="0.5"
-              ml="3.5"
-              key={index}
-              value={item.wing}
-            >
-              {item.wing}
-            </option>
-          ))}
-        </Select>
+        {wing.length > 0 && (
+          <Select
+            w="max-content"
+            bg={white}
+            h="48px"
+            px="2"
+            placeholder={selected.name === "" ? "wing" : ""}
+            justify="space-between"
+            border={`0.8px solid ${blue}`}
+            borderRadius="10px 10px 10px 10px"
+            alignItems={"center"}
+            boxShadow="rgba(0, 0, 0, 0.1) 0px 10px 45px"
+            value={selectedWing}
+            onChange={(e) => setSelectedWing(e.target.value)}
+          >
+            {wing.map((item, index) => (
+              <option
+                fontFamily={roboto}
+                fontSize={font16}
+                fontWeight={font400}
+                opacity="0.5"
+                ml="3.5"
+                key={index}
+                value={item.wing}
+              >
+                {item.wing}
+              </option>
+            ))}
+          </Select>
+        )}
 
         <Flex
           alignItems={"center"}

@@ -133,7 +133,9 @@ const HomeBefore1 = () => {
         <Flex
           position="absolute"
           top="48%"
-          left="38%"
+          left={0}
+          right={0}
+          mx="auto"
           alignItems={"center"}
           flexDir={"column"}
         >
@@ -189,7 +191,9 @@ const HomeBefore1 = () => {
           <Flex
             position="absolute"
             top="53%"
-            left="41%"
+            left={0}
+            right={0}
+            mx="auto"
             alignItems={"center"}
             flexDir={"column"}
           >

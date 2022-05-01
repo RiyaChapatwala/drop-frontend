@@ -73,6 +73,7 @@ const LogIn = () => {
           mt="4"
           w="92%"
           mx="auto"
+          cursor="pointer"
           py={["3", "3"]}
           alignItems="center"
           background="white"

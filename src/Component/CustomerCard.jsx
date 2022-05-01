@@ -58,7 +58,6 @@ const CustomerCard = ({ supplier, details }) => {
         Array(element)
           .fill(element)
           .map((item, id) => {
-            console.log(element, "element");
             return (
               <Flex key={id}>
                 <Image boxSize={"10px"} src={water} />
@@ -121,7 +120,7 @@ const CustomerCard = ({ supplier, details }) => {
             {supplier && (
               <Flex ml="16px" direction="column">
                 <Text fontWeight={font500} fontSize={font14}>
-                  {details.name}
+                  {details?.name}
                 </Text>
                 <Flex>
                   <IoMdCall color={color74} />
@@ -133,7 +132,7 @@ const CustomerCard = ({ supplier, details }) => {
                     fontFamily={roboto}
                     fontSize={font12}
                   >
-                    +91 {details.mobileNo}
+                    +91 {details?.mobileNo}
                   </Text>
                 </Flex>
               </Flex>
@@ -166,7 +165,7 @@ const CustomerCard = ({ supplier, details }) => {
           <Flex py="15px" px="18px" direction="column">
             <Flex mt="5px">
               <Text fontSize={font16} fontWeight={font700}>
-                {details.total}
+                {details?.total}
               </Text>
               <Image ml="8px" boxSize="17px" src={packet} />
             </Flex>

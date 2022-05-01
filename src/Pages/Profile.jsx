@@ -16,9 +16,13 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import Share from "../Component/Share";
 import drop from "../Images/drop.svg";
+import Authservice from "../services/Authservice";
+import { logout } from "../redux/reducers/userSlice";
+import { useDispatch } from "react-redux";
 
 const Profile = () => {
   const history = useHistory();
+  const dispatch = useDispatch();
   const [share, setShare] = useState(false);
   return (
     <Box w="100%">
@@ -82,7 +86,14 @@ const Profile = () => {
           <Image mr="12px" src={shareIcon} />
           Invite Your Friends To Drop
         </Flex>
-        <Flex mt="20px">
+        <Flex
+          mt="20px"
+          cursor="pointer"
+          onClick={() => {
+            Authservice.logout();
+            dispatch(logout());
+          }}
+        >
           <Image mr="12px" src={signout} />
           Signout
         </Flex>

@@ -101,6 +101,10 @@ class AuthService {
         })
     );
   }
+  logout = () => {
+    localStorage.clear();
+    window.location.reload();
+  };
 }
 
 export default new AuthService();

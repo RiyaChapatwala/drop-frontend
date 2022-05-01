@@ -20,16 +20,17 @@ import {
 const CustomerDetails = () => {
   const location = useLocation();
 
-  console.log(location.state);
+  console.log(location.state, "heyo");
 
   const details = location.state && location.state.data;
+  console.log(details);
 
   return (
     <Box w="100%">
       <Flex justify="space-between" align="flex-end" bg={lightblue}>
         <Flex direction="column" pt="44px" pl="16px" pb="15px">
           <Text fontWeight={font500} fontSize={font16} color={white}>
-            {details?.name}
+            {details && details?.name}
           </Text>
           <Flex color={lightWhite}>
             <IoMdCall />

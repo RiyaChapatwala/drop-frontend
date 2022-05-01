@@ -31,8 +31,6 @@ const LoginWithGoogle = ({ isSignInOpen }) => {
         // axios.defaults.headers.common[
         //   "Authorization"
         // ] = `Bearer ${response.data.access_token}`;
-
-        console.log(response, "loginwithoogle");
       })
       .catch((error) => console.log(error, "login"));
     setShowloginButton(false);

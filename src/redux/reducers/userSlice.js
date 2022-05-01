@@ -63,6 +63,11 @@ const userSlice = createSlice({
     setSelectedSociety: (state, action) => {
       state.selectedSociety = action.payload;
     },
+    logout: (state) => {
+      state.isLoading = false;
+      state.data = userInitialState.data;
+      state.isLoggedIn = false;
+    },
   },
 });
 
@@ -76,6 +81,7 @@ export const {
   getSociety,
   setSociety,
   setSelectedSociety,
+  logout,
 } = userSlice.actions;
 
 export default userSlice.reducer;
