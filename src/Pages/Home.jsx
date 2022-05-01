@@ -139,7 +139,7 @@ const Home = () => {
       <Flex mt="15px" w="100%" justifyContent={"space-between"}>
         <Flex
           onClick={() => setSelect(true)}
-          w={wing.length > 0 ? "65%" : "80%"}
+          w={wing.length > 0 ? "65%" : "82%"}
           bg={white}
           h="48px"
           px="2"
@@ -158,6 +158,7 @@ const Home = () => {
               color={`${society === "" ? grey : "black"}`}
               opacity="0.5"
               ml="3.5"
+              whiteSpace={"nowrap"}
             >{`${
               selected?.name === ""
                 ? "Select Society/Apartment/Building"
@@ -248,7 +249,7 @@ const Home = () => {
           <Flex
             bg={white}
             height="116px"
-            w="105px"
+            w={["90%", "92%", "90%", "105px"]}
             flexDir="column"
             alignItems="center"
             justifyContent="center"

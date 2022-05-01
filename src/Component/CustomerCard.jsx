@@ -41,6 +41,7 @@ import water from "../Images/water.svg";
 
 const CustomerCard = ({ supplier, details }) => {
   const [currentDate, setCurrentDate] = useState();
+  console.log("Detsils ", details);
 
   const handleDates = (rangeInfo) => {
     setCurrentDate(rangeInfo);
@@ -52,31 +53,24 @@ const CustomerCard = ({ supplier, details }) => {
   let events = [];
 
   const renderEventContent = (eventInfo) => {
-    let data = [];
-    qty.forEach((element) => {
-      data.push(
-        Array(element)
-          .fill(element)
-          .map((item, id) => {
-            return (
-              <Flex key={id}>
-                <Image boxSize={"10px"} src={water} />
-              </Flex>
-            );
-          })
-      );
-      console.log(data, "data 1");
-    });
+    console.log("EventInfo ", eventInfo);
+    let data = (
+      <Flex fontSize={"13px"}>
+        {eventInfo.event.title} <Image boxSize={"13px"} mt="0.5" src={water} />
+      </Flex>
+    );
     return data;
   };
 
   details?.delivered.forEach((element) => {
-    events.push({
-      title: element.quantity,
-      start: element.createdAt.split("T")[0],
-    });
+    for (let i = 0; i < element.quantity; i++) {
+      events.push({
+        title: element.quantity,
+        start: element.createdAt.split("T")[0],
+      });
+    }
   });
-
+  console.log("Events ", events);
   return (
     <Box fontFamily={roboto}>
       <Grid
@@ -189,7 +183,7 @@ const CustomerCard = ({ supplier, details }) => {
             center: "title",
             right: "next",
           }}
-          eventContent={renderEventContent}
+          eventContent={details ? renderEventContent : []}
           plugins={[dayGridPlugin, timeGridPlugin]}
           events={events}
         />

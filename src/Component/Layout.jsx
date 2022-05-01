@@ -16,6 +16,7 @@ import {
 } from "../Constant";
 import logo from "../Images/drop.svg";
 import top from "../Images/top.svg";
+import { BiArrowBack } from "react-icons/bi";
 
 const Layout = ({ card }) => {
   const user = useSelector((state) => state.user.data.user);
@@ -49,6 +50,17 @@ const Layout = ({ card }) => {
       )}
       {card && (
         <Flex direction="column">
+          <BiArrowBack
+            size={"22px"}
+            style={{
+              cursor: "pointer",
+              position: "absolute",
+              top: "5%",
+              left: "32%",
+            }}
+            color={white}
+            onClick={() => history.goBack()}
+          />
           <Image
             objectFit="cover"
             src={user.imageUrl}

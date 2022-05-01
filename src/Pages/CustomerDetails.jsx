@@ -23,7 +23,7 @@ const CustomerDetails = () => {
   console.log(location.state, "heyo");
 
   const details = location.state && location.state.data;
-  console.log(details);
+  console.log(details, "yyy");
 
   return (
     <Box w="100%">
