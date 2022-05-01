@@ -41,6 +41,7 @@ import water from "../Images/water.svg";
 
 const CustomerCard = ({ supplier, details }) => {
   const [currentDate, setCurrentDate] = useState();
+  console.log("Detsils ", details);
 
   const handleDates = (rangeInfo) => {
     setCurrentDate(rangeInfo);
@@ -50,34 +51,24 @@ const CustomerCard = ({ supplier, details }) => {
   const qty = [];
   details?.delivered.forEach((ele) => qty.push(ele.quantity));
   let events = [];
-
+  
   const renderEventContent = (eventInfo) => {
-    let data = [];
-    qty.forEach((element) => {
-      data.push(
-        Array(element)
-          .fill(element)
-          .map((item, id) => {
-            console.log(element, "element");
-            return (
-              <Flex key={id}>
-                <Image boxSize={"10px"} src={water} />
+    console.log("EventInfo ", eventInfo);
+    let data = (
+              <Flex fontSize={'13px'} >
+                {eventInfo.event.title} <Image boxSize={"13px"} mt="0.5" src={water} /> 
               </Flex>
-            );
-          })
-      );
-      console.log(data, "data 1");
-    });
+            )
     return data;
   };
 
   details?.delivered.forEach((element) => {
-    events.push({
-      title: element.quantity,
-      start: element.createdAt.split("T")[0],
-    });
+      events.push({
+        title: element.quantity,
+        start: element.createdAt.split("T")[0],
+      });
   });
-
+  console.log("Events ", events);
   return (
     <Box fontFamily={roboto}>
       <Grid
@@ -121,7 +112,7 @@ const CustomerCard = ({ supplier, details }) => {
             {supplier && (
               <Flex ml="16px" direction="column">
                 <Text fontWeight={font500} fontSize={font14}>
-                  {details.name}
+                  {details?.name}
                 </Text>
                 <Flex>
                   <IoMdCall color={color74} />
@@ -133,7 +124,7 @@ const CustomerCard = ({ supplier, details }) => {
                     fontFamily={roboto}
                     fontSize={font12}
                   >
-                    +91 {details.mobileNo}
+                    +91 {details?.mobileNo}
                   </Text>
                 </Flex>
               </Flex>
@@ -166,7 +157,7 @@ const CustomerCard = ({ supplier, details }) => {
           <Flex py="15px" px="18px" direction="column">
             <Flex mt="5px">
               <Text fontSize={font16} fontWeight={font700}>
-                {details.total}
+                {details?.total}
               </Text>
               <Image ml="8px" boxSize="17px" src={packet} />
             </Flex>
@@ -190,7 +181,7 @@ const CustomerCard = ({ supplier, details }) => {
             center: "title",
             right: "next",
           }}
-          eventContent={renderEventContent}
+          eventContent={details?renderEventContent:[]}
           plugins={[dayGridPlugin, timeGridPlugin]}
           events={events}
         />
