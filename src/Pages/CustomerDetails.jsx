@@ -1,4 +1,4 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import React from "react";
 import { IoMdCall } from "react-icons/io";
 import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
@@ -15,15 +15,13 @@ import {
   poppins,
   roboto,
   white,
+  blue,
 } from "../Constant";
 
 const CustomerDetails = () => {
   const location = useLocation();
 
-  console.log(location.state, "heyo");
-
   const details = location.state && location.state.data;
-  console.log(details, "yyy");
 
   return (
     <Box w="100%">
@@ -46,21 +44,35 @@ const CustomerDetails = () => {
           </Flex>
         </Flex>
         <Flex pt="44px" pr="16px" pb="15px">
-          <Flex
-            //   ml="25px"
-            align="center"
-            w="85px"
-            h="33px"
-            borderRadius="6px"
-            bg={white}
-          >
-            <Text>icon</Text>
-            <Text fontFamily={poppins} fontWeight={font600} fontSize={font13}>
-              WATER
-            </Text>
-          </Flex>
-          <Flex>icons</Flex>
-          <Flex>icons</Flex>
+          {details.subscriber.map((element) => (
+            <Flex
+              //   ml="25px"
+              align="center"
+              w="75px"
+              h="33px"
+              borderRadius="6px"
+              bg={white}
+              px="1"
+              justify="space-between"
+            >
+              <Image
+                // filter={
+                //   "invert(39%) sepia(86%) saturate(3835%) hue-rotate(225deg) brightness(104%) contrast(101%)"
+                // }
+                boxSize="15px"
+                color={blue}
+                src={element.type.logoUrl}
+              />
+              <Text
+                fontFamily={poppins}
+                fontWeight={font600}
+                fontSize={font13}
+                color={blue}
+              >
+                {element.type.name}
+              </Text>
+            </Flex>
+          ))}
         </Flex>
       </Flex>
       <CustomerCard details={details} supplier={false} />
