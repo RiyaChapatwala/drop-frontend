@@ -77,7 +77,7 @@ const SelectLanguage = () => {
         mode === "LIVE" ? "rzp_live_qInskNrf3A8yN4" : "rzp_test_Od4oS0NwvGm74R", // Enter the Key ID generated from the Dashboard
       amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
       currency,
-      name: "Water Payment",
+      name: getOrder.data.notes.businessName,
       description: "Thankyou for payment.",
       image:
         "https://drop-pwa.netlify.app/static/media/logo.5c453c98743f253212174de36c14d90f.svg",
@@ -88,12 +88,12 @@ const SelectLanguage = () => {
         alert("razorpay_signature " + response.razorpay_signature);
       },
       prefill: {
-        name: "High guy",
-        email: "water@service.com",
-        contact: "9999999999",
+        name: getOrder.data.notes.name,
+        email: getOrder.data.notes.email,
+        contact: getOrder.data.notes.mobileNo,
       },
       notes: {
-        address: "High Water Office",
+        address: getOrder.data.notes.address,
       },
       theme: {
         color: "#00FF00",
