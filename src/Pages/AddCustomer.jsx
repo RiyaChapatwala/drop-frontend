@@ -34,12 +34,14 @@ import name from "../Images/name.svg";
 import number from "../Images/number.svg";
 import Businessservice from "../services/Businessservice";
 import Societyservice from "../services/Societyervice";
+import soc from "../Images/soc.svg";
 
 const AddCustomer = () => {
   const history = useHistory();
   const toast = useToast();
 
   const user = useSelector((state) => state.user.data.user);
+  const selectedSoc = useSelector((state) => state.user.selectedSociety);
 
   const [roomNo, setRoomNo] = useState("");
   const [custName, setCustName] = useState("");
@@ -62,6 +64,12 @@ const AddCustomer = () => {
       fetchAllSociety();
     }
   }, [allSociety, fetchAllSociety]);
+
+  useEffect(() => {
+    if (selectedSoc.id !== null && selectedSoc.name !== "") {
+      setSelected({ id: selectedSoc.id, name: selectedSoc.name });
+    }
+  }, [selectedSoc.id, selectedSoc.name]);
 
   const handleClick = () => {
     const data = {
@@ -122,6 +130,8 @@ const AddCustomer = () => {
         </Flex>
 
         <Avatar
+          cursor="pointer"
+          onClick={() => history.push("/profile")}
           border={`1.5px solid ${white}`}
           size={"sm"}
           src={user.imageUrl || ""}
@@ -235,7 +245,7 @@ const AddCustomer = () => {
           background={white}
         >
           <Flex flex="2">
-            <Image src={number} />
+            <Image src={soc} boxSize={"18px"} />
             <Text
               fontFamily={roboto}
               fontSize={font16}
@@ -243,7 +253,9 @@ const AddCustomer = () => {
               color={`${selected === "" ? grey : "inherit"}`}
               opacity="0.5"
               ml="3.5"
-            >{`${selected === "" ? "Select Society" : selected.name}`}</Text>
+            >{`${
+              selected.name === "" ? "Select Society" : selected.name
+            }`}</Text>
           </Flex>
           <AiOutlineRightCircle
             size="22px"

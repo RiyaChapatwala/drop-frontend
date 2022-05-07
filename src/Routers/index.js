@@ -76,7 +76,6 @@ const Routers = () => {
         {/* add this for only customer */}
         <Route exact path="/customer-home" component={Customer_home} />
         <Route exact path="/customer-deatils" component={CustomerDetails} />
-
         <Redirect to="/" />
       </Switch>
     );

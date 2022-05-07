@@ -329,7 +329,7 @@ const Home = () => {
           setCustomerView(false);
         }}
         className="hideScrollBar"
-        snapPoints={({ maxHeight }) => [maxHeight * 0.63]}
+        snapPoints={({ maxHeight }) => [maxHeight * 0.83]}
       >
         <CustomerCard details={customerDetails} supplier={true} />
       </BottomSheet>

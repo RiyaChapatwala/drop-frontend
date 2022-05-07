@@ -31,7 +31,9 @@ const Layout = ({ card }) => {
             boxSize="65px"
             position="absolute"
             top="5%"
-            left={["40%", "47%"]}
+            left={0}
+            right={0}
+            mx="auto"
             onClick={() => history.push("/")}
             cursor="pointer"
           />
@@ -41,8 +43,8 @@ const Layout = ({ card }) => {
             fontFamily={poppins}
             fontSize={font22}
             position="absolute"
-            top={["13%", "16%"]}
-            left={["40%", "47%"]}
+            top={["10%", "13%"]}
+            left={["40.5%", "47.5%"]}
           >
             DROP
           </Text>
@@ -69,7 +71,9 @@ const Layout = ({ card }) => {
             border="2px solid #FFFFFF"
             position="absolute"
             top="5%"
-            left={["40%", "47%"]}
+            left={0}
+            right={0}
+            mx="auto"
           />
           <Text
             textAlign="center"
@@ -78,7 +82,7 @@ const Layout = ({ card }) => {
             fontFamily={roboto}
             fontSize={font16}
             position="absolute"
-            top={["16%", "17%"]}
+            top={["15%", "16%"]}
             // left={["35%", "45%"]}
             w={["100%", "100%", "50%", "40%", "30%"]}
           >
@@ -86,7 +90,7 @@ const Layout = ({ card }) => {
           </Text>
           <Flex
             position="absolute"
-            top={["20%", "21%"]}
+            top={["19%", "20%"]}
             justify="center"
             // left={["35%", "45%"]}
             w={["100%", "100%", "50%", "40%", "30%"]}

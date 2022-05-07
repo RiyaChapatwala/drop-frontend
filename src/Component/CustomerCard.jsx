@@ -8,6 +8,8 @@ import {
   Image,
   Text,
 } from "@chakra-ui/react";
+import { motion } from "framer-motion";
+
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import "@fullcalendar/daygrid/main.css";
@@ -15,6 +17,7 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import "@fullcalendar/timegrid/main.css";
 import React, { useState } from "react";
 import { BiRupee } from "react-icons/bi";
+import { BsThreeDots } from "react-icons/bs";
 import { IoMdCall } from "react-icons/io";
 import {
   blue,
@@ -38,10 +41,12 @@ import {
 } from "../Constant";
 import packet from "../Images/packet.svg";
 import water from "../Images/water.svg";
+import edit from "../Images/edit.svg";
+import work from "../Images/Work.svg";
 
 const CustomerCard = ({ supplier, details }) => {
   const [currentDate, setCurrentDate] = useState();
-  console.log("Detsils ", details);
+  const [open, setOpen] = useState(false);
 
   const handleDates = (rangeInfo) => {
     setCurrentDate(rangeInfo);
@@ -53,7 +58,6 @@ const CustomerCard = ({ supplier, details }) => {
   let events = [];
 
   const renderEventContent = (eventInfo) => {
-    console.log("EventInfo ", eventInfo);
     let data = (
       <Flex fontSize={"13px"}>
         {eventInfo.event.title} <Image boxSize={"13px"} mt="0.5" src={water} />
@@ -70,14 +74,68 @@ const CustomerCard = ({ supplier, details }) => {
       });
     }
   });
-  console.log("Events ", events);
+  const variants = {
+    open: { opacity: 1, x: "50%" },
+    closed: { opacity: 0, x: "-100%" },
+  };
+
   return (
-    <Box fontFamily={roboto}>
+    <Box w="100%" fontFamily={roboto}>
+      {!open && (
+        <Flex
+          onClick={() => setOpen(true)}
+          cursor="pointer"
+          justify={"flex-end"}
+          px="16px"
+        >
+          <BsThreeDots size={"22px"} />
+        </Flex>
+      )}
+      <motion.nav animate={open ? "open" : "closed"} variants={variants}>
+        <Flex
+          w="250px"
+          h="45px"
+          bg={white}
+          px="20px"
+          boxShadow=" 0px 4px 4px rgba(165, 165, 165, 0.1)"
+          py="12px"
+        >
+          <Image src={edit} boxSize="22px" />
+          <Text
+            ml="16px"
+            fontSize={font14}
+            fontWeight={font400}
+            fontFamily={roboto}
+          >
+            Edit
+          </Text>
+        </Flex>
+        <Flex
+          mt="1"
+          w="250px"
+          h="45px"
+          bg={white}
+          px="20px"
+          boxShadow=" 0px 4px 4px rgba(165, 165, 165, 0.1)"
+          py="12px"
+        >
+          <Image boxSize="22px" src={work} />
+          <Text
+            ml="16px"
+            fontSize={font14}
+            fontWeight={font400}
+            fontFamily={roboto}
+          >
+            Delete User
+          </Text>
+        </Flex>
+      </motion.nav>
+
       <Grid
         h="max-content"
         templateColumns="repeat(2, 1fr)"
         gap={4}
-        pt="46px"
+        pt="30px"
         px="16px"
       >
         <GridItem

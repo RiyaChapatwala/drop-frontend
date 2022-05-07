@@ -95,7 +95,7 @@ const CardComponent = ({
             fontSize={font24}
             textTransform="capitalize"
           >
-            {wing} {houseNo}
+            {houseNo}
           </Text>
         </Flex>
         <Flex ml="16px" direction="column">
