@@ -27,7 +27,17 @@ const LoginWithGoogle = ({ isSignInOpen }) => {
     AuthService.signInWithGoogle(res.getAuthResponse().id_token)
       .then((response) => {
         dispatch(login(response));
-        history.push("/selectLanguage");
+        if (response.data.data && response.data.data.user && response.data.data.user.createdAt) {
+          const createdAt = new Date(response.data.data.user.createdAt).getTime()/1000;
+          const now = new Date().getTime()/1000;
+          if (now-createdAt < 5) {
+            history.push("/");
+          }else{
+            history.push("/selectLanguage");
+          }
+        }else{
+          history.push("/selectLanguage");
+        }
         // axios.defaults.headers.common[
         //   "Authorization"
         // ] = `Bearer ${response.data.access_token}`;
