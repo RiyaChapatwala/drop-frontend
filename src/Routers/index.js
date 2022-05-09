@@ -51,7 +51,7 @@ const Routers = () => {
   if (!isLoggedIn) {
     return (
       <Switch>
-        <Route exact path="/" component={SplashScreen} />
+        <Route exact path="/" component={LogIn} />
         <Route exact path="/login" component={LogIn} />
         <Route exact path="/success" component={Success} />
 
