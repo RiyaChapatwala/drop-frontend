@@ -18,13 +18,13 @@ import logo from "../Images/drop.svg";
 import top from "../Images/top.svg";
 import { BiArrowBack } from "react-icons/bi";
 
-const Layout = ({ card }) => {
+const Layout = ({ card, screen }) => {
   const user = useSelector((state) => state.user.data.user);
   const history = useHistory();
   return (
     <Box width="100%">
       <Image src={top} w="100%" h={["280px", "250px"]} />
-      {!card && (
+      {!card && !screen && (
         <>
           <Image
             src={logo}
@@ -43,7 +43,7 @@ const Layout = ({ card }) => {
             fontFamily={poppins}
             fontSize={font22}
             position="absolute"
-            top={["10%", "13%"]}
+            top={["13%", "16%"]}
             left={["40.5%", "47.5%"]}
           >
             DROP

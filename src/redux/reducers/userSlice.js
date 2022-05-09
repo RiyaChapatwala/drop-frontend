@@ -57,6 +57,9 @@ const userSlice = createSlice({
     getBusiness: (state, action) => {
       state.data.business = action.payload;
     },
+    getCustomers: (state, action) => {
+      state.customers = action.payload;
+    },
     getSociety: (state, action) => {
       state.society.push(action.payload);
     },
@@ -79,6 +82,7 @@ export const {
   createbusiness,
   getBusiness,
   getSociety,
+  getCustomers,
   setSociety,
   setSelectedSociety,
   logout,

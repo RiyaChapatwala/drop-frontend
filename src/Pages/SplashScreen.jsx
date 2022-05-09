@@ -1,13 +1,12 @@
-import { Box, Image } from "@chakra-ui/react";
+import { Box, Image, Spinner } from "@chakra-ui/react";
 import React from "react";
 import splashscreen from "../Images/splashScreen.svg";
-import logo from "../Images/logo.svg";
+import logo from "../Images/drop.svg";
 
-const SplashScreen = () => {
+const SplashScreen = ({ loading }) => {
   return (
     <Box width="100%" position="relative">
       <Image
-        position="absolute"
         src={splashscreen}
         objectFit="cover"
         alt="Welcome Page Wallpaper"
@@ -16,12 +15,30 @@ const SplashScreen = () => {
         backgroundSize="contain"
       />
       <Image
-        src={logo}
-        boxSize="97px"
         position="absolute"
-        top={["45%", "37%"]}
-        left="36%"
+        src={logo}
+        objectFit="cover"
+        alt="Welcome Page Wallpaper"
+        top={0}
+        bottom={0}
+        my="auto"
+        left={0}
+        right={0}
+        mx="auto"
+        boxSize={"98px"}
+        backgroundSize="contain"
       />
+      {loading && (
+        <Spinner
+          color="white"
+          position={"absolute"}
+          left={0}
+          right={0}
+          mx="auto"
+          top={"60%"}
+          my="auto"
+        />
+      )}
     </Box>
   );
 };

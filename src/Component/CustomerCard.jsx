@@ -1,4 +1,10 @@
 import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
   Box,
   Button,
   Divider,
@@ -7,6 +13,7 @@ import {
   GridItem,
   Image,
   Text,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 
@@ -20,6 +27,7 @@ import { BiRupee } from "react-icons/bi";
 import { BsThreeDots } from "react-icons/bs";
 import { IoMdCall } from "react-icons/io";
 import {
+  bg1,
   blue,
   color74,
   colorea,
@@ -43,10 +51,14 @@ import packet from "../Images/packet.svg";
 import water from "../Images/water.svg";
 import edit from "../Images/edit.svg";
 import work from "../Images/Work.svg";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 const CustomerCard = ({ supplier, details }) => {
+  const history = useHistory();
   const [currentDate, setCurrentDate] = useState();
   const [open, setOpen] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const cancelRef = React.useRef();
 
   const handleDates = (rangeInfo) => {
     setCurrentDate(rangeInfo);
@@ -80,10 +92,13 @@ const CustomerCard = ({ supplier, details }) => {
   };
 
   return (
-    <Box w="100%" fontFamily={roboto}>
+    <Box onClick={() => setOpen(false)} w="100%" fontFamily={roboto}>
       {!open && (
         <Flex
-          onClick={() => setOpen(true)}
+          onClick={(e) => {
+            e.stopPropagation();
+            setOpen(true);
+          }}
           cursor="pointer"
           justify={"flex-end"}
           px="16px"
@@ -91,51 +106,126 @@ const CustomerCard = ({ supplier, details }) => {
           <BsThreeDots size={"22px"} />
         </Flex>
       )}
-      <motion.nav animate={open ? "open" : "closed"} variants={variants}>
-        <Flex
-          w="250px"
-          h="45px"
-          bg={white}
-          px="20px"
-          boxShadow=" 0px 4px 4px rgba(165, 165, 165, 0.1)"
-          py="12px"
-        >
-          <Image src={edit} boxSize="22px" />
-          <Text
-            ml="16px"
-            fontSize={font14}
-            fontWeight={font400}
-            fontFamily={roboto}
+      {open && (
+        <motion.nav animate={open ? "open" : "closed"} variants={variants}>
+          <Flex
+            w="250px"
+            h="45px"
+            bg={white}
+            px="20px"
+            boxShadow=" 0px 4px 4px rgba(165, 165, 165, 0.1)"
+            py="12px"
+            onClick={() => history.push("/addCustomer", { from: "edit" })}
+            cursor="pointer"
           >
-            Edit
-          </Text>
-        </Flex>
-        <Flex
-          mt="1"
-          w="250px"
-          h="45px"
-          bg={white}
-          px="20px"
-          boxShadow=" 0px 4px 4px rgba(165, 165, 165, 0.1)"
-          py="12px"
-        >
-          <Image boxSize="22px" src={work} />
-          <Text
-            ml="16px"
-            fontSize={font14}
-            fontWeight={font400}
-            fontFamily={roboto}
+            <Image src={edit} boxSize="22px" />
+            <Text
+              ml="16px"
+              fontSize={font14}
+              fontWeight={font400}
+              fontFamily={roboto}
+            >
+              Edit
+            </Text>
+          </Flex>
+          <Flex
+            mt="1"
+            w="250px"
+            h="45px"
+            bg={white}
+            px="20px"
+            boxShadow=" 0px 4px 4px rgba(165, 165, 165, 0.1)"
+            py={"12px"}
+            cursor="pointer"
+            onClick={onOpen}
           >
-            Delete User
-          </Text>
-        </Flex>
-      </motion.nav>
+            <Image boxSize="22px" src={work} />
+            <Text
+              ml="16px"
+              fontSize={font14}
+              fontWeight={font400}
+              fontFamily={roboto}
+            >
+              Delete User
+            </Text>
+          </Flex>
+          <AlertDialog
+            isOpen={isOpen}
+            leastDestructiveRef={cancelRef}
+            onClose={onClose}
+            // onClose={() => setOpenDelete(false)}
+          >
+            <AlertDialogOverlay>
+              <AlertDialogContent
+                mt="20%"
+                w={["100%", "100%", "50%", "40%", "30%"]}
+              >
+                <AlertDialogHeader
+                  textAlign={"center"}
+                  fontSize="lg"
+                  fontWeight="bold"
+                  color="red"
+                  pb="0"
+                >
+                  Remove Customer
+                </AlertDialogHeader>
+
+                <AlertDialogBody pb="4">
+                  Are you sure you want to remove this user?
+                </AlertDialogBody>
+
+                <AlertDialogFooter
+                  p={0}
+                  w="100%"
+                  justifyContent={"space-between"}
+                >
+                  <Button
+                    textAlign={"center"}
+                    w="50%"
+                    h="44px"
+                    border={`1px solid ${bg1}`}
+                    color={blue}
+                    ref={cancelRef}
+                    py="2"
+                    cursor={"pointer"}
+                    onClick={onClose}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    w="50%"
+                    textAlign={"center"}
+                    h="44px"
+                    border={`1px solid ${bg1}`}
+                    color={blue}
+                    colorScheme="red"
+                    py="2"
+                    bg="transparent"
+                    _hover={{
+                      bg: "transparent",
+                    }}
+                    _focus={{
+                      bg: "transparent",
+                    }}
+                    _active={{
+                      bg: "transparent",
+                    }}
+                    onClick={onClose}
+                  >
+                    Delete
+                  </Button>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialogOverlay>
+          </AlertDialog>
+        </motion.nav>
+      )}
 
       <Grid
         h="max-content"
         templateColumns="repeat(2, 1fr)"
         gap={4}
-        pt="30px"
+        pt={"30px"}
         px="16px"
       >
         <GridItem

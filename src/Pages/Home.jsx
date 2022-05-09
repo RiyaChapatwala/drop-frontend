@@ -31,7 +31,7 @@ import {
 import customer from "../Images/customer.svg";
 import societyimg from "../Images/society.svg";
 import soc from "../Images/societyEmpty.svg";
-import { setSelectedSociety } from "../redux/reducers/userSlice";
+import { getCustomers, setSelectedSociety } from "../redux/reducers/userSlice";
 import Businessservice from "../services/Businessservice";
 import Societyservice from "../services/Societyervice";
 import Userservice from "../services/Userservice";
@@ -128,7 +128,7 @@ const Home = () => {
   const handleCustomerView = (id) => {
     setCustomerView(true);
     Userservice.getCustomerById(id).then((res) => {
-      console.log(res.data, "home");
+      dispatch(getCustomers(res.data));
       setCustomerDetails(res.data);
     });
   };
