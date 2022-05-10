@@ -17,9 +17,8 @@ import Pricing from "../Pages/Pricing";
 import Profile from "../Pages/Profile";
 import SelectBusiness from "../Pages/SelectBusiness";
 import SelectLanguage from "../Pages/SelectLanguage";
-import SplashScreen from "../Pages/SplashScreen";
 import Success from "../Pages/Success";
-import { endLoading, login } from "../redux/reducers/userSlice";
+import { endLoading, login, logout } from "../redux/reducers/userSlice";
 import Authservice from "../services/Authservice";
 
 const Routers = () => {
@@ -33,7 +32,7 @@ const Routers = () => {
         dispatch(login(response));
       })
       .catch((err) => {
-        console.log(err);
+        dispatch(logout());
       })
       .finally(() => {
         dispatch(endLoading());
@@ -51,7 +50,6 @@ const Routers = () => {
   if (!isLoggedIn) {
     return (
       <Switch>
-        <Route exact path="/" component={SplashScreen} />
         <Route exact path="/login" component={LogIn} />
         <Route exact path="/success" component={Success} />
 
