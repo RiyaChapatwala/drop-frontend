@@ -47,6 +47,7 @@ const AddCustomer = () => {
 
   const user = useSelector((state) => state.user.data.user);
   const selectedSoc = useSelector((state) => state.user.selectedSociety);
+  const selectedWing = useSelector((state) => state.user.selectedWing);
   const customerById = useSelector((state) => state.user.customers);
 
   const [roomNo, setRoomNo] = useState("");
@@ -75,7 +76,10 @@ const AddCustomer = () => {
     if (selectedSoc.id !== null && selectedSoc.name !== "") {
       setSelected({ id: selectedSoc.id, name: selectedSoc.name });
     }
-  }, [selectedSoc.id, selectedSoc.name]);
+    if (selectedWing !== "") {
+      setWingName(selectedWing);
+    }
+  }, [selectedSoc.id, selectedSoc.name, selectedWing]);
 
   useEffect(() => {
     if (location.state !== undefined && location.state.from === "edit") {

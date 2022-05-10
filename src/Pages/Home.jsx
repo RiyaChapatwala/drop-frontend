@@ -9,6 +9,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
+import FocusLock from "react-focus-lock";
 import { IoIosArrowDown } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
@@ -31,7 +32,11 @@ import {
 import customer from "../Images/customer.svg";
 import societyimg from "../Images/society.svg";
 import soc from "../Images/societyEmpty.svg";
-import { getCustomers, setSelectedSociety } from "../redux/reducers/userSlice";
+import {
+  getCustomers,
+  getWing,
+  setSelectedSociety,
+} from "../redux/reducers/userSlice";
 import Businessservice from "../services/Businessservice";
 import Societyservice from "../services/Societyervice";
 import Userservice from "../services/Userservice";
@@ -124,6 +129,9 @@ const Home = () => {
   //       setTodayDelievery((old) => [...old, response.data.data]);
   //     });
   // }, []);
+  useEffect(() => {
+    dispatch(getWing(selectedWing));
+  }, [dispatch, selectedWing]);
 
   const handleCustomerView = (id) => {
     setCustomerView(true);
@@ -161,7 +169,7 @@ const Home = () => {
               whiteSpace={"nowrap"}
             >{`${
               selected?.name === ""
-                ? "Select Society/Apartment/Building"
+                ? "Select Society/Apartment/Shop"
                 : selected.name
             }`}</Text>
           </Flex>
@@ -180,7 +188,9 @@ const Home = () => {
             alignItems={"center"}
             boxShadow="rgba(0, 0, 0, 0.1) 0px 10px 45px"
             value={selectedWing}
-            onChange={(e) => setSelectedWing(e.target.value)}
+            onChange={(e) => {
+              setSelectedWing(e.target.value);
+            }}
           >
             {wing.map((item, index) => (
               <option
@@ -323,16 +333,22 @@ const Home = () => {
         </Grid>
       </BottomSheet>
 
-      <BottomSheet
-        open={customerView}
-        onDismiss={() => {
-          setCustomerView(false);
-        }}
-        className="hideScrollBar"
-        snapPoints={({ maxHeight }) => [maxHeight * 0.83]}
-      >
-        <CustomerCard details={customerDetails} supplier={true} />
-      </BottomSheet>
+      <FocusLock>
+        <BottomSheet
+          open={customerView}
+          onDismiss={() => {
+            setCustomerView(false);
+          }}
+          className="hideScrollBar"
+          snapPoints={({ maxHeight }) => [maxHeight * 0.83]}
+        >
+          <CustomerCard
+            setCustomerView={setCustomerView}
+            details={customerDetails}
+            supplier={true}
+          />
+        </BottomSheet>
+      </FocusLock>
       <BottomSheet
         open={today}
         // onDismiss={() => setToday(false)}

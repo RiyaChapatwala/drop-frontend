@@ -1,10 +1,4 @@
 import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
   Box,
   Button,
   Divider,
@@ -13,21 +7,20 @@ import {
   GridItem,
   Image,
   Text,
-  useDisclosure,
 } from "@chakra-ui/react";
-import { motion } from "framer-motion";
-
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import "@fullcalendar/daygrid/main.css";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import "@fullcalendar/timegrid/main.css";
+import { motion } from "framer-motion";
 import React, { useState } from "react";
+import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import { BiRupee } from "react-icons/bi";
 import { BsThreeDots } from "react-icons/bs";
 import { IoMdCall } from "react-icons/io";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import {
-  bg1,
   blue,
   color74,
   colorea,
@@ -49,19 +42,19 @@ import {
 } from "../Constant";
 import packet from "../Images/packet.svg";
 import water from "../Images/water.svg";
-import edit from "../Images/edit.svg";
-import work from "../Images/Work.svg";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import Authservice from "../services/Authservice";
 
 const CustomerCard = ({ supplier, details }) => {
   const history = useHistory();
   const [currentDate, setCurrentDate] = useState();
-  const [open, setOpen] = useState(false);
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const cancelRef = React.useRef();
+  const [menu, setMenu] = useState(false);
 
   const handleDates = (rangeInfo) => {
     setCurrentDate(rangeInfo);
+  };
+
+  const handleDelete = () => {
+    Authservice.deleteUser(details?.id).then((res) => console.log(res, "here"));
   };
 
   //gty is for taking the total quantity of delievered like [4,2,5] for the date 25,27,29
@@ -92,12 +85,12 @@ const CustomerCard = ({ supplier, details }) => {
   };
 
   return (
-    <Box onClick={() => setOpen(false)} w="100%" fontFamily={roboto}>
-      {!open && (
+    <Box onClick={() => setMenu(false)} w="100%" fontFamily={roboto}>
+      {!menu && (
         <Flex
           onClick={(e) => {
             e.stopPropagation();
-            setOpen(true);
+            setMenu(true);
           }}
           cursor="pointer"
           justify={"flex-end"}
@@ -106,19 +99,20 @@ const CustomerCard = ({ supplier, details }) => {
           <BsThreeDots size={"22px"} />
         </Flex>
       )}
-      {open && (
-        <motion.nav animate={open ? "open" : "closed"} variants={variants}>
+      {menu && (
+        <motion.nav animate={menu ? "open" : "closed"} variants={variants}>
           <Flex
             w="250px"
             h="45px"
             bg={white}
             px="20px"
             boxShadow=" 0px 4px 4px rgba(165, 165, 165, 0.1)"
-            py="12px"
+            pb="12px"
             onClick={() => history.push("/addCustomer", { from: "edit" })}
             cursor="pointer"
+            alignItems="center"
           >
-            <Image src={edit} boxSize="22px" />
+            <AiOutlineEdit size={"20px"} />
             <Text
               ml="16px"
               fontSize={font14}
@@ -137,9 +131,13 @@ const CustomerCard = ({ supplier, details }) => {
             boxShadow=" 0px 4px 4px rgba(165, 165, 165, 0.1)"
             py={"12px"}
             cursor="pointer"
-            onClick={onOpen}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleDelete();
+            }}
+            alignItems="center"
           >
-            <Image boxSize="22px" src={work} />
+            <AiOutlineDelete size="20px" />
             <Text
               ml="16px"
               fontSize={font14}
@@ -149,75 +147,64 @@ const CustomerCard = ({ supplier, details }) => {
               Delete User
             </Text>
           </Flex>
-          <AlertDialog
-            isOpen={isOpen}
-            leastDestructiveRef={cancelRef}
-            onClose={onClose}
-            // onClose={() => setOpenDelete(false)}
-          >
-            <AlertDialogOverlay>
-              <AlertDialogContent
-                mt="20%"
-                w={["100%", "100%", "50%", "40%", "30%"]}
-              >
-                <AlertDialogHeader
-                  textAlign={"center"}
-                  fontSize="lg"
-                  fontWeight="bold"
-                  color="red"
-                  pb="0"
+          {/* <FocusLock>
+            <Modal isOpen={isOpen} onClose={onClose}>
+              <ModalOverlay>
+                <ModalContent
+                  mt="20%"
+                  w={["100%", "100%", "50%", "40%", "30%"]}
                 >
-                  Remove Customer
-                </AlertDialogHeader>
-
-                <AlertDialogBody pb="4">
-                  Are you sure you want to remove this user?
-                </AlertDialogBody>
-
-                <AlertDialogFooter
-                  p={0}
-                  w="100%"
-                  justifyContent={"space-between"}
-                >
-                  <Button
+                  <ModalHeader
                     textAlign={"center"}
-                    w="50%"
-                    h="44px"
-                    border={`1px solid ${bg1}`}
-                    color={blue}
-                    ref={cancelRef}
-                    py="2"
-                    cursor={"pointer"}
-                    onClick={onClose}
+                    fontSize="lg"
+                    fontWeight="bold"
+                    color="red"
+                    pb="0"
                   >
-                    Cancel
-                  </Button>
-                  <Button
-                    w="50%"
-                    textAlign={"center"}
-                    h="44px"
-                    border={`1px solid ${bg1}`}
-                    color={blue}
-                    colorScheme="red"
-                    py="2"
-                    bg="transparent"
-                    _hover={{
-                      bg: "transparent",
-                    }}
-                    _focus={{
-                      bg: "transparent",
-                    }}
-                    _active={{
-                      bg: "transparent",
-                    }}
-                    onClick={onClose}
-                  >
-                    Delete
-                  </Button>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialogOverlay>
-          </AlertDialog>
+                    Remove Customer
+                  </ModalHeader>
+
+                  <ModalBody pb="4">
+                    Are you sure you want to remove this user?
+                  </ModalBody>
+
+                  <ModalFooter p={0} w="100%" justifyContent={"space-between"}>
+                    <Button
+                      textAlign={"center"}
+                      w="50%"
+                      h="44px"
+                      border={`1px solid ${bg1}`}
+                      color={blue}
+                      py="2"
+                      cursor={"pointer"}
+                      onClick={onClose}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      w="50%"
+                      textAlign={"center"}
+                      h="44px"
+                      border={`1px solid ${bg1}`}
+                      color={blue}
+                      colorScheme="red"
+                      py="2"
+                      bg="transparent"
+                      _hover={{
+                        bg: "transparent",
+                      }}
+                      _active={{
+                        bg: "transparent",
+                      }}
+                      onClick={onClose}
+                    >
+                      Delete
+                    </Button>
+                  </ModalFooter>
+                </ModalContent>
+              </ModalOverlay>
+            </Modal>
+          </FocusLock> */}
         </motion.nav>
       )}
 
@@ -225,7 +212,7 @@ const CustomerCard = ({ supplier, details }) => {
         h="max-content"
         templateColumns="repeat(2, 1fr)"
         gap={4}
-        pt={"30px"}
+        pt={"10px"}
         px="16px"
       >
         <GridItem
@@ -261,10 +248,10 @@ const CustomerCard = ({ supplier, details }) => {
             </Flex>
             {supplier && (
               <Flex ml="16px" direction="column">
-                <Text fontWeight={font500} fontSize={font14}>
+                <Text textAlign="center" fontWeight={font500} fontSize={font14}>
                   {details?.name}
                 </Text>
-                <Flex>
+                <Flex justify={"center"}>
                   <IoMdCall color={color74} />
 
                   <Text

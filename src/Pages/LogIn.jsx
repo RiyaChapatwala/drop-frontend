@@ -26,7 +26,7 @@ const LogIn = () => {
     }, [1500]);
   }, []);
   return (
-    <Box w="100%" h="100%">
+    <Box w="100%" h={["100vh", "100%"]}>
       {screen && <SplashScreen loading={loading} />}
 
       {!screen && (
@@ -104,7 +104,14 @@ const LogIn = () => {
               SIGN IN WITH GOOGLE
             </Text>
           </Flex>
-          <Flex alignItems="center" w="85%" justify="center" mx="auto" mt="7">
+          <Flex
+            alignItems="center"
+            w="85%"
+            justify="center"
+            // pb="2"
+            mx="auto"
+            mt="7"
+          >
             <Text
               // alignSelf="center"
               textAlign="center"

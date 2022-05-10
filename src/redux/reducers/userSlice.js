@@ -28,6 +28,7 @@ export const userInitialState = {
   society: [],
   customers: [],
   selectedSociety: { id: null, name: "" },
+  selectedWing: "",
 };
 
 const userSlice = createSlice({
@@ -63,6 +64,9 @@ const userSlice = createSlice({
     getSociety: (state, action) => {
       state.society.push(action.payload);
     },
+    getWing: (state, action) => {
+      state.selectedWing = action.payload;
+    },
     setSelectedSociety: (state, action) => {
       state.selectedSociety = action.payload;
     },
@@ -82,6 +86,7 @@ export const {
   createbusiness,
   getBusiness,
   getSociety,
+  getWing,
   getCustomers,
   setSociety,
   setSelectedSociety,

@@ -1,5 +1,6 @@
 import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import React from "react";
+import { BiArrowBack } from "react-icons/bi";
 import { IoMdCall } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -7,23 +8,24 @@ import {
   colore2,
   font12,
   font16,
-  font22,
   font400,
   font600,
-  poppins,
   roboto,
   white,
 } from "../Constant";
 import logo from "../Images/drop.svg";
 import top from "../Images/top.svg";
-import { BiArrowBack } from "react-icons/bi";
 
 const Layout = ({ card, screen }) => {
   const user = useSelector((state) => state.user.data.user);
   const history = useHistory();
   return (
     <Box width="100%">
-      <Image src={top} w="100%" h={["280px", "250px"]} />
+      <Image
+        src={top}
+        w="100%"
+        h={["250px", "350px", "250px", "max-content", "min-content"]}
+      />
       {!card && !screen && (
         <>
           <Image
@@ -37,32 +39,22 @@ const Layout = ({ card, screen }) => {
             onClick={() => history.push("/")}
             cursor="pointer"
           />
-          <Text
-            color={white}
-            fontWeight={font600}
-            fontFamily={poppins}
-            fontSize={font22}
-            position="absolute"
-            top={["13%", "16%"]}
-            left={["40.5%", "47.5%"]}
-          >
-            DROP
-          </Text>
         </>
       )}
       {card && (
         <Flex direction="column">
-          <BiArrowBack
-            size={"22px"}
-            style={{
-              cursor: "pointer",
-              position: "absolute",
-              top: "5%",
-              left: "32%",
-            }}
-            color={white}
-            onClick={() => history.goBack()}
-          />
+          <Box
+            cursor="pointer"
+            position={"absolute"}
+            top="5%"
+            left={["7%", "5%", "28%", "32%", "37%"]}
+          >
+            <BiArrowBack
+              size={"22px"}
+              color={white}
+              onClick={() => history.goBack()}
+            />
+          </Box>
           <Image
             objectFit="cover"
             src={user.imageUrl}
@@ -82,7 +74,7 @@ const Layout = ({ card, screen }) => {
             fontFamily={roboto}
             fontSize={font16}
             position="absolute"
-            top={["15%", "16%"]}
+            top={["14.5%", "17%", "17%", "17%", "16%"]}
             // left={["35%", "45%"]}
             w={["100%", "100%", "50%", "40%", "30%"]}
           >
@@ -90,7 +82,7 @@ const Layout = ({ card, screen }) => {
           </Text>
           <Flex
             position="absolute"
-            top={["19%", "20%"]}
+            top={["17.5%", "18%", "21%", "20%", "20%"]}
             justify="center"
             // left={["35%", "45%"]}
             w={["100%", "100%", "50%", "40%", "30%"]}
