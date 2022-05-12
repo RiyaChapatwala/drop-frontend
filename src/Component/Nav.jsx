@@ -26,14 +26,25 @@ const Nav = ({ card }) => {
     address: "",
   });
   useEffect(() => {
-    Businessservice.getBusiness().then((response) => {
-      dispatch(getBusiness(response.data));
-      setBusiness({
-        name: response.data.name,
-        imageUrl: response.data.imageUrl,
-        address: response.data.address,
-      });
-    });
+    console.log("USER ", user);
+    if (!user.language) {
+      history.push("/selectLanguage", { from: "language" });
+    } else if (!user.name || !user.mobileNo) {
+      history.push("/create-profile");
+    } else {
+      Businessservice.getBusiness()
+        .then((response) => {
+          dispatch(getBusiness(response.data));
+          setBusiness({
+            name: response.data.name,
+            imageUrl: response.data.imageUrl,
+            address: response.data.address,
+          });
+        })
+        .catch(() => {
+          history.push("/selectBusiness", { from: "language" });
+        });
+    }
   }, [dispatch]);
   return (
     <Flex

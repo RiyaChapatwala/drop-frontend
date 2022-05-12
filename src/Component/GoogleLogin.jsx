@@ -1,4 +1,4 @@
-import { Image, Spinner } from "@chakra-ui/react";
+import { Flex, Image, Spinner, Text } from "@chakra-ui/react";
 import React, { useState } from "react";
 import {
   GoogleLogin,
@@ -8,6 +8,7 @@ import {
 } from "react-google-login";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { font13, font600 } from "../Constant";
 import google from "../Images/google.svg";
 import { login } from "../redux/reducers/userSlice";
 import AuthService from "../services/Authservice";
@@ -27,16 +28,11 @@ const LoginWithGoogle = ({ isSignInOpen }) => {
     AuthService.signInWithGoogle(res.getAuthResponse().id_token)
       .then((response) => {
         dispatch(login(response));
-        if (response.data.data && response.data.data.user && response.data.data.user.createdAt) {
-          const createdAt = new Date(response.data.data.user.createdAt).getTime()/1000;
-          const now = new Date().getTime()/1000;
-          if (now-createdAt < 5) {
-            history.push("/");
-          }else{
-            history.push("/selectLanguage");
-          }
-        }else{
+        console.log("response.data ", response);
+        if (!response.user.language) {
           history.push("/selectLanguage");
+        } else {
+          history.push("/selectBusiness");
         }
         // axios.defaults.headers.common[
         //   "Authorization"
@@ -62,12 +58,29 @@ const LoginWithGoogle = ({ isSignInOpen }) => {
         <GoogleLogin
           clientId={clientId}
           render={(renderProps) => (
-            <Image
+            <Flex
+              justify="center"
+              mt="4"
+              w="92%"
+              mx="auto"
+              cursor="pointer"
+              py={["3", "3"]}
+              alignItems="center"
+              background="white"
+              borderRadius="8px"
+              boxShadow="0px 16px 60px rgba(37, 37, 28, 0.15)"
               onClick={renderProps.onClick}
-              disabled={renderProps.disabled}
-              src={google}
-              alt=""
-            />
+            >
+              <Image disabled={renderProps.disabled} src={google} alt="" />
+              <Text
+                fontSize={font13}
+                ml="10px"
+                fontWeight={font600}
+                color="black"
+              >
+                SIGN IN WITH GOOGLE
+              </Text>
+            </Flex>
           )}
           className="loginGoogle"
           onSuccess={onLoginSuccess}
@@ -80,7 +93,30 @@ const LoginWithGoogle = ({ isSignInOpen }) => {
         <GoogleLogout
           clientId={clientId}
           onLogoutSuccess={onLogoutSuccess}
-          render={() => <Spinner />}
+          render={() => (
+            <Flex
+              justify="center"
+              mt="4"
+              w="92%"
+              mx="auto"
+              cursor="pointer"
+              py={["3", "3"]}
+              alignItems="center"
+              background="white"
+              borderRadius="8px"
+              boxShadow="0px 16px 60px rgba(37, 37, 28, 0.15)"
+            >
+              <Spinner />
+              <Text
+                fontSize={font13}
+                ml="10px"
+                fontWeight={font600}
+                color="black"
+              >
+                SIGN IN WITH GOOGLE
+              </Text>
+            </Flex>
+          )}
         ></GoogleLogout>
       ) : null}
     </div>

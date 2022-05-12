@@ -15,6 +15,7 @@ export const userInitialState = {
       language: "",
       name: "",
       mobileNo: "",
+      role: {},
     },
     business: {
       name: "",

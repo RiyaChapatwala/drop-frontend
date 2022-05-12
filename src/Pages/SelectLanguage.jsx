@@ -262,7 +262,7 @@ const SelectLanguage = () => {
       <Flex w="90%" mx="auto" onClick={() => handleSubmit()}>
         <ButtonComponent name="CONTINUE" />
       </Flex>
-      <Flex mt="1" w="90%" mx="auto" onClick={() => displayRazorpay("TEST")}>
+      {/* <Flex mt="1" w="90%" mx="auto" onClick={() => displayRazorpay("TEST")}>
         <Button w="100%" h="50px" backgroundColor={"grey"} color={white}>
           Sample TEST Payment
         </Button>
@@ -271,7 +271,7 @@ const SelectLanguage = () => {
         <Button w="100%" h="50px" backgroundColor={"red"} color={white}>
           Sample LIVE Payment
         </Button>
-      </Flex>
+      </Flex> */}
     </Box>
   );
 };

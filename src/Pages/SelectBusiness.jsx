@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import "../App.css";
 import ButtonComponent from "../Component/ButtonComponent";
@@ -17,6 +17,7 @@ import {
   font600,
   poppins,
 } from "../Constant";
+import { getBusiness } from "../redux/reducers/userSlice";
 import Businessservice from "../services/Businessservice";
 
 const SelectBusiness = () => {
@@ -24,6 +25,7 @@ const SelectBusiness = () => {
   const [type, setType] = useState([]);
   const history = useHistory();
   const toast = useToast();
+  const dispatch = useDispatch();
 
   const user = useSelector((state) => state.user.data.user);
 
@@ -34,6 +36,12 @@ const SelectBusiness = () => {
       })
       .catch((err) => console.log(err, "error"));
   }, []);
+  useEffect(() => {
+    Businessservice.getBusiness().then((response) => {
+      dispatch(getBusiness(response.data));
+      history.push("/");
+    });
+  }, [dispatch]);
 
   useEffect(() => {
     if (user.type) {

@@ -56,7 +56,7 @@ const Routers = () => {
         <Redirect to="/login" />
       </Switch>
     );
-  } else if (data.user.role.name === "supplier") {
+  } else if (data.user.role && data.user.role.name === "supplier") {
     return (
       <Switch>
         <Route exact path="/" component={Home} />

@@ -81,29 +81,8 @@ const LogIn = () => {
               SIGN IN WITH FACEBOOK
             </Text>
           </Flex>
-          <Flex
-            justify="center"
-            mt="4"
-            w="92%"
-            mx="auto"
-            cursor="pointer"
-            py={["3", "3"]}
-            alignItems="center"
-            background="white"
-            borderRadius="8px"
-            boxShadow="0px 16px 60px rgba(37, 37, 28, 0.15)"
-          >
-            <LoginWithGoogle />
-
-            <Text
-              fontSize={font13}
-              ml="10px"
-              fontWeight={font600}
-              color="black"
-            >
-              SIGN IN WITH GOOGLE
-            </Text>
-          </Flex>
+          <LoginWithGoogle />
+          
           <Flex
             alignItems="center"
             w="85%"
