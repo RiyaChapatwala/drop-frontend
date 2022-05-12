@@ -24,6 +24,7 @@ import Authservice from "../services/Authservice";
 import RefundPolicy from "../Pages/RefundPolicy";
 import PrivacyPolicy from "../Pages/PrivacyPolicy";
 import SLA from "../Pages/SLA";
+import Pricing from "../Pages/Pricing";
 
 const Routers = () => {
   const { isLoading, isLoggedIn, data } = useSelector((state) => state.user);
