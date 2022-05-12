@@ -16,12 +16,16 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import Share from "../Component/Share";
 import drop from "../Images/drop.svg";
+import Authservice from "../services/Authservice";
+import { logout } from "../redux/reducers/userSlice";
+import { useDispatch } from "react-redux";
 
 const Profile = () => {
   const history = useHistory();
+  const dispatch = useDispatch();
   const [share, setShare] = useState(false);
   return (
-    <Box w="100%">
+    <Box w="100%" h={["100vh", "100vh"]}>
       <Layout card={true} />
       <Box
         px="33px"
@@ -38,81 +42,87 @@ const Profile = () => {
           Edit Profile
         </Flex>
         <Flex
-          mt="20px"
+          mt="18px"
           cursor="pointer"
           onClick={() => history.push("/businessDetails", { edit: true })}
         >
           <Image mr="12px" src={business} />
           Edit Business
-        </Flex> 
-        {/* <Flex mt="20px">
+        </Flex>
+        <Flex mt="18px">
           <Image mr="12px" src={money} />
           Total Earning
-        </Flex> */}
-        {/* <Flex mt="20px">
+        </Flex>
+        <Flex mt="18px">
           <Image mr="12px" src={subscription} />
           Subscription
-        </Flex> */}
-        <Flex mt="20px" onClick={() => history.push("/pricing")}>
+        </Flex>
+        <Flex mt="18px" onClick={() => history.push("/pricing")}>
           <Image mr="12px" src={pricing} />
           Our Pricing
         </Flex>
         <Flex
           cursor="pointer"
-          mt="20px"
+          mt="18px"
           onClick={() => history.push("/aboutus")}
         >
           <Image mr="12px" src={aboutus} />
           About Us
         </Flex>
-        <Flex mt="20px">
-
+        <Flex mt="18px">
           <Image mr="12px" src={service} />
-          <div onClick={() => history.push('/termsAndConditions')}>
-          Terms and Conditions
+          <div onClick={() => history.push("/termsAndConditions")}>
+            Terms and Conditions
           </div>
         </Flex>
         <Flex mt="20px">
-
-          
-          <div style={{marginLeft: 25}} onClick={() => history.push('/refundPolicy')}>
-          Refund Policy
+          <div
+            style={{ marginLeft: 25 }}
+            onClick={() => history.push("/refundPolicy")}
+          >
+            Refund Policy
           </div>
         </Flex>
         <Flex mt="20px">
-
-          
-          <div style={{marginLeft: 25}} onClick={() => history.push('/privacyPolicy')}>
-          Privacy Policy
+          <div
+            style={{ marginLeft: 25 }}
+            onClick={() => history.push("/privacyPolicy")}
+          >
+            Privacy Policy
           </div>
         </Flex>
         <Flex mt="20px">
-
-          
-          <div style={{marginLeft: 25}} onClick={() => history.push('/sla')}>
-          SLA
+          <div style={{ marginLeft: 25 }} onClick={() => history.push("/sla")}>
+            SLA
           </div>
         </Flex>
         <Link
           textDecoration="none"
           href="https://chat.whatsapp.com/L7v4LPgQQ1sAZ0tsQ3XqpU"
         >
-          <Flex mt="20px" cursoe="pointer">
+          <Flex mt="18px" cursoe="pointer">
             <Image mr="12px" src={chat} />
             Support Chat
           </Flex>
         </Link>
-        <Flex mt="20px" cursor="pointer" onClick={() => setShare(true)}>
+        <Flex mt="18px" cursor="pointer" onClick={() => setShare(true)}>
           <Image mr="12px" src={shareIcon} />
           Invite Your Friends To Drop
         </Flex>
-        <Flex mt="20px">
+        <Flex
+          mt="18px"
+          cursor="pointer"
+          onClick={() => {
+            Authservice.logout();
+            dispatch(logout());
+          }}
+        >
           <Image mr="12px" src={signout} />
           Signout
         </Flex>
         <Text color="#001833" textAlign="center" mt="5">
           drop by{" "}
-          <Link href="https://zognest.com" target={'_blank'} color={lightblue}>
+          <Link href="https://zognest.com" target={"_blank"} color={lightblue}>
             ZOGNEST.
           </Link>
         </Text>

@@ -85,13 +85,13 @@ const AboutUs = () => {
           containerClass="carousel-container"
           removeArrowOnDeviceType={["tablet", "mobile", "desktop"]}
           deviceType={responsive.deviceType}
-          itemClass="carousel-item-padding-40-px"
+          // itemClass="carousel-item-padding-40-px"
         >
           {data.map((item) => (
             <Image
               key={item.id}
               mb="72px"
-              width="95px"
+              width="110px"
               mt="14px"
               pr="2.5"
               src={item.image}

@@ -104,6 +104,17 @@ class AuthService {
     );
   };
 
+  deleteUser = async (id) => {
+    return new Promise((resolve, reject) =>
+      axios
+        .delete(`${API}/user/${id}`)
+        .then((response) => {
+          resolve(response.data.data);
+        })
+        .catch((error) => reject(error))
+    );
+  };
+
   async createAccount(data) {
     return new Promise((resolve, reject) =>
       axios
@@ -117,6 +128,10 @@ class AuthService {
         })
     );
   }
+  logout = () => {
+    localStorage.clear();
+    window.location.reload();
+  };
 }
 
 export default new AuthService();

@@ -15,6 +15,7 @@ export const userInitialState = {
       language: "",
       name: "",
       mobileNo: "",
+      role: {},
     },
     business: {
       name: "",
@@ -28,6 +29,7 @@ export const userInitialState = {
   society: [],
   customers: [],
   selectedSociety: { id: null, name: "" },
+  selectedWing: "",
 };
 
 const userSlice = createSlice({
@@ -57,11 +59,22 @@ const userSlice = createSlice({
     getBusiness: (state, action) => {
       state.data.business = action.payload;
     },
+    getCustomers: (state, action) => {
+      state.customers = action.payload;
+    },
     getSociety: (state, action) => {
       state.society.push(action.payload);
     },
+    getWing: (state, action) => {
+      state.selectedWing = action.payload;
+    },
     setSelectedSociety: (state, action) => {
       state.selectedSociety = action.payload;
+    },
+    logout: (state) => {
+      state.isLoading = false;
+      state.data = userInitialState.data;
+      state.isLoggedIn = false;
     },
   },
 });
@@ -74,8 +87,11 @@ export const {
   createbusiness,
   getBusiness,
   getSociety,
+  getWing,
+  getCustomers,
   setSociety,
   setSelectedSociety,
+  logout,
 } = userSlice.actions;
 
 export default userSlice.reducer;

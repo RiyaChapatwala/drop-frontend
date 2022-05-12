@@ -1,5 +1,5 @@
-import { Box, Flex, Text, useToast } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import { Box, Flex, Image, Text } from "@chakra-ui/react";
+import React from "react";
 import { IoMdCall } from "react-icons/io";
 import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
 import CustomerCard from "../Component/CustomerCard";
@@ -15,35 +15,20 @@ import {
   poppins,
   roboto,
   white,
+  blue,
 } from "../Constant";
-import Userservice from "../services/Userservice";
 
 const CustomerDetails = () => {
   const location = useLocation();
-  const toast = useToast();
 
-  useEffect(() => {
-    Userservice.getCustomerByPhone(location.state?.mobileNo)
-      .then((res) => console.log(res))
-      .catch((error) =>
-        toast({
-          title: "error",
-          description: error.isAxiosError
-            ? error.response?.data?.message
-            : error.message,
-          status: "error",
-          duration: 3000,
-        })
-      );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.state?.mobileNo]);
+  const details = location.state && location.state.data;
 
   return (
     <Box w="100%">
       <Flex justify="space-between" align="flex-end" bg={lightblue}>
         <Flex direction="column" pt="44px" pl="16px" pb="15px">
           <Text fontWeight={font500} fontSize={font16} color={white}>
-            {/* {name} */} Riyanka Jariwala
+            {details && details?.name}
           </Text>
           <Flex color={lightWhite}>
             <IoMdCall />
@@ -54,30 +39,43 @@ const CustomerDetails = () => {
               fontFamily={roboto}
               fontSize={font12}
             >
-              {/* +91 {user.mobileNo} */}
-              +91 9876789876
+              +91 {details?.mobileNo}
             </Text>
           </Flex>
         </Flex>
         <Flex pt="44px" pr="16px" pb="15px">
-          <Flex
-            //   ml="25px"
-            align="center"
-            w="85px"
-            h="33px"
-            borderRadius="6px"
-            bg={white}
-          >
-            <Text>icon</Text>
-            <Text fontFamily={poppins} fontWeight={font600} fontSize={font13}>
-              WATER
-            </Text>
-          </Flex>
-          <Flex>icons</Flex>
-          <Flex>icons</Flex>
+          {details.subscriber.map((element) => (
+            <Flex
+              //   ml="25px"
+              align="center"
+              w="75px"
+              h="33px"
+              borderRadius="6px"
+              bg={white}
+              px="1"
+              justify="space-between"
+            >
+              <Image
+                // filter={
+                //   "invert(39%) sepia(86%) saturate(3835%) hue-rotate(225deg) brightness(104%) contrast(101%)"
+                // }
+                boxSize="15px"
+                color={blue}
+                src={element.type.logoUrl}
+              />
+              <Text
+                fontFamily={poppins}
+                fontWeight={font600}
+                fontSize={font13}
+                color={blue}
+              >
+                {element.type.name}
+              </Text>
+            </Flex>
+          ))}
         </Flex>
       </Flex>
-      <CustomerCard />
+      <CustomerCard details={details} supplier={false} />
     </Box>
   );
 };

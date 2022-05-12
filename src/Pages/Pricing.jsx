@@ -8,14 +8,14 @@ import example from "../Images/example.svg";
 
 const Pricing = () => {
   return (
-    <Box w="100%" h="120vh">
+    <Box w="100%" h={["100vh", "120vh"]}>
       <Layout card={false} />
       <Flex
         w="max-content"
         direction="column"
         position="absolute"
         justify="center"
-        top="30%"
+        top={["35%", "35%", "35%", "35%"]}
         left={0}
         right={0}
         mx="auto"
@@ -81,7 +81,7 @@ const Pricing = () => {
             <Image src={example} />
           </Flex>
         </Flex>
-        <Flex h="50%" />
+        {/* <Flex h="50%" /> */}
       </Flex>
     </Box>
   );

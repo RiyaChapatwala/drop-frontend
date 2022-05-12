@@ -9,10 +9,11 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react";
+import { useDispatch, useSelector } from "react-redux";
+import { getCustomers } from "../redux/reducers/userSlice";
 import React, { useEffect, useState } from "react";
 import { AiOutlineRightCircle } from "react-icons/ai";
 import { BiArrowBack } from "react-icons/bi";
-import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import ButtonComponent from "../Component/ButtonComponent";
@@ -32,14 +33,22 @@ import {
 } from "../Constant";
 import name from "../Images/name.svg";
 import number from "../Images/number.svg";
+import soc from "../Images/soc.svg";
 import Businessservice from "../services/Businessservice";
 import Societyservice from "../services/Societyervice";
+import { useLocation } from "react-router-dom";
+import Authservice from "../services/Authservice";
 
 const AddCustomer = () => {
   const history = useHistory();
   const toast = useToast();
+  const location = useLocation();
+  const dispatch = useDispatch();
 
   const user = useSelector((state) => state.user.data.user);
+  const selectedSoc = useSelector((state) => state.user.selectedSociety);
+  const selectedWing = useSelector((state) => state.user.selectedWing);
+  const customerById = useSelector((state) => state.user.customers);
 
   const [roomNo, setRoomNo] = useState("");
   const [custName, setCustName] = useState("");
@@ -63,6 +72,26 @@ const AddCustomer = () => {
     }
   }, [allSociety, fetchAllSociety]);
 
+  useEffect(() => {
+    if (selectedSoc.id !== null && selectedSoc.name !== "") {
+      setSelected({ id: selectedSoc.id, name: selectedSoc.name });
+    }
+    if (selectedWing !== "") {
+      setWingName(selectedWing);
+    }
+  }, [selectedSoc.id, selectedSoc.name, selectedWing]);
+
+  useEffect(() => {
+    if (location.state !== undefined && location.state.from === "edit") {
+      if (customerById) {
+        setCustName(customerById.name);
+        setMobileNo(customerById.mobileNo);
+        setRoomNo(customerById.houseNo);
+        setWingName(customerById.wing);
+      }
+    }
+  }, [customerById, location.state]);
+
   const handleClick = () => {
     const data = {
       customerName: custName,
@@ -71,28 +100,57 @@ const AddCustomer = () => {
       houseNo: roomNo,
       wing: wingName,
     };
-    Businessservice.createCustomer(data)
-      .then((response) => {
-        if (response.success) {
-          toast({
-            title: "Success",
-            description: "Success",
-            status: "success",
-            duration: 3000,
-          });
-          history.push("/");
-        }
-      })
-      .catch((error) =>
-        toast({
-          title: "error",
-          description: error.isAxiosError
-            ? error.response?.data?.message
-            : error.message,
-          status: "error",
-          duration: 3000,
+    if (location.state !== undefined && location.state.from === "edit") {
+      Authservice.updateUser(data)
+        .then((res) => {
+          if (res.name.toLowerCase() === custName.toLowerCase()) {
+            // console.log(res, "hii");
+            dispatch(getCustomers(res));
+            Authservice.setUserData(res);
+            history.push("/");
+
+            toast({
+              title: "Success",
+              description: "Successfully Edited",
+              status: "success",
+              duration: 3000,
+            });
+          }
         })
-      );
+        .catch((error) =>
+          toast({
+            title: "error",
+            description: error.isAxiosError
+              ? error.response?.data?.message
+              : error.message,
+            status: "error",
+            duration: 3000,
+          })
+        );
+    } else {
+      Businessservice.createCustomer(data)
+        .then((response) => {
+          if (response.success) {
+            toast({
+              title: "Success",
+              description: "Success",
+              status: "success",
+              duration: 3000,
+            });
+            history.push("/");
+          }
+        })
+        .catch((error) =>
+          toast({
+            title: "error",
+            description: error.isAxiosError
+              ? error.response?.data?.message
+              : error.message,
+            status: "error",
+            duration: 3000,
+          })
+        );
+    }
   };
 
   return (
@@ -122,6 +180,8 @@ const AddCustomer = () => {
         </Flex>
 
         <Avatar
+          cursor="pointer"
+          onClick={() => history.push("/profile")}
           border={`1.5px solid ${white}`}
           size={"sm"}
           src={user.imageUrl || ""}
@@ -235,7 +295,7 @@ const AddCustomer = () => {
           background={white}
         >
           <Flex flex="2">
-            <Image src={number} />
+            <Image src={soc} boxSize={"18px"} />
             <Text
               fontFamily={roboto}
               fontSize={font16}
@@ -243,7 +303,9 @@ const AddCustomer = () => {
               color={`${selected === "" ? grey : "inherit"}`}
               opacity="0.5"
               ml="3.5"
-            >{`${selected === "" ? "Select Society" : selected.name}`}</Text>
+            >{`${
+              selected.name === "" ? "Select Society" : selected.name
+            }`}</Text>
           </Flex>
           <AiOutlineRightCircle
             size="22px"
@@ -329,7 +391,13 @@ const AddCustomer = () => {
         </Flex>
       </Flex>
       <Flex w="85%" onClick={() => handleClick()} mx="auto">
-        <ButtonComponent name="CREATE" />
+        <ButtonComponent
+          name={
+            location.state !== undefined && location.state.from === "edit"
+              ? "EDIT"
+              : "CREATE"
+          }
+        />
       </Flex>
       <BottomSheet
         open={select}

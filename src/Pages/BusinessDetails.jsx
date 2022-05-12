@@ -113,7 +113,7 @@ const BusinessDetails = () => {
           if (response.success === true) {
             dispatch(createbusiness(response));
 
-            history.push("/create-profile");
+            history.push("/");
             toast({
               title: "Success",
               description: "Business Successfully Created",

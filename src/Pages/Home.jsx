@@ -9,6 +9,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
+import FocusLock from "react-focus-lock";
 import { IoIosArrowDown } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
@@ -18,6 +19,7 @@ import CustomerCard from "../Component/CustomerCard";
 import Nav from "../Component/Nav";
 import {
   blue,
+  colore2,
   ec,
   font12,
   font16,
@@ -30,25 +32,31 @@ import {
 import customer from "../Images/customer.svg";
 import societyimg from "../Images/society.svg";
 import soc from "../Images/societyEmpty.svg";
-import { setSelectedSociety } from "../redux/reducers/userSlice";
+import {
+  getCustomers,
+  getWing,
+  setSelectedSociety,
+} from "../redux/reducers/userSlice";
 import Businessservice from "../services/Businessservice";
 import Societyservice from "../services/Societyervice";
+import Userservice from "../services/Userservice";
 
 const Home = () => {
   const history = useHistory();
   const toast = useToast();
   const dispatch = useDispatch();
 
+  const [customerDetails, setCustomerDetails] = useState();
   const [society, setSociety] = useState([]);
   const [wing, setWing] = useState([]);
   const [select, setSelect] = useState(false);
   const [customerView, setCustomerView] = useState(false);
-  // const [today, setToday] = useState(true);
   const [selected, setSelected] = useState({ id: null, name: "" });
   const [selectedWing, setSelectedWing] = useState("");
   const [customers, setCustomers] = useState([]);
-
+  const [todayDelievery, setTodayDelievery] = useState([]);
   const selectedSoc = useSelector((state) => state.user.selectedSociety);
+  const today = true;
 
   const fetchSociety = () => {
     Societyservice.getSocietyByUser().then((response) => {
@@ -60,12 +68,13 @@ const Home = () => {
 
   const fetchWing = () => {
     Societyservice.getAllWing(selected.id).then((response) => {
-      console.log(response, "in home");
       if (response.body.length > 0) {
+        setSelectedWing(response.body[0].wing);
         setWing(response.body);
       }
     });
   };
+
   useEffect(() => {
     if (society && society.length <= 0) {
       fetchSociety();
@@ -86,7 +95,17 @@ const Home = () => {
     if (selected.id !== null) {
       Businessservice.getCustomerBySociety(selected.id, selectedWing)
         .then((res) => {
-          if (res.data) setCustomers(res.data.customer);
+          if (res.data) {
+            setCustomers([]);
+            setTodayDelievery([]);
+            res.data.customer?.forEach((cust) => {
+              if (!cust.isTodayDelivered) {
+                setCustomers((old) => [...old, cust]);
+              } else {
+                setTodayDelievery((old) => [...old, cust]);
+              }
+            });
+          }
         })
         .catch((error) => {
           toast({
@@ -103,13 +122,32 @@ const Home = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selected, selectedWing]);
 
+  // useEffect(() => {
+  //   if (selected.id !== null)
+  //     Businessservice.getDelivery(selected.id).then((response) => {
+  //       console.log("delievry", response);
+  //       setTodayDelievery((old) => [...old, response.data.data]);
+  //     });
+  // }, []);
+  useEffect(() => {
+    dispatch(getWing(selectedWing));
+  }, [dispatch, selectedWing]);
+
+  const handleCustomerView = (id) => {
+    setCustomerView(true);
+    Userservice.getCustomerById(id).then((res) => {
+      dispatch(getCustomers(res.data));
+      setCustomerDetails(res.data);
+    });
+  };
+
   return (
     <Box w="100%" h="100vh">
       <Nav card={true} />
       <Flex mt="15px" w="100%" justifyContent={"space-between"}>
         <Flex
           onClick={() => setSelect(true)}
-          w="75%"
+          w={wing.length > 0 ? "65%" : "82%"}
           bg={white}
           h="48px"
           px="2"
@@ -118,7 +156,7 @@ const Home = () => {
           alignItems={"center"}
           boxShadow="rgba(0, 0, 0, 0.1) 0px 10px 45px"
         >
-          <Flex flex="2">
+          <Flex flex={wing.length > 0 ? "2" : ""}>
             <Image src={soc} />
 
             <Text
@@ -128,37 +166,47 @@ const Home = () => {
               color={`${society === "" ? grey : "black"}`}
               opacity="0.5"
               ml="3.5"
+              whiteSpace={"nowrap"}
             >{`${
-              selected.name === "" ? "Select Society" : selected.name
+              selected?.name === ""
+                ? "Select Society/Apartment/Shop"
+                : selected.name
             }`}</Text>
           </Flex>
           <IoIosArrowDown size="22px" color={blue} cursor="pointer" />
         </Flex>
-        <Select
-          w="23%"
-          bg={white}
-          h="48px"
-          px="2"
-          justify="space-between"
-          border={`0.8px solid ${blue}`}
-          borderRadius="10px 10px 10px 10px"
-          alignItems={"center"}
-          boxShadow="rgba(0, 0, 0, 0.1) 0px 10px 45px"
-          onChange={(newValue) => setSelectedWing(newValue)}
-        >
-          {wing.map((item) => (
-            <option
-              fontFamily={roboto}
-              fontSize={font16}
-              fontWeight={font400}
-              opacity="0.5"
-              ml="3.5"
-              value={item.wing}
-            >
-              {item.wing}
-            </option>
-          ))}
-        </Select>
+        {wing.length > 0 && (
+          <Select
+            w="max-content"
+            bg={white}
+            h="48px"
+            px="2"
+            placeholder={selected.name === "" ? "wing" : ""}
+            justify="space-between"
+            border={`0.8px solid ${blue}`}
+            borderRadius="10px 10px 10px 10px"
+            alignItems={"center"}
+            boxShadow="rgba(0, 0, 0, 0.1) 0px 10px 45px"
+            value={selectedWing}
+            onChange={(e) => {
+              setSelectedWing(e.target.value);
+            }}
+          >
+            {wing.map((item, index) => (
+              <option
+                fontFamily={roboto}
+                fontSize={font16}
+                fontWeight={font400}
+                opacity="0.5"
+                ml="3.5"
+                key={index}
+                value={item.wing}
+              >
+                {item.wing}
+              </option>
+            ))}
+          </Select>
+        )}
 
         <Flex
           alignItems={"center"}
@@ -175,17 +223,23 @@ const Home = () => {
       {customers ? (
         customers.map((customer) => (
           <CardComponent
-            onClick={() => setCustomerView(true)}
+            individual={false}
+            onClick={() => handleCustomerView(customer.id)}
             key={customer.id}
             name={customer.name}
             id={customer.id}
             deliveredCount={customer.deliveredCount}
             wing={customer.wing}
             houseNo={customer.houseNo}
+            selected={selected.id}
+            setCustomers={setCustomers}
+            setTodayDelievery={setTodayDelievery}
           />
         ))
       ) : (
-        <Box>No Customer Found</Box>
+        <Flex mt="50%" w="40%" mx="auto" color={colore2}>
+          No Customer Found
+        </Flex>
       )}
       <BottomSheet
         open={select}
@@ -205,7 +259,7 @@ const Home = () => {
           <Flex
             bg={white}
             height="116px"
-            w="105px"
+            w={["90%", "92%", "90%", "105px"]}
             flexDir="column"
             alignItems="center"
             justifyContent="center"
@@ -279,28 +333,41 @@ const Home = () => {
         </Grid>
       </BottomSheet>
 
+      <FocusLock>
+        <BottomSheet
+          open={customerView}
+          onDismiss={() => {
+            setCustomerView(false);
+          }}
+          className="hideScrollBar"
+          snapPoints={({ maxHeight }) => [maxHeight * 0.83]}
+        >
+          <CustomerCard
+            setCustomerView={setCustomerView}
+            details={customerDetails}
+            supplier={true}
+          />
+        </BottomSheet>
+      </FocusLock>
       <BottomSheet
-        open={customerView}
-        onDismiss={() => {
-          setCustomerView(false);
-        }}
-        className="hideScrollBar"
-        snapPoints={({ maxHeight }) => [maxHeight * 0.63]}
-      >
-        <CustomerCard supplier={true} />
-      </BottomSheet>
-      {/* <BottomSheet
         open={today}
-        // onClick={()=>}
+        // onDismiss={() => setToday(false)}
+        blocking={false}
         className="hideScrollBar"
-        snapPoints={
-          today
-            ? ({ maxHeight }) => [maxHeight * 0.3]
-            : ({ maxHeight }) => [maxHeight * 0.63]
-        }
+        snapPoints={({ maxHeight }) => [maxHeight / 13, maxHeight * 0.6]}
       >
-        <CustomerCard supplier={true} />
-      </BottomSheet> */}
+        {todayDelievery.map((customer) => (
+          <CardComponent
+            individual={true}
+            key={customer.id}
+            name={customer.name}
+            id={customer.id}
+            deliveredCount={customer.todayCount}
+            wing={customer.wing}
+            houseNo={customer.houseNo}
+          />
+        ))}
+      </BottomSheet>
     </Box>
   );
 };
