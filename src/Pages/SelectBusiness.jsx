@@ -41,7 +41,7 @@ const SelectBusiness = () => {
       dispatch(getBusiness(response.data));
       history.push("/");
     });
-  }, [dispatch]);
+  }, [dispatch, history]);
 
   useEffect(() => {
     if (user.type) {

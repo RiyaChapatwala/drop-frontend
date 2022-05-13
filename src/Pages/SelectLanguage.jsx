@@ -1,5 +1,13 @@
-import { Box, Button, Flex, Text, useToast } from "@chakra-ui/react";
+import { Box, Flex, Text, useToast } from "@chakra-ui/react";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { FaCheckCircle } from "react-icons/fa";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import "../App.css";
+import ButtonComponent from "../Component/ButtonComponent";
 import Layout from "../Component/Layout";
 import {
   API,
@@ -10,19 +18,10 @@ import {
   font400,
   font600,
   poppins,
-  white,
 } from "../Constant";
-import { FaCheckCircle } from "react-icons/fa";
-import Carousel from "react-multi-carousel";
-import "react-multi-carousel/lib/styles.css";
-import ButtonComponent from "../Component/ButtonComponent";
-import "../App.css";
-import { useHistory } from "react-router-dom";
-import Userservice from "../services/Userservice";
-import AuthService from "../services/Authservice";
-import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "../redux/reducers/userSlice";
-import axios from "axios";
+import AuthService from "../services/Authservice";
+import Userservice from "../services/Userservice";
 
 const SelectLanguage = () => {
   const [checked, setChecked] = useState([1]);
@@ -62,6 +61,7 @@ const SelectLanguage = () => {
     });
   };
 
+  // eslint-disable-next-line no-unused-vars
   const displayRazorpay = async (mode = "TEST") => {
     const res = await razorpayInit();
     if (!res) {

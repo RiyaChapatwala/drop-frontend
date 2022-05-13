@@ -101,7 +101,7 @@ const AddCustomer = () => {
       wing: wingName,
     };
     if (location.state !== undefined && location.state.from === "edit") {
-      Authservice.updateUser(data)
+      Authservice.updateCustomer(data, customerById.id)
         .then((res) => {
           if (res.name.toLowerCase() === custName.toLowerCase()) {
             // console.log(res, "hii");
