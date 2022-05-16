@@ -36,7 +36,7 @@ const Customer_home = () => {
   const toast = useToast();
 
   return (
-    <Box bgImage={backImg} w="100%" h="100vh">
+    <Box bgImage={backImg} w="100%" h={["100%", "100%", "100vh", "100vh"]}>
       <Flex justify="center">
         <Image mt="32%" src={drop} boxSize="98px" />
       </Flex>

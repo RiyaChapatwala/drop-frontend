@@ -52,7 +52,8 @@ const Routers = () => {
       <Switch>
         <Route exact path="/login" component={LogIn} />
         <Route exact path="/success" component={Success} />
-
+        <Route exact path="/customer-home" component={Customer_home} />
+        <Route exact path="/customer-deatils" component={CustomerDetails} />
         <Redirect to="/login" />
       </Switch>
     );
