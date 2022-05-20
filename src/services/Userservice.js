@@ -26,10 +26,10 @@ class Userservice {
         })
     );
   }
-  async getCustomerById(id) {
+  async getCustomerById(id, time) {
     return new Promise((resolve, reject) =>
       axios
-        .get(`${API}/user/customer/${id}`)
+        .get(`${API}/user/customer/${id}/month/${time}`)
         .then((response) => {
           resolve(response.data);
         })

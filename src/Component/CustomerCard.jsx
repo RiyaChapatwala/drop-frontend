@@ -44,13 +44,20 @@ import packet from "../Images/packet.svg";
 import water from "../Images/water.svg";
 import Authservice from "../services/Authservice";
 
-const CustomerCard = ({ supplier, details }) => {
+const CustomerCard = ({ supplier, details, handleCustomerView }) => {
   const history = useHistory();
   const [currentDate, setCurrentDate] = useState();
   const [menu, setMenu] = useState(false);
 
   const handleDates = (rangeInfo) => {
     setCurrentDate(rangeInfo);
+    console.log("rangeInfo ", rangeInfo);
+    console.log("Details ", details);
+    if (rangeInfo && details)
+      handleCustomerView(
+        details.id,
+        new Date(rangeInfo?.view.currentStart).getTime()
+      );
   };
 
   const handleDelete = () => {
@@ -335,7 +342,7 @@ const CustomerCard = ({ supplier, details }) => {
             {currentDate?.view.title} Total
           </Text>
           <Flex fontWeight={700} fontSize={font26} align="center">
-            <BiRupee /> 460
+            <BiRupee /> {details?.totalAmount || 0}
           </Flex>
         </Box>
         <Button

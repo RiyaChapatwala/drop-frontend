@@ -133,9 +133,9 @@ const Home = () => {
     dispatch(getWing(selectedWing));
   }, [dispatch, selectedWing]);
 
-  const handleCustomerView = (id) => {
+  const handleCustomerView = (id, time = new Date().getTime()) => {
     setCustomerView(true);
-    Userservice.getCustomerById(id).then((res) => {
+    Userservice.getCustomerById(id, time).then((res) => {
       dispatch(getCustomers(res.data));
       setCustomerDetails(res.data);
     });
@@ -224,7 +224,9 @@ const Home = () => {
         customers.map((customer) => (
           <CardComponent
             individual={false}
-            onClick={() => handleCustomerView(customer.id)}
+            onClick={() =>
+              handleCustomerView(customer.id, new Date().getTime())
+            }
             key={customer.id}
             name={customer.name}
             id={customer.id}
@@ -346,6 +348,7 @@ const Home = () => {
             setCustomerView={setCustomerView}
             details={customerDetails}
             supplier={true}
+            handleCustomerView={handleCustomerView}
           />
         </BottomSheet>
       </FocusLock>
