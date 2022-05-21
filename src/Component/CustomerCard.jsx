@@ -51,13 +51,11 @@ const CustomerCard = ({ supplier, details, handleCustomerView }) => {
 
   const handleDates = (rangeInfo) => {
     setCurrentDate(rangeInfo);
-    console.log("rangeInfo ", rangeInfo);
+    console.log("rangeInfo?.view.currentStart ", rangeInfo?.view.currentStart);
     console.log("Details ", details);
-    if (rangeInfo && details)
-      handleCustomerView(
-        details.id,
-        new Date(rangeInfo?.view.currentStart).getTime()
-      );
+    if (rangeInfo && details) {
+      handleCustomerView(details.id, rangeInfo?.view.title);
+    }
   };
 
   const handleDelete = () => {

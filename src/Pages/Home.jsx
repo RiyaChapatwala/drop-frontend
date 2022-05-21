@@ -133,7 +133,7 @@ const Home = () => {
     dispatch(getWing(selectedWing));
   }, [dispatch, selectedWing]);
 
-  const handleCustomerView = (id, time = new Date().getTime()) => {
+  const handleCustomerView = (id, time = new Date().toDateString()) => {
     setCustomerView(true);
     Userservice.getCustomerById(id, time).then((res) => {
       dispatch(getCustomers(res.data));
@@ -225,7 +225,7 @@ const Home = () => {
           <CardComponent
             individual={false}
             onClick={() =>
-              handleCustomerView(customer.id, new Date().getTime())
+              handleCustomerView(customer.id, new Date().toDateString)
             }
             key={customer.id}
             name={customer.name}
