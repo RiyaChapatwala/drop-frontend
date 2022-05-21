@@ -102,9 +102,9 @@ class AuthService {
   deleteUser = async (id) => {
     return new Promise((resolve, reject) =>
       axios
-        .delete(`${API}/user/${id}`)
+        .delete(`${API}/user/customer/${id}`)
         .then((response) => {
-          resolve(response.data.data);
+          resolve(response.data);
         })
         .catch((error) => reject(error))
     );

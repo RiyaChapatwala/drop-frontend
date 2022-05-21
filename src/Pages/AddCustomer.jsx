@@ -94,7 +94,7 @@ const AddCustomer = () => {
 
   const handleClick = () => {
     const data = {
-      customerName: custName,
+      name: custName,
       mobileNo: mobileNo,
       societyID: selected.id,
       houseNo: roomNo,
@@ -103,11 +103,10 @@ const AddCustomer = () => {
     if (location.state !== undefined && location.state.from === "edit") {
       Authservice.updateCustomer(data, customerById.id)
         .then((res) => {
-          if (res.name.toLowerCase() === custName.toLowerCase()) {
+          if (res) {
             // console.log(res, "hii");
             dispatch(getCustomers(res));
             Authservice.setUserData(res);
-            history.push("/");
 
             toast({
               title: "Success",
@@ -115,6 +114,7 @@ const AddCustomer = () => {
               status: "success",
               duration: 3000,
             });
+            history.push("/");
           }
         })
         .catch((error) =>

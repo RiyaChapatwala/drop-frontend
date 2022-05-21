@@ -6,13 +6,15 @@ import {
   Grid,
   GridItem,
   Image,
+  Spinner,
   Text,
+  useToast,
 } from "@chakra-ui/react";
+import "@fullcalendar/daygrid/main.css";
+import "@fullcalendar/timegrid/main.css";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import "@fullcalendar/daygrid/main.css";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import "@fullcalendar/timegrid/main.css";
 import { motion } from "framer-motion";
 import React, { useState } from "react";
 import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
@@ -34,6 +36,7 @@ import {
   font56,
   font600,
   font700,
+  grey,
   lightblue,
   poppins,
   roboto,
@@ -43,23 +46,72 @@ import {
 import packet from "../Images/packet.svg";
 import water from "../Images/water.svg";
 import Authservice from "../services/Authservice";
+import Businessservice from "../services/Businessservice";
 
 const CustomerCard = ({ supplier, details, handleCustomerView }) => {
   const history = useHistory();
+  const toast = useToast();
   const [currentDate, setCurrentDate] = useState();
   const [menu, setMenu] = useState(false);
+  const [isPaid, setIsPaid] = useState(false);
+  const [reminder, setReminder] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleDates = (rangeInfo) => {
     setCurrentDate(rangeInfo);
-    console.log("rangeInfo?.view.currentStart ", rangeInfo?.view.currentStart);
-    console.log("Details ", details);
+
     if (rangeInfo && details) {
       handleCustomerView(details.id, rangeInfo?.view.title);
     }
+    console.log(details, "details");
+    if (details?.paid) {
+      setIsPaid(true);
+    } else if (!details?.paid) {
+      setIsPaid(false);
+    }
+  };
+
+  const handlePayment = (id, date) => {
+    setIsLoading(true);
+    Businessservice.addPayment(id, date).then((res) => {
+      if (res.success) {
+        setIsLoading(false);
+
+        setIsPaid(true);
+        toast({
+          title: "DONE",
+          status: "succes",
+          duration: 3000,
+        });
+      }
+    });
+  };
+
+  const handleRemind = (id, month) => {
+    Businessservice.remindMe(id, month).then((res) => {
+      if (res.success) {
+        setReminder(true);
+        toast({
+          title: "Succss",
+          description: `${res.data.title} Is Set`,
+          status: "success",
+          duration: 3000,
+        });
+      }
+    });
   };
 
   const handleDelete = () => {
-    Authservice.deleteUser(details?.id).then((res) => console.log(res, "here"));
+    Authservice.deleteUser(details?.id).then((res) => {
+      if (res.success) {
+        toast({
+          title: "Success",
+          description: "User Has Been Deleted",
+          status: "success",
+          duration: 3000,
+        });
+      }
+    });
   };
 
   //gty is for taking the total quantity of delievered like [4,2,5] for the date 25,27,29
@@ -335,11 +387,22 @@ const CustomerCard = ({ supplier, details, handleCustomerView }) => {
         pb="24px"
         boxShadow="rgba(0, 0, 0, 0.35) 0px 5px 15px"
       >
-        <Box pt="30px" px="20px">
+        <Box
+          pt="30px"
+          px="20px"
+          opacity={isPaid ? "0.8" : ""}
+          color={isPaid ? grey : "black"}
+        >
           <Text fontWeight={font400} fontSize={font12}>
             {currentDate?.view.title} Total
           </Text>
-          <Flex fontWeight={700} fontSize={font26} align="center">
+          <Flex
+            color={isPaid ? grey : "black"}
+            fontWeight={700}
+            fontSize={font26}
+            align="center"
+            opacity={isPaid ? "0.8" : ""}
+          >
             <BiRupee /> {details?.totalAmount || 0}
           </Flex>
         </Box>
@@ -347,17 +410,25 @@ const CustomerCard = ({ supplier, details, handleCustomerView }) => {
           mt="30px"
           borderRadius="8px"
           h="55px"
-          background={blue}
+          background={isPaid ? "" : blue}
           fontWeight={font600}
-          fontSize={font16}
+          fontSize={isPaid ? "43px" : font16}
           fontFamily={poppins}
-          color={white}
+          color={isPaid ? grey : white}
           w="104px"
           mr="10px"
+          opacity={isPaid ? "0.6" : ""}
+          onClick={() => handlePayment(details?.id, new Date())}
         >
-          {supplier ? "PAID" : "PAY"}
+          {isLoading ? (
+            <Spinner color={white} size="md" />
+          ) : isPaid ? (
+            "PAID"
+          ) : (
+            "PAY"
+          )}
         </Button>
-        {supplier && (
+        {supplier && !isPaid && (
           <Button
             mt="30px"
             borderRadius="8px"
@@ -368,9 +439,9 @@ const CustomerCard = ({ supplier, details, handleCustomerView }) => {
             fontFamily={poppins}
             color={white}
             w="104px"
+            onClick={() => handleRemind(details?.id, currentDate?.view.title)}
           >
-            {" "}
-            REMIND
+            {reminder ? "REMINDER SET" : "REMINDER"}
           </Button>
         )}
       </Flex>

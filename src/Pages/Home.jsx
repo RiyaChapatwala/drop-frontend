@@ -5,6 +5,7 @@ import {
   GridItem,
   Image,
   Select,
+  Spinner,
   Text,
   useToast,
 } from "@chakra-ui/react";
@@ -19,7 +20,6 @@ import CustomerCard from "../Component/CustomerCard";
 import Nav from "../Component/Nav";
 import {
   blue,
-  colore2,
   ec,
   font12,
   font16,
@@ -55,6 +55,7 @@ const Home = () => {
   const [selectedWing, setSelectedWing] = useState("");
   const [customers, setCustomers] = useState([]);
   const [todayDelievery, setTodayDelievery] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const selectedSoc = useSelector((state) => state.user.selectedSociety);
   const today = true;
 
@@ -94,8 +95,10 @@ const Home = () => {
   useEffect(() => {
     if (selected.id !== null) {
       Businessservice.getCustomerBySociety(selected.id, selectedWing)
+
         .then((res) => {
           if (res.data) {
+            setIsLoading(true);
             setCustomers([]);
             setTodayDelievery([]);
             res.data.customer?.forEach((cust) => {
@@ -106,6 +109,7 @@ const Home = () => {
               }
             });
           }
+          setIsLoading(false);
         })
         .catch((error) => {
           toast({
@@ -122,15 +126,8 @@ const Home = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selected, selectedWing]);
 
-  // useEffect(() => {
-  //   if (selected.id !== null)
-  //     Businessservice.getDelivery(selected.id).then((response) => {
-  //       console.log("delievry", response);
-  //       setTodayDelievery((old) => [...old, response.data.data]);
-  //     });
-  // }, []);
   useEffect(() => {
-    dispatch(getWing(selectedWing));
+    if (selectedWing !== "") dispatch(getWing(selectedWing));
   }, [dispatch, selectedWing]);
 
   const handleCustomerView = (id, time = new Date().toDateString()) => {
@@ -141,6 +138,13 @@ const Home = () => {
     });
   };
 
+  if (isLoading) {
+    return (
+      <Box mt="50%" w="40%" mx="auto" h="100vh">
+        <Spinner size="lg" />
+      </Box>
+    );
+  }
   return (
     <Box w="100%" h="100vh">
       <Nav card={true} />
@@ -220,7 +224,7 @@ const Home = () => {
           <Image color={white} src={customer} />
         </Flex>
       </Flex>
-      {customers ? (
+      {customers.length > 0 ? (
         customers.map((customer) => (
           <CardComponent
             individual={false}
@@ -239,7 +243,7 @@ const Home = () => {
           />
         ))
       ) : (
-        <Flex mt="50%" w="40%" mx="auto" color={colore2}>
+        <Flex mt="50%" w="40%" mx="auto" color={"black"} opacity="0.8">
           No Customer Found
         </Flex>
       )}
