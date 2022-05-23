@@ -1,4 +1,4 @@
-import { Box, Image, Spinner } from "@chakra-ui/react";
+import { Box, Image, Spinner, Text } from "@chakra-ui/react";
 import React from "react";
 import splashscreen from "../Images/splashScreen.svg";
 import logo from "../Images/drop.svg";
@@ -39,6 +39,17 @@ const SplashScreen = ({ loading }) => {
           my="auto"
         />
       )}
+      <Text
+        w="100%"
+        position="absolute"
+        bottom="5"
+        textAlign="center"
+        color="white"
+        fontFamily={"lato"}
+      >
+        from <br />
+        <span> ZOGNEST</span>
+      </Text>
     </Box>
   );
 };

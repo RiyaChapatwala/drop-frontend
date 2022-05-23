@@ -16,7 +16,7 @@ import {
 import logo from "../Images/drop.svg";
 import top from "../Images/top.svg";
 
-const Layout = ({ card, screen }) => {
+const Layout = ({ card, screen, select }) => {
   const user = useSelector((state) => state.user.data.user);
   const history = useHistory();
   return (
@@ -30,9 +30,9 @@ const Layout = ({ card, screen }) => {
         <>
           <Image
             src={logo}
-            boxSize="65px"
+            boxSize="80px"
             position="absolute"
-            top="5%"
+            top={["120px", "180px", "120px", "160px", "160px"]}
             left={0}
             right={0}
             mx="auto"
@@ -40,6 +40,20 @@ const Layout = ({ card, screen }) => {
             cursor="pointer"
           />
         </>
+      )}
+      {select && (
+        <Box
+          cursor="pointer"
+          position={"absolute"}
+          top="5%"
+          left={["7%", "5%", "28%", "32%", "37%"]}
+        >
+          <BiArrowBack
+            size={"22px"}
+            color={white}
+            onClick={() => history.goBack()}
+          />
+        </Box>
       )}
       {card && (
         <Flex direction="column">

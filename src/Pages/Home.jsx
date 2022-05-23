@@ -5,7 +5,6 @@ import {
   GridItem,
   Image,
   Select,
-  Spinner,
   Text,
   useToast,
 } from "@chakra-ui/react";
@@ -58,6 +57,7 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
   const selectedSoc = useSelector((state) => state.user.selectedSociety);
   const today = true;
+  console.log(isLoading);
 
   const fetchSociety = () => {
     Societyservice.getSocietyByUser().then((response) => {
@@ -138,13 +138,13 @@ const Home = () => {
     });
   };
 
-  if (isLoading) {
-    return (
-      <Box mt="50%" w="40%" mx="auto" h="100vh">
-        <Spinner size="lg" />
-      </Box>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <Box mt="50%" w="40%" mx="auto" h="100vh">
+  //       <Spinner size="lg" />
+  //     </Box>
+  //   );
+  // }
   return (
     <Box w="100%" h="100vh">
       <Nav card={true} />

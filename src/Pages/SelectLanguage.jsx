@@ -1,6 +1,7 @@
 import { Box, Flex, Text, useToast } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { AiOutlineCopyright } from "react-icons/ai";
 import { FaCheckCircle } from "react-icons/fa";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
@@ -17,6 +18,7 @@ import {
   font22,
   font400,
   font600,
+  lato,
   poppins,
 } from "../Constant";
 import { updateUser } from "../redux/reducers/userSlice";
@@ -178,89 +180,103 @@ const SelectLanguage = () => {
         </Text>
       </Flex>
 
-      <Carousel
-        swipeable={true}
-        draggable={true}
-        autoPlay={false}
-        responsive={responsive}
-        // ssr={true}
-        infinite={false}
-        beforeChange={() => this.setState({ isMoving: true })}
-        afterChange={() => this.setState({ isMoving: false })}
-        keyBoardControl={true}
-        // transitionDuration={1000}
-        containerClass="carousel-container"
-        removeArrowOnDeviceType={["tablet", "mobile", "desktop"]}
-        deviceType={responsive.deviceType}
-        itemClass="carousel-item-padding-40-px"
-      >
-        {lang?.map((item) => (
-          <Flex
-            key={item.id}
-            mb="7"
-            position="relative"
-            height="117px"
-            width="95px"
-            flexDir="column"
-            alignItems="center"
-            justifyContent="center"
-            borderRadius="xl"
-            border="1px solid #B7BDCB"
-            as="label"
-            cursor="pointer"
-            backgroundColor={
+      <Box w="85%" mx="auto">
+        <Carousel
+          swipeable={true}
+          draggable={true}
+          autoPlay={false}
+          responsive={responsive}
+          // ssr={true}
+          infinite={false}
+          beforeChange={() => this.setState({ isMoving: true })}
+          afterChange={() => this.setState({ isMoving: false })}
+          keyBoardControl={true}
+          // transitionDuration={1000}
+          containerClass="carousel-container"
+          removeArrowOnDeviceType={["tablet", "mobile", "desktop"]}
+          deviceType={responsive.deviceType}
+          // itemClass="carousel-item-padding-40-px"
+        >
+          {lang?.map((item) => (
+            <Flex
+              key={item.id}
+              mb="7"
+              position="relative"
+              height="117px"
+              width="95px"
+              flexDir="column"
+              alignItems="center"
+              justifyContent="center"
+              borderRadius="xl"
+              border="1px solid #B7BDCB"
+              as="label"
+              cursor="pointer"
+              backgroundColor={
+                checked?.findIndex(
+                  (e) => e.id === item.id && e.isChecked === true
+                ) === -1 || checked === undefined
+                  ? "white"
+                  : `${blue}`
+              }
+              color={
+                checked?.findIndex(
+                  (e) => e.id === item.id && e.isChecked === true
+                ) === -1 || checked === undefined
+                  ? "black"
+                  : "white"
+              }
+            >
+              {checked &&
               checked?.findIndex(
                 (e) => e.id === item.id && e.isChecked === true
-              ) === -1 || checked === undefined
-                ? "white"
-                : `${blue}`
-            }
-            color={
-              checked?.findIndex(
-                (e) => e.id === item.id && e.isChecked === true
-              ) === -1 || checked === undefined
-                ? "black"
-                : "white"
-            }
-          >
-            {checked &&
-            checked?.findIndex(
-              (e) => e.id === item.id && e.isChecked === true
-            ) !== -1 ? (
-              <FaCheckCircle
-                size={20}
-                style={{
-                  position: "absolute",
-                  top: " 5%",
-                  left: "70%",
+              ) !== -1 ? (
+                <FaCheckCircle
+                  size={20}
+                  style={{
+                    position: "absolute",
+                    top: " 5%",
+                    left: "70%",
+                  }}
+                />
+              ) : (
+                <span />
+              )}
+              <input
+                style={{ display: "none" }}
+                type="checkbox"
+                name="event"
+                onChange={(e) => {
+                  setChecked([{ id: item.id, isChecked: true }]);
                 }}
               />
-            ) : (
-              <span />
-            )}
-            <input
-              style={{ display: "none" }}
-              type="checkbox"
-              name="event"
-              onChange={(e) => {
-                setChecked([{ id: item.id, isChecked: true }]);
-              }}
-            />
-            <Text
-              fontSize={font20}
-              fontWeight={font400}
-              textTransform="capitalize"
-              mt={checked ? "3" : ""}
-              fontFamily={poppins}
-              textAlign={"center"}
-            >
-              {item.name}
-            </Text>
-          </Flex>
-        ))}
-      </Carousel>
-      <Flex w="90%" mx="auto" onClick={() => handleSubmit()}>
+              <Text
+                fontSize={font20}
+                fontWeight={font400}
+                textTransform="capitalize"
+                mt={checked ? "3" : ""}
+                fontFamily={poppins}
+                textAlign={"center"}
+              >
+                {item.name}
+              </Text>
+            </Flex>
+          ))}
+        </Carousel>
+      </Box>
+      <Flex w="85%" mx="auto" onClick={() => handleSubmit()}>
         <ButtonComponent name="CONTINUE" />
+      </Flex>
+      <Flex color={"#727272"} mt="20px" pb="10px" w="100%" justify="center">
+        <AiOutlineCopyright style={{ opacity: 0.5 }} />
+        <Text
+          opacity={0.5}
+          fontFamily={lato}
+          fontWeight={font400}
+          fontSize={font12}
+          ml="1"
+        >
+          2021-2022 DROP. All Rights Reserved.
+        </Text>
       </Flex>
       {/* <Flex mt="1" w="90%" mx="auto" onClick={() => displayRazorpay("TEST")}>
         <Button w="100%" h="50px" backgroundColor={"grey"} color={white}>

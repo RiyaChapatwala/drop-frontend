@@ -82,7 +82,7 @@ const LogIn = () => {
             </Text>
           </Flex>
           <LoginWithGoogle />
-          
+
           <Flex
             alignItems="center"
             w="85%"
@@ -96,12 +96,14 @@ const LogIn = () => {
               textAlign="center"
               fontSize={font12}
               fontWeight={font500}
-              color="red"
+              color={blue}
             >
-              <span style={{ color: blue }}>
-                By logging in you agree to DROP{" "}
+              <span style={{ color: "#898989" }}>
+                By logging in you agree to DROP
+                <br />
               </span>
-              Terms and Services, Privacy policy and Content policy
+              Terms and Services
+              <span style={{ color: "#898989" }}> and </span>Privacy policy
             </Text>
           </Flex>
         </Box>
