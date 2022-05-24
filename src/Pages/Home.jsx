@@ -225,7 +225,7 @@ const Home = () => {
           <CardComponent
             individual={false}
             onClick={() =>
-              handleCustomerView(customer.id, new Date().toDateString)
+              handleCustomerView(customer.id, new Date().toDateString())
             }
             key={customer.id}
             name={customer.name}
