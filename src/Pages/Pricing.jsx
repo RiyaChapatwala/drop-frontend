@@ -1,4 +1,4 @@
-import { Box, Divider, Flex, Image, Text } from "@chakra-ui/react";
+import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import React from "react";
 import { AiFillInfoCircle, AiOutlineCheckCircle } from "react-icons/ai";
 import Layout from "../Component/Layout";
@@ -8,14 +8,14 @@ import example from "../Images/example.svg";
 
 const Pricing = () => {
   return (
-    <Box w="100%" h={["100vh", "120vh"]}>
-      <Layout card={false} />
+    <Box w="100%" h={["135vh", "150vh", "150vh", "125vh"]}>
+      <Layout card={false} screen={true} pricing={true} />
       <Flex
         w="max-content"
         direction="column"
         position="absolute"
         justify="center"
-        top={["35%", "35%", "35%", "35%"]}
+        top={["27%", "35%", "35%", "32%"]}
         left={0}
         right={0}
         mx="auto"
@@ -30,14 +30,19 @@ const Pricing = () => {
         <Flex justify="center">
           <Image src={drop} boxSize="91px" position="absolute" top="-35px" />
         </Flex>
-        <Divider
-          w="83%"
-          color={blue}
+        <Box
+          w="40%"
+          h="0.1%"
+          // color={blue}
+          bg={blue}
           my="30px"
           position="absolute"
           top="45px"
+          left={0}
+          right={0}
+          mx="auto"
         />
-        <Flex px="30px" alignItems="center" mt="85px">
+        <Flex px="30px" alignItems="center" mt="90px">
           <AiOutlineCheckCircle size="21px" color={blue} />
           <Text ml="13px">Add Unlimited Customer</Text>
         </Flex>
@@ -51,7 +56,7 @@ const Pricing = () => {
         </Flex>
         <Flex px="30px" alignItems="center" mt="12px">
           <AiOutlineCheckCircle size="21px" color={blue} />
-          <Text ml="13px">View Earning &amps; Transactions</Text>
+          <Text ml="13px">View Earning & Transactions</Text>
         </Flex>
         <Flex px="30px" alignItems="center" mt="12px">
           <AiOutlineCheckCircle size="21px" color={blue} />

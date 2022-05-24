@@ -21,10 +21,13 @@ import {
   blue,
   ec,
   font12,
+  font14,
   font16,
   font400,
   font600,
+  font700,
   grey,
+  poppins,
   roboto,
   white,
 } from "../Constant";
@@ -164,11 +167,11 @@ const Home = () => {
             <Image src={soc} />
 
             <Text
-              fontFamily={roboto}
-              fontSize={font16}
-              fontWeight={font400}
-              color={`${society === "" ? grey : "black"}`}
-              opacity="0.5"
+              fontFamily={poppins}
+              fontSize={`${selected.name === "" ? font14 : font14}`}
+              fontWeight={`${selected.name === "" ? font400 : font700}`}
+              color={grey}
+              opacity={`${selected.name === "" ? 0.5 : 1}`}
               ml="3.5"
               whiteSpace={"nowrap"}
             >{`${
@@ -184,7 +187,10 @@ const Home = () => {
             w="max-content"
             bg={white}
             h="48px"
-            px="2"
+            px="1"
+            fontFamily={poppins}
+            fontSize={font16}
+            fontWeight={font700}
             placeholder={selected.name === "" ? "wing" : ""}
             justify="space-between"
             border={`0.8px solid ${blue}`}
@@ -197,15 +203,7 @@ const Home = () => {
             }}
           >
             {wing.map((item, index) => (
-              <option
-                fontFamily={roboto}
-                fontSize={font16}
-                fontWeight={font400}
-                opacity="0.5"
-                ml="3.5"
-                key={index}
-                value={item.wing}
-              >
+              <option ml="3.5" key={index} value={item.wing}>
                 {item.wing}
               </option>
             ))}

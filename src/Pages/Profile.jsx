@@ -25,7 +25,7 @@ const Profile = () => {
   const dispatch = useDispatch();
   const [share, setShare] = useState(false);
   return (
-    <Box w="100%" h={["100vh", "100vh"]}>
+    <Box w="100%" h={["100vh", "max-content"]}>
       <Layout card={true} />
       <Box
         px="33px"
@@ -97,7 +97,7 @@ const Profile = () => {
           <Image mr="12px" src={signout} />
           Signout
         </Flex>
-        <Text color="#001833" textAlign="center" mt="5">
+        <Text color="#001833" textAlign="center" mt="10">
           drop by{" "}
           <Link to="https://drop-pwa.netlify.app" color={lightblue}>
             ZOGNEST.

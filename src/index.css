@@ -42,6 +42,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+.css-zj2dqk {
+  color: #5669ff !important;
+}
 @media screen and (min-width: 48em) {
   :root {
     --rsbs-max-w: 50%;
