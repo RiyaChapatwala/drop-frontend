@@ -26,8 +26,8 @@ const Nav = ({ card }) => {
     imageUrl: "",
     address: "",
   });
+
   useEffect(() => {
-    console.log("USER ", user);
     if (!user.language) {
       history.push("/selectLanguage", { from: "language" });
     } else if (!user.name || !user.mobileNo) {
@@ -47,6 +47,7 @@ const Nav = ({ card }) => {
         });
     }
   }, [dispatch]);
+
   return (
     <Flex
       alignItems={"center"}

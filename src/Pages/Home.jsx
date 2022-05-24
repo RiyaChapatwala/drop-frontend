@@ -19,13 +19,15 @@ import CustomerCard from "../Component/CustomerCard";
 import Nav from "../Component/Nav";
 import {
   blue,
-  colore2,
   ec,
   font12,
+  font14,
   font16,
   font400,
   font600,
+  font700,
   grey,
+  poppins,
   roboto,
   white,
 } from "../Constant";
@@ -55,8 +57,10 @@ const Home = () => {
   const [selectedWing, setSelectedWing] = useState("");
   const [customers, setCustomers] = useState([]);
   const [todayDelievery, setTodayDelievery] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const selectedSoc = useSelector((state) => state.user.selectedSociety);
   const today = true;
+  console.log(isLoading);
 
   const fetchSociety = () => {
     Societyservice.getSocietyByUser().then((response) => {
@@ -94,8 +98,10 @@ const Home = () => {
   useEffect(() => {
     if (selected.id !== null) {
       Businessservice.getCustomerBySociety(selected.id, selectedWing)
+
         .then((res) => {
           if (res.data) {
+            setIsLoading(true);
             setCustomers([]);
             setTodayDelievery([]);
             res.data.customer?.forEach((cust) => {
@@ -106,6 +112,7 @@ const Home = () => {
               }
             });
           }
+          setIsLoading(false);
         })
         .catch((error) => {
           toast({
@@ -122,15 +129,8 @@ const Home = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selected, selectedWing]);
 
-  // useEffect(() => {
-  //   if (selected.id !== null)
-  //     Businessservice.getDelivery(selected.id).then((response) => {
-  //       console.log("delievry", response);
-  //       setTodayDelievery((old) => [...old, response.data.data]);
-  //     });
-  // }, []);
   useEffect(() => {
-    dispatch(getWing(selectedWing));
+    if (selectedWing !== "") dispatch(getWing(selectedWing));
   }, [dispatch, selectedWing]);
 
   const handleCustomerView = (id, time = new Date().toDateString()) => {
@@ -141,6 +141,13 @@ const Home = () => {
     });
   };
 
+  // if (isLoading) {
+  //   return (
+  //     <Box mt="50%" w="40%" mx="auto" h="100vh">
+  //       <Spinner size="lg" />
+  //     </Box>
+  //   );
+  // }
   return (
     <Box w="100%" h="100vh">
       <Nav card={true} />
@@ -160,11 +167,11 @@ const Home = () => {
             <Image src={soc} />
 
             <Text
-              fontFamily={roboto}
-              fontSize={font16}
-              fontWeight={font400}
-              color={`${society === "" ? grey : "black"}`}
-              opacity="0.5"
+              fontFamily={poppins}
+              fontSize={`${selected.name === "" ? font14 : font14}`}
+              fontWeight={`${selected.name === "" ? font400 : font700}`}
+              color={grey}
+              opacity={`${selected.name === "" ? 0.5 : 1}`}
               ml="3.5"
               whiteSpace={"nowrap"}
             >{`${
@@ -180,7 +187,10 @@ const Home = () => {
             w="max-content"
             bg={white}
             h="48px"
-            px="2"
+            px="1"
+            fontFamily={poppins}
+            fontSize={font16}
+            fontWeight={font700}
             placeholder={selected.name === "" ? "wing" : ""}
             justify="space-between"
             border={`0.8px solid ${blue}`}
@@ -193,15 +203,7 @@ const Home = () => {
             }}
           >
             {wing.map((item, index) => (
-              <option
-                fontFamily={roboto}
-                fontSize={font16}
-                fontWeight={font400}
-                opacity="0.5"
-                ml="3.5"
-                key={index}
-                value={item.wing}
-              >
+              <option ml="3.5" key={index} value={item.wing}>
                 {item.wing}
               </option>
             ))}
@@ -220,7 +222,7 @@ const Home = () => {
           <Image color={white} src={customer} />
         </Flex>
       </Flex>
-      {customers ? (
+      {customers.length > 0 ? (
         customers.map((customer) => (
           <CardComponent
             individual={false}
@@ -239,7 +241,7 @@ const Home = () => {
           />
         ))
       ) : (
-        <Flex mt="50%" w="40%" mx="auto" color={colore2}>
+        <Flex mt="50%" w="40%" mx="auto" color={"black"} opacity="0.8">
           No Customer Found
         </Flex>
       )}

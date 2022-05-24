@@ -108,7 +108,7 @@ const CreateProfile = () => {
           size={22}
         />
         <Text ml="4" fontFamily={roboto} fontWeight={font600} fontSize={font16}>
-          Create Profile
+          {location.state && location.state.edit ? "Edit" : "Create"} Profile
         </Text>
       </Flex>
       <Flex

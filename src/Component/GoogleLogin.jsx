@@ -28,7 +28,6 @@ const LoginWithGoogle = ({ isSignInOpen }) => {
     AuthService.signInWithGoogle(res.getAuthResponse().id_token)
       .then((response) => {
         dispatch(login(response));
-        console.log("response.data ", response);
         if (!response.user.language) {
           history.push("/selectLanguage");
         } else {

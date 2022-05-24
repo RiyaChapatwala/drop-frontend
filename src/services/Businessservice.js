@@ -66,6 +66,19 @@ class BusinessService {
     );
   }
 
+  async addPayment(id, date) {
+    return new Promise((resolve, reject) =>
+      axios
+        .post(`${API}/business/customer/${id}/payment/${date}`)
+        .then((response) => {
+          resolve(response.data);
+        })
+        .catch((error) => {
+          reject(error);
+        })
+    );
+  }
+
   async getCustomerDetails(id) {
     return new Promise((resolve, reject) =>
       axios
@@ -110,7 +123,19 @@ class BusinessService {
       axios
         .post(`${API}/business/delivery`, data)
         .then((response) => {
-          console.log(response, "delievery");
+          resolve(response.data);
+        })
+        .catch((error) => {
+          reject(error);
+        })
+    );
+  }
+
+  async remindMe(id, month) {
+    return new Promise((resolve, reject) =>
+      axios
+        .post(`${API}/user/notification/customer/${id}/${month}`)
+        .then((response) => {
           resolve(response.data);
         })
         .catch((error) => {

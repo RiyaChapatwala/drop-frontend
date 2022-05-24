@@ -14,6 +14,7 @@ import {
   font400,
   font600,
   grey,
+  lato,
   poppins,
   roboto,
   white,
@@ -23,6 +24,7 @@ import icon from "../Images/location.svg";
 import Mediaservice from "../services/Mediaservice";
 import Businessservice from "../services/Businessservice";
 import { createbusiness } from "../redux/reducers/userSlice";
+import { AiOutlineCopyright } from "react-icons/ai";
 
 const BusinessDetails = () => {
   const location = useLocation();
@@ -69,8 +71,8 @@ const BusinessDetails = () => {
       .then((response) => setUrl({ id: response.id, imgUrl: response.url }))
       .catch((err) => console.log(err));
 
-    location.state.checked &&
-      location.state.checked.forEach((element) => {
+    location.state?.checked &&
+      location.state?.checked.forEach((element) => {
         setType(element.id);
       });
   }, [selectedFile, location, type]);
@@ -137,7 +139,7 @@ const BusinessDetails = () => {
 
   return (
     <Box w="100%" fontFamily={poppins} h="100vh">
-      <Layout />
+      <Layout select={true} />
       <Flex direction="column" justify="center" alignItems="center" mt="8">
         <Text
           fontFamily={poppins}
@@ -277,10 +279,22 @@ const BusinessDetails = () => {
         </Flex>
       </Flex>
 
-      <Flex w="85%" mx="auto" mt="9" onClick={() => handleClick()}>
+      <Flex w="85%" mx="auto" mt="56px" onClick={() => handleClick()}>
         <ButtonComponent
           name={location.state && location.state.edit ? "EDIT" : "DONE"}
         />
+      </Flex>
+      <Flex color={"#727272"} mt="30px" pb="10px" w="100%" justify="center">
+        <AiOutlineCopyright style={{ opacity: 0.5 }} />
+        <Text
+          opacity={0.5}
+          fontFamily={lato}
+          fontWeight={font400}
+          fontSize={font12}
+          ml="1"
+        >
+          2021-2022 DROP. All Rights Reserved.
+        </Text>
       </Flex>
     </Box>
   );
