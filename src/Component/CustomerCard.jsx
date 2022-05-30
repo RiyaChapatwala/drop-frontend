@@ -63,7 +63,6 @@ const CustomerCard = ({ supplier, details, handleCustomerView }) => {
     if (rangeInfo && details) {
       handleCustomerView(details.id, rangeInfo?.view.title);
     }
-    console.log(details, "details");
     if (details?.paid) {
       setIsPaid(true);
     } else if (!details?.paid) {

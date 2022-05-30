@@ -50,15 +50,19 @@ const BusinessDetails = () => {
           setUrl({ id: res.data.imageID, imgUrl: res.data.imageUrl });
         }
       })
-      .catch((error) =>
-        toast({
-          title: "error",
-          description: error.isAxiosError
-            ? error.response?.data?.message
-            : error.message,
-          status: "error",
-          duration: 3000,
-        })
+      .catch(
+        (error) =>
+          console.log(
+            error.isAxiosError ? error.response?.data?.message : error.message
+          )
+        // toast({
+        //   title: "error",
+        //   description: error.isAxiosError
+        //     ? error.response?.data?.message
+        //     : error.message,
+        //   status: "error",
+        //   duration: 3000,
+        // })
       );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -90,13 +94,13 @@ const BusinessDetails = () => {
       Businessservice.editBusiness(data)
         .then((response) => {
           if (response.success === true) {
-            history.push("/profile");
             toast({
               title: "Success",
               description: "Business Successfully Updated",
               status: "success",
               duration: 3000,
             });
+            history.push("/");
           }
         })
         .catch((error) =>
@@ -115,7 +119,7 @@ const BusinessDetails = () => {
           if (response.success === true) {
             dispatch(createbusiness(response));
 
-            history.push("/");
+            history.push("/create-profile");
             toast({
               title: "Success",
               description: "Business Successfully Created",

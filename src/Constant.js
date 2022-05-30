@@ -34,6 +34,6 @@ export const font600 = "600";
 export const font500 = "500";
 export const font400 = "400";
 // export const API = "http://localhost:4001/api";
-// // export const API = "https://drop89.herokuapp.com";
+// export const API = "https://drop89.herokuapp.com/api";
 export const API = "https://dropsupply.in/api";
 export const GOOGLE_API_KEY = "AIzaSyDoaU0tCaIs3QDbmWffHWtS5521lcvjNUk";

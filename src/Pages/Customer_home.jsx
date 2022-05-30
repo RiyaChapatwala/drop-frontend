@@ -84,7 +84,6 @@ const Customer_home = () => {
           if (phnNumber !== null) {
             Userservice.getCustomerByPhone(phnNumber)
               .then((res) => {
-                console.log(res, "det");
                 history.push("/customer-deatils", {
                   supplier: false,
                   data: res.data,
