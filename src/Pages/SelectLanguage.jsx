@@ -1,4 +1,4 @@
-import { Box, Flex, Text, useToast } from "@chakra-ui/react";
+import { Box, Flex, Spinner, Text, useToast } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { AiOutlineCopyright } from "react-icons/ai";
@@ -28,6 +28,7 @@ import Userservice from "../services/Userservice";
 const SelectLanguage = () => {
   const [checked, setChecked] = useState([1]);
   const [lang, setLang] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const history = useHistory();
   const dispatch = useDispatch();
@@ -44,7 +45,9 @@ const SelectLanguage = () => {
   useEffect(() => {
     Userservice.getLanguage()
       .then((response) => {
+        setLoading(true);
         setLang(response.data);
+        setLoading(false);
       })
       .catch((err) => console.log(err, "error"));
   }, []);
@@ -152,6 +155,14 @@ const SelectLanguage = () => {
       slidesToSlide: 1, // optional, default to 1.
     },
   };
+
+  if (loading) {
+    return (
+      <Flex justify="center" align="center" w="100%" mx="auto" h="100vh">
+        <Spinner size="lg" color={blue} />
+      </Flex>
+    );
+  }
 
   return (
     <Box w="100%">

@@ -1,4 +1,4 @@
-import { Box, Flex, Image, Text, useToast } from "@chakra-ui/react";
+import { Box, Flex, Image, Spinner, Text, useToast } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import Carousel from "react-multi-carousel";
@@ -25,6 +25,7 @@ import { AiOutlineCopyright } from "react-icons/ai";
 const SelectBusiness = () => {
   const [checked, setChecked] = useState([]);
   const [type, setType] = useState([]);
+  const [loading, setLoading] = useState(false);
   const history = useHistory();
   const toast = useToast();
   const dispatch = useDispatch();
@@ -34,10 +35,13 @@ const SelectBusiness = () => {
   useEffect(() => {
     Businessservice.getBusinessType()
       .then((response) => {
+        setLoading(true);
         setType(response?.data);
+        setLoading(false);
       })
       .catch((err) => console.log(err, "error"));
   }, []);
+
   useEffect(() => {
     Businessservice.getBusiness().then((response) => {
       dispatch(getBusiness(response.data));
@@ -68,6 +72,14 @@ const SelectBusiness = () => {
       slidesToSlide: 1, // optional, default to 1.
     },
   };
+
+  if (loading) {
+    return (
+      <Flex justify="center" align="center" w="100%" mx="auto" h="100vh">
+        <Spinner size="lg" color={blue} />
+      </Flex>
+    );
+  }
 
   return (
     <Box w="100%">
