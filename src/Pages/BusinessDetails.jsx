@@ -138,7 +138,7 @@ const BusinessDetails = () => {
   };
 
   return (
-    <Box w="100%" fontFamily={poppins} h="100vh">
+    <Box w="100%" fontFamily={poppins} h="max-content">
       <Layout select={true} />
       <Flex direction="column" justify="center" alignItems="center" mt="8">
         <Text
