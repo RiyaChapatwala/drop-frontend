@@ -70,7 +70,6 @@ const SelectLanguage = () => {
       alert("Payment gateway error");
     }
     const getOrder = await axios.post(API + `/razorpay/order/${mode}`);
-    console.log(getOrder.data);
     const order_id = getOrder.data.id;
     const currency = getOrder.data.currency;
     const amount = getOrder.data.amount;
