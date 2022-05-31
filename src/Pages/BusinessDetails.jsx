@@ -96,7 +96,7 @@ const BusinessDetails = () => {
           if (response.success === true) {
             toast({
               title: "Success",
-              description: "Business Successfully Updated",
+              description: "Business Updated Successfully",
               status: "success",
               duration: 3000,
             });
@@ -122,7 +122,7 @@ const BusinessDetails = () => {
             history.push("/create-profile");
             toast({
               title: "Success",
-              description: "Business Successfully Created",
+              description: "Business Created Successfully",
               status: "success",
               duration: 3000,
             });

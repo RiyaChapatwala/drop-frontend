@@ -42,13 +42,13 @@ const CreateProfile = () => {
   const user = useSelector((state) => state.user.data.user);
 
   useEffect(() => {
-    if (user.name) {
+    if (user.name !== "") {
       setFname(user.name);
     }
-    if (user.mobileNo) {
+    if (user.mobileNo !== "") {
       setPhnNumber(user.mobileNo);
     }
-    if (user.imageUrl && user.imageID) {
+    if (user.imageUrl !== "" && user.imageID) {
       setUrl({ id: user.imageID, imgUrl: user.imageUrl });
     }
   }, [user]);
@@ -69,20 +69,25 @@ const CreateProfile = () => {
         Authservice.updateUser(data)
           .then((res) => {
             if (res.name.toLowerCase() === fname.toLowerCase()) {
-              // console.log(res, "hii");
               dispatch(updateUser(res));
               Authservice.setUserData(res);
               if (location.state && location.state.edit) {
                 history.push("/profile");
+                toast({
+                  title: "Success",
+                  description: "Profile Edited Successfully",
+                  status: "success",
+                  duration: 3000,
+                });
               } else {
                 history.push("/addSocietyAcc");
+                toast({
+                  title: "Success",
+                  description: "Profile Created Successfully",
+                  status: "success",
+                  duration: 3000,
+                });
               }
-              toast({
-                title: "Success",
-                description: "Success",
-                status: "success",
-                duration: 3000,
-              });
             }
           })
           .catch((error) =>
