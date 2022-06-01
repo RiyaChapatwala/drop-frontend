@@ -25,6 +25,7 @@ const Nav = ({ card }) => {
     name: "",
     imageUrl: "",
     address: "",
+    rate: 0,
   });
 
   useEffect(() => {
@@ -40,6 +41,7 @@ const Nav = ({ card }) => {
             name: response.data.name,
             imageUrl: response.data.imageUrl,
             address: response.data.address,
+            rate: response.data.rate,
           });
         })
         .catch(() => {

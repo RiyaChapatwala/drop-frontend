@@ -36,6 +36,7 @@ const BusinessDetails = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [addressLine, setAddressLine] = useState("");
   const [businessName, setBusinessName] = useState("");
+  const [rate, setRate] = useState(0);
   const [type, setType] = useState();
 
   const user = useSelector((state) => state.user.data.user);
@@ -88,6 +89,7 @@ const BusinessDetails = () => {
       imageUrl: url.imgUrl,
       imageID: url.id,
       type: type,
+      rate: rate,
     };
 
     if (location.state && location.state?.edit) {
@@ -274,6 +276,46 @@ const BusinessDetails = () => {
             border="none"
             value={addressLine}
             onChange={(e) => setAddressLine(e.target.value)}
+          />
+          {/* <LocationInput
+            address={addressLine}
+            placeholder="Your Address"
+            setAddress={setAddressLine}
+          /> */}
+        </Flex>
+        <Flex
+          w="85%"
+          mt="25px"
+          py="1"
+          px="3"
+          border="1px solid #B4B3B3"
+          borderRadius="6px"
+          fontFamily={roboto}
+          fontSize={font14}
+          fontWeight={font400}
+          background={white}
+        >
+          <Image src={icon} />
+          <Input
+            _focus={{
+              border: "none",
+            }}
+            _active={{
+              bg: "transparent",
+            }}
+            _hover={{
+              bg: "transperant",
+              border: "none",
+            }}
+            _placeholder={{
+              color: grey,
+              opacity: "0.5",
+            }}
+            placeholder="Bottle Rate"
+            border="none"
+            value={rate}
+            type="number"
+            onChange={(e) => setRate(+e.target.value)}
           />
           {/* <LocationInput
             address={addressLine}
