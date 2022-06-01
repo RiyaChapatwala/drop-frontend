@@ -107,7 +107,7 @@ const Layout = ({ card, screen, select, pricing }) => {
             fontFamily={roboto}
             fontSize={font16}
             position="absolute"
-            top={["37%", "21%", "21%", "19%", "20%"]}
+            top={["27%", "21%", "21%", "19%", "20%"]}
             // left={["35%", "45%"]}
             w={["100%", "100%", "50%", "40%", "30%"]}
           >
@@ -115,7 +115,7 @@ const Layout = ({ card, screen, select, pricing }) => {
           </Text>
           <Flex
             position="absolute"
-            top={["45.5%", "24%", "25%", "22%", "23.5%"]}
+            top={["32%", "24%", "25%", "22%", "23.5%"]}
             justify="center"
             // left={["35%", "45%"]}
             w={["100%", "100%", "50%", "40%", "30%"]}

@@ -7,6 +7,7 @@ import {
   Select,
   Text,
   useToast,
+  Spinner,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import FocusLock from "react-focus-lock";
@@ -59,25 +60,39 @@ const Home = () => {
   const [todayDelievery, setTodayDelievery] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const selectedSoc = useSelector((state) => state.user.selectedSociety);
+  const wingFromReducer = useSelector((state) => state.user.selectedWing);
   const today = true;
-  console.log(isLoading);
 
   const fetchSociety = () => {
+    setIsLoading(true);
     Societyservice.getSocietyByUser().then((response) => {
       if (Object.keys(response.body).length > 0) {
         setSociety(response.body);
+        setIsLoading(false);
       }
     });
   };
 
   const fetchWing = () => {
+    setIsLoading(true);
+
     Societyservice.getAllWing(selected.id).then((response) => {
       if (response.body.length > 0) {
         setSelectedWing(response.body[0].wing);
         setWing(response.body);
+        setIsLoading(false);
       }
     });
   };
+
+  useEffect(() => {
+    if (selectedSoc.id !== null && selectedSoc.name !== "") {
+      setSelected({ id: selectedSoc.id, name: selectedSoc.name });
+    }
+    if (wingFromReducer !== "") {
+      setSelectedWing(wingFromReducer);
+    }
+  }, [selectedSoc.id, selectedSoc.name, wingFromReducer]);
 
   useEffect(() => {
     if (society && society.length <= 0) {
@@ -90,18 +105,12 @@ const Home = () => {
   }, [society, selected, wing]);
 
   useEffect(() => {
-    if (selectedSoc.id !== null && selectedSoc.name !== "") {
-      setSelected({ id: selectedSoc.id, name: selectedSoc.name });
-    }
-  }, [selectedSoc.id, selectedSoc.name]);
-
-  useEffect(() => {
     if (selected.id !== null) {
       Businessservice.getCustomerBySociety(selected.id, selectedWing)
 
         .then((res) => {
+          setIsLoading(true);
           if (res.data) {
-            setIsLoading(true);
             setCustomers([]);
             setTodayDelievery([]);
             res.data.customer?.forEach((cust) => {
@@ -141,13 +150,13 @@ const Home = () => {
     });
   };
 
-  // if (isLoading) {
-  //   return (
-  //     <Box mt="50%" w="40%" mx="auto" h="100vh">
-  //       <Spinner size="lg" />
-  //     </Box>
-  //   );
-  // }
+  if (isLoading) {
+    return (
+      <Flex justify="center" align="center" w="100%" mx="auto" h="100vh">
+        <Spinner size="lg" color={blue} />
+      </Flex>
+    );
+  }
   return (
     <Box w="100%" h="100vh">
       <Nav card={true} />

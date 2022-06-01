@@ -63,7 +63,7 @@ const AddAcc = () => {
           if (res.success === true) {
             toast({
               title: "Success",
-              description: "Success",
+              description: "Your Account Has Been Created",
               status: "success",
               duration: 3000,
             });

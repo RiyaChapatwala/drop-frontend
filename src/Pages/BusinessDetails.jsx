@@ -98,7 +98,7 @@ const BusinessDetails = () => {
           if (response.success === true) {
             toast({
               title: "Success",
-              description: "Business Successfully Updated",
+              description: "Business Updated Successfully",
               status: "success",
               duration: 3000,
             });
@@ -124,7 +124,7 @@ const BusinessDetails = () => {
             history.push("/create-profile");
             toast({
               title: "Success",
-              description: "Business Successfully Created",
+              description: "Business Created Successfully",
               status: "success",
               duration: 3000,
             });
@@ -144,7 +144,7 @@ const BusinessDetails = () => {
   };
 
   return (
-    <Box w="100%" fontFamily={poppins} h="100vh">
+    <Box w="100%" fontFamily={poppins} h="max-content">
       <Layout select={true} />
       <Flex direction="column" justify="center" alignItems="center" mt="8">
         <Text

@@ -72,7 +72,7 @@ const AddSociety = () => {
               );
               toast({
                 title: "Success",
-                description: "Success",
+                description: "New Society Created",
                 status: "success",
                 duration: 3000,
               });

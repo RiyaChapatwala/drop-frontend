@@ -110,7 +110,7 @@ const AddCustomer = () => {
 
             toast({
               title: "Success",
-              description: "Successfully Edited",
+              description: "Customer Details Has Been Edited Successfully",
               status: "success",
               duration: 3000,
             });
@@ -133,7 +133,7 @@ const AddCustomer = () => {
           if (response.success) {
             toast({
               title: "Success",
-              description: "Success",
+              description: "Customer Is Added",
               status: "success",
               duration: 3000,
             });
