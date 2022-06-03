@@ -6,6 +6,8 @@ import { useLocation } from "react-router-dom";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import ButtonComponent from "../Component/ButtonComponent";
 import Layout from "../Component/Layout";
+import money from "../Images/money.svg";
+
 import {
   blue,
   font12,
@@ -119,9 +121,9 @@ const BusinessDetails = () => {
       Businessservice.createBusiness(data)
         .then((response) => {
           if (response.success === true) {
-            dispatch(createbusiness(response));
-
             history.push("/create-profile");
+            // dispatch(createbusiness(response));
+
             toast({
               title: "Success",
               description: "Business Created Successfully",
@@ -295,7 +297,7 @@ const BusinessDetails = () => {
           fontWeight={font400}
           background={white}
         >
-          <Image src={icon} />
+          <Image src={money} />
           <Input
             _focus={{
               border: "none",
