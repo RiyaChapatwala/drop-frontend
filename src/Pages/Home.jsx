@@ -73,10 +73,11 @@ const Home = () => {
     });
   };
 
-  const fetchWing = () => {
+  const fetchWing = (societyId) => {
+    const id = societyId || selectedWing;
     setIsLoading(true);
 
-    Societyservice.getAllWing(selected.id).then((response) => {
+    Societyservice.getAllWing(id).then((response) => {
       if (response.body.length > 0) {
         setSelectedWing(response.body[0].wing);
         setWing(response.body);
@@ -89,6 +90,7 @@ const Home = () => {
     if (selectedSoc.id !== null && selectedSoc.name !== "") {
       setSelected({ id: selectedSoc.id, name: selectedSoc.name });
     }
+    console.log("wingFromReducer ", wingFromReducer);
     if (wingFromReducer !== "") {
       setSelectedWing(wingFromReducer);
     }
@@ -321,6 +323,7 @@ const Home = () => {
                       name: society[element].name,
                     })
                   );
+                  fetchWing(society[element].id);
 
                   setSelect(false);
                 }}
