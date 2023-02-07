@@ -102,23 +102,38 @@ const LogIn = () => {
               <span style={{ color: blue }}>
                 By logging in you agree to DROP{" "}
               </span>
-              <a href="https://dropsupply.in/api/files/privacyPolicy">
+              <a
+                target="_blank"
+                href="https://dropsupply.in/api/files/privacyPolicy"
+              >
                 Privacy Policy
               </a>{" "}
               &nbsp;
-              <a href="https://dropsupply.in/api/files/refundPolicy">
+              <a
+                target="_blank"
+                href="https://dropsupply.in/api/files/refundPolicy"
+              >
                 Refund Policy
               </a>{" "}
               &nbsp;
-              <a href="https://dropsupply.in/api/files/termsAndConditions">
+              <a
+                target="_blank"
+                href="https://dropsupply.in/api/files/termsAndConditions"
+              >
                 Terms And Conditions
               </a>{" "}
               &nbsp;
-              <a href="https://dropsupply.in/api/files/contactUs">
+              <a
+                target="_blank"
+                href="https://dropsupply.in/api/files/contactUs"
+              >
                 Contact Us
               </a>{" "}
               &nbsp;
-              <a href="https://dropsupply.in/api/files/shippingandDelivery">
+              <a
+                target="_blank"
+                href="https://dropsupply.in/api/files/shippingandDelivery"
+              >
                 Shippingand Delivery
               </a>
             </Text>
