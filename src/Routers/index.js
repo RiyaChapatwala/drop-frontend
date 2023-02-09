@@ -55,7 +55,7 @@ const Routers = () => {
   if (!isLoggedIn) {
     return (
       <Switch>
-        <Route exact path="/login" component={LogIn} />
+        <Route exact path="/" component={LogIn} />
         <Route exact path="/success" component={Success} />
         <Route exact path="/aboutus" component={AboutUs} />
 
@@ -69,7 +69,7 @@ const Routers = () => {
         <Route exact path="/privacyPolicy" component={PrivacyPolicy} />
         <Route exact path="/sla" component={SLA} />
 
-        <Redirect to="/login" />
+        <Redirect to="/" />
       </Switch>
     );
   } else if (data.user.role && data.user.role.name === "supplier") {
