@@ -7,6 +7,7 @@ import {
   blue,
   font12,
   font13,
+  font16,
   font22,
   font400,
   font500,
@@ -15,6 +16,7 @@ import {
 } from "../Constant";
 import fb from "../Images/fb.svg";
 import SplashScreen from "./SplashScreen";
+import playStore from "../Images/google-play.png";
 
 const LogIn = () => {
   const [screen, setScreen] = useState(true);
@@ -34,7 +36,8 @@ const LogIn = () => {
         <Box w="100%" h="100%" fontFamily={poppins}>
           <Layout screen={screen} />
           {/* <Box left="28%" position="absolute" bottom={["40%", "40%"]}> */}
-          <Box mt={["12", "16"]}>
+
+          {/* <Box mt={["12", "16"]}>
             <Text
               fontSize={font22}
               textAlign="center"
@@ -53,7 +56,8 @@ const LogIn = () => {
             >
               Sign In To Continue
             </Text>
-          </Box>
+          </Box> */}
+
           {/* <Flex
           position="absolute"
           bottom={["28%", "26%"]}
@@ -65,7 +69,7 @@ const LogIn = () => {
           borderRadius="8px"
           boxShadow="0px 16px 60px rgba(37, 37, 28, 0.15)"
         > */}
-          <Flex
+          {/* <Flex
             mt="8"
             // px="16"
             w="92%"
@@ -82,8 +86,41 @@ const LogIn = () => {
               SIGN IN WITH FACEBOOK
             </Text>
           </Flex>
-          <LoginWithGoogle />
-
+          <LoginWithGoogle /> */}
+          <a
+            href="https://play.google.com/store/apps/details?id=com.zognest.drop"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <Image
+              src={playStore}
+              boxSize="200px"
+              // position="absolute"
+              // top="5%"
+              // left={0}
+              // right={0}
+              mx="auto"
+              cursor="pointer"
+            />
+          </a>
+          <Flex
+            alignItems="center"
+            w="85%"
+            justify="center"
+            // pb="2"
+            mx="auto"
+            mt="7"
+          >
+            <Text
+              // alignSelf="center"
+              textAlign="center"
+              fontSize={font12}
+              fontWeight={font500}
+              color={blue}
+            >
+              <span>By logging in our app, you agree to our </span>
+            </Text>
+          </Flex>
           <Flex
             alignItems="center"
             w="85%"
@@ -99,45 +136,92 @@ const LogIn = () => {
               fontWeight={font500}
               color="red"
             >
-              <span style={{ color: blue }}>
-                By logging in you agree to DROP{" "}
-              </span>
               <a
                 target="_blank"
                 href="https://dropsupply.in/api/files/privacyPolicy"
+                rel="noreferrer"
               >
                 Privacy Policy
-              </a>{" "}
-              &nbsp;
+              </a>
+            </Text>
+            <Text
+              // alignSelf="center"
+              textAlign="center"
+              fontSize={font12}
+              fontWeight={font500}
+              color="red"
+            >
               <a
                 target="_blank"
                 href="https://dropsupply.in/api/files/refundPolicy"
+                rel="noreferrer"
               >
                 Refund Policy
-              </a>{" "}
-              &nbsp;
+              </a>
+            </Text>
+            <Text
+              // alignSelf="center"
+              textAlign="center"
+              fontSize={font12}
+              fontWeight={font500}
+              color="red"
+            >
               <a
                 target="_blank"
                 href="https://dropsupply.in/api/files/termsAndConditions"
+                rel="noreferrer"
               >
                 Terms And Conditions
-              </a>{" "}
-              &nbsp;
+              </a>
+            </Text>
+            <Text
+              // alignSelf="center"
+              textAlign="center"
+              fontSize={font12}
+              fontWeight={font500}
+              color="red"
+            >
               <a
                 target="_blank"
                 href="https://dropsupply.in/api/files/contactUs"
+                rel="noreferrer"
               >
                 Contact Us
-              </a>{" "}
-              &nbsp;
+              </a>
+            </Text>
+            <Text
+              // alignSelf="center"
+              textAlign="center"
+              fontSize={font12}
+              fontWeight={font500}
+              color="red"
+            >
               <a
                 target="_blank"
                 href="https://dropsupply.in/api/files/shippingandDelivery"
+                rel="noreferrer"
               >
                 Shippingand Delivery
               </a>
             </Text>
           </Flex>
+
+          <Text
+            // alignSelf="center"
+            textAlign="center"
+            fontSize={font16}
+            fontWeight={font500}
+            color={blue}
+            mb={200}
+          >
+            <a
+              target="_blank"
+              href="https://dropsupply.in/api/files/shippingandDelivery"
+              rel="noreferrer"
+            >
+              Pricing
+            </a>
+          </Text>
         </Box>
       )}
     </Box>

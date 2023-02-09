@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.04d9b661.css",
-    "main.js": "/static/js/main.b4fc9ec4.js",
+    "main.js": "/static/js/main.17e9686a.js",
     "static/js/377.34a099f8.chunk.js": "/static/js/377.34a099f8.chunk.js",
     "static/media/splashScreen.svg": "/static/media/splashScreen.96847bc948419c6594530e9ab6ba11d0.svg",
     "static/media/customer-back.svg": "/static/media/customer-back.b3800c78c67b9a58a087d15503e812ca.svg",
@@ -13,6 +13,7 @@
     "static/media/owl.svg": "/static/media/owl.04f2f1e62322ae93b80a8c6e19d50c38.svg",
     "static/media/example.svg": "/static/media/example.0fe7c050df073923fd745f27c1f73d24.svg",
     "static/media/chat.svg": "/static/media/chat.820113b137c8c91f6d174ed65a58a797.svg",
+    "static/media/google-play.png": "/static/media/google-play.0062d57195a4e4042a95.png",
     "static/media/addCustomer.svg": "/static/media/addCustomer.77d4fceacb09d525935b5a88b105239b.svg",
     "static/media/revicons.eot": "/static/media/revicons.a77de540a38981833f9e.eot",
     "static/media/revicons.ttf": "/static/media/revicons.57fd05d4ae650374c8de.ttf",
@@ -43,11 +44,11 @@
     "static/media/location.svg": "/static/media/location.19dd3ea2c6b5607e8b566f515f86c061.svg",
     "static/media/fb.svg": "/static/media/fb.47e0dfbc5cf68b548ebb70068d76a57d.svg",
     "main.04d9b661.css.map": "/static/css/main.04d9b661.css.map",
-    "main.b4fc9ec4.js.map": "/static/js/main.b4fc9ec4.js.map",
+    "main.17e9686a.js.map": "/static/js/main.17e9686a.js.map",
     "377.34a099f8.chunk.js.map": "/static/js/377.34a099f8.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.04d9b661.css",
-    "static/js/main.b4fc9ec4.js"
+    "static/js/main.17e9686a.js"
   ]
 }
