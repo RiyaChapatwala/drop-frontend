@@ -216,7 +216,7 @@ const LogIn = () => {
           >
             <a
               target="_blank"
-              href="https://dropsupply.in/api/files/shippingandDelivery"
+              href="https://dropsupply.in/api/files/pricing"
               rel="noreferrer"
             >
               Pricing
