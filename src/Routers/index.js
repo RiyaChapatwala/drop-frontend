@@ -75,7 +75,7 @@ const Routers = () => {
   } else if (data.user.role && data.user.role.name === "supplier") {
     return (
       <Switch>
-        <Route exact path="/" component={Home} />
+        <Route exact path="/" component={LogIn} />
         <Route exact path="/selectLanguage" component={SelectLanguage} />
         <Route exact path="/selectBusiness" component={SelectBusiness} />
         <Route exact path="/businessDetails" component={BusinessDetails} />
